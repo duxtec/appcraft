@@ -1,0 +1,15 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+python_version = "3.12"
+
+[packages]
+sqlalchemy = "=2.0.35"
+psycopg2-binary = "==2.9.9"  # To PostgreSQL
+mysqlclient = "==2.2.4"       # To MySQL
+flask-sqlalchemy = "==3.1.1"
+flask-migrate = "==4.0.7"
+

@@ -1,0 +1,4 @@
+import os
+from infrastructure.framework.appcraft.core.initializer import Initializer
+
+runner = Initializer(os.path.join("runners", "tools")).main()

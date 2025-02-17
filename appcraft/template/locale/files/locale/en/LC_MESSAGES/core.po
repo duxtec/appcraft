@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+msgid "Program started!"
+msgstr "Program started!"
+
+msgid "Pipenv not found. Installing ..."
+msgstr "Pipenv not found. Installing ..."
+
+msgid "Package not found."
+msgstr "Package not found."
+
+msgid "Trying to install the packages..."
+msgstr "Trying to install the packages..."
+
+msgid "Missing packages:"
+msgstr "Missing packages:"
+
+msgid "Trying to create a virtual environment and install the packages..."
+msgstr "Trying to create a virtual environment and install the packages..."
+
+msgid "Packages installed successfully."
+msgstr "Packages installed successfully."
+
+msgid "Error installing packages."
+msgstr "Error installing packages."
+
+msgid "Please contact the developer."
+msgstr "Please contact the developer."
+
+msgid "Error:"
+msgstr "Error:"
+
+msgid "Error executing the program."
+msgstr "Error executing the program."
+
+msgid "Execution interrupted!"
+msgstr "Execution interrupted!"
+
+msgid "Execution finished!"
+msgstr "Execution finished!"

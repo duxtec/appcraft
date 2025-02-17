@@ -1,0 +1,17 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[requires]
+python_version = "3.12"
+
+[packages]
+toml = "==0.10.2"
+prompt-toolkit = "*"
+
+[dev-packages]
+sphinx = "==8.0.2"
+flake8 = "==6.1.0"
+black = "*"
+isort = "*"

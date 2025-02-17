@@ -1,0 +1,3 @@
+include README.md
+recursive-include appcraft/template *
+recursive-include appcraft/scripts *

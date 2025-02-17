@@ -1,0 +1,40 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: en\n"
+
+msgid "Project Informations"
+msgstr "Project Informations"
+
+msgid "name"
+msgstr "Name"
+
+msgid "lang"
+msgstr "Language"
+
+msgid "version"
+msgstr "Version"
+
+msgid "environment"
+msgstr "Environment"
+
+msgid "production"
+msgstr "production"
+
+msgid "development"
+msgstr "development"
+
+msgid "debug"
+msgstr "Debug mode"
+
+msgid "True"
+msgstr "on"
+
+msgid "Falso"
+msgstr "off"
+
+msgid "log_level"
+msgstr "Log level"
+
+msgid "supported_locales"
+msgstr "Supported locales"
