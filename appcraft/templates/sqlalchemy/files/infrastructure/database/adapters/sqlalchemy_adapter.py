@@ -1,15 +1,17 @@
 import os
 from typing import Dict, List, Optional
 
-from infrastructure.adapters.db_adapter_protocol import DbAdapterProtocol
-from infrastructure.database.models.base import Base
+from domain.adapters.db_adapter_interface import DbAdapterInterface
+from infrastructure.database.sqlalchemy.models.base import Base
 from infrastructure.framework.appcraft.core.config import Config
-from infrastructure.framework.appcraft.utils.import_manager import ImportManager
+from infrastructure.framework.appcraft.utils.import_manager import (
+    ImportManager,
+)
 from sqlalchemy import create_engine, inspect
 from sqlalchemy.orm import sessionmaker
 
 
-class SqlAdapter(DbAdapterProtocol):
+class SqlAlchemyAdapter(DbAdapterInterface):
 
     def __init__(self, db_uri: Optional[str] = None, create_all=True):
 
@@ -21,7 +23,9 @@ class SqlAdapter(DbAdapterProtocol):
         if not self.inspector.get_table_names() and create_all:
             Base.metadata.create_all(self.engine)
 
-        ImportManager("infrastructure.database.models").get_module_attributes()
+        ImportManager(
+            "infrastructure.database.sqlalchemy.models"
+        ).get_module_attributes()
 
         self.Session = sessionmaker(
             autocommit=False, autoflush=False, bind=self.engine

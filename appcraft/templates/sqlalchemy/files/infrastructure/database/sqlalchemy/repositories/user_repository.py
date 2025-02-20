@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Session
-from ..models.user_db import UserDB
 from domain.models.user import User
+from infrastructure.database.sqlalchemy.models.user_db import UserDB
+from sqlalchemy.orm import Session
 
 
 class UserRepository:
@@ -21,8 +21,6 @@ class UserRepository:
     def get_all(self) -> list[User]:
         users_db = self.session.query(UserDB).all()
         return [
-            User(
-                id=user_db.id, username=user_db.username
-            )
+            User(id=user_db.id, username=user_db.username)
             for user_db in users_db
         ]

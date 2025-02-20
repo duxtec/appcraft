@@ -1,6 +1,6 @@
-from sqlalchemy.orm import Session
-from ..models.app_db import AppDB
 from domain.models.app import App
+from infrastructure.database.sqlalchemy.models.app_db import AppDB
+from sqlalchemy.orm import Session
 
 
 class AppRepository:
@@ -16,7 +16,7 @@ class AppRepository:
             log_level=app.log_level,
             language=app.language,
             language_preference=app.language_preference,
-            supported_languages=','.join(app.supported_languages)
+            supported_languages=",".join(app.supported_languages),
         )
         self.session.add(app_db)
         self.session.commit()
@@ -33,7 +33,7 @@ class AppRepository:
                 log_level=app_db.log_level,
                 language=app_db.language,
                 language_preference=app_db.language_preference,
-                supported_languages=app_db.supported_languages.split(',')
+                supported_languages=app_db.supported_languages.split(","),
             )
         return None
 
@@ -49,7 +49,7 @@ class AppRepository:
                 log_level=app_db.log_level,
                 language=app_db.language,
                 language_preference=app_db.language_preference,
-                supported_languages=app_db.supported_languages.split(',')
+                supported_languages=app_db.supported_languages.split(","),
             )
             for app_db in apps_db
         ]

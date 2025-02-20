@@ -1,6 +1,13 @@
+import inspect
+
 from flask_sqlalchemy import SQLAlchemy
-from infrastructure.adapters.sql_adapter import SqlAdapter
-from infrastructure.database.models.base import Base
+from infrastructure.database.adapters.sqlalchemy_adapter import (
+    SqlAlchemyAdapter,
+)
+from infrastructure.database.sqlalchemy.models.base import Base
+from infrastructure.framework.appcraft.utils.import_manager import (
+    ImportManager,
+)
 from infrastructure.framework.appcraft.utils.printer import Printer
 from sqlalchemy import text
 
@@ -8,7 +15,7 @@ from sqlalchemy import text
 class FlaskSQLAlchemy:
     def __init__(self, app):
         self.db = SQLAlchemy(model_class=Base)
-        self.adapter = SqlAdapter()
+        self.adapter = SqlAlchemyAdapter()
         self.app = app
 
     def init_app(self):
@@ -20,3 +27,17 @@ class FlaskSQLAlchemy:
 
             self.db.session.execute(text("SELECT 1"))
             Printer.success("Successfully connected database!")
+
+    def register_repositories(self, binder):
+        repository_modules = ImportManager(
+            "infrastructure.repositories"
+        ).get_module_attributes()
+
+        for module_name, module in repository_modules.items():
+            for attr_name, attr in module.__dict__.items():
+                if inspect.isclass(attr):
+                    binder.bind(
+                        attr,
+                        to=attr(self.db.session),
+                        scope=self.db.session,
+                    )

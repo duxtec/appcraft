@@ -1,5 +1,7 @@
 from flask import Flask, render_template
-from infrastructure.framework.appcraft.templates.sqlalchemy import SQLAlchemyTemplate
+from infrastructure.framework.appcraft.templates.sqlalchemy import (
+    SQLAlchemyTemplate,
+)
 from infrastructure.framework.appcraft.utils.printer import Printer
 from infrastructure.framework.flask.router import FlaskRouter
 from infrastructure.framework.flask.sqlalchemy import FlaskSQLAlchemy

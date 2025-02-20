@@ -1,9 +1,9 @@
+from infrastructure.database.sqlalchemy.models.base import Base
 from sqlalchemy import Column, String
-from infrastructure.database.models.base import Base
 
 
 class UserDB(Base):
-    __tablename__ = 'users'
+    __tablename__ = "users"
 
     username = Column(String, nullable=False)
 
