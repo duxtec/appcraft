@@ -1,6 +1,7 @@
-from appcraft.templates.base.files.infrastructure.framework.appcraft.utils.printer import (
-    Printer,
-)
+from appcraft.templates.base.files.infrastructure.framework.\
+    appcraft.utils.printer import (
+        Printer,
+    )
 from appcraft.utils.template_loader import TemplateLoader
 
 

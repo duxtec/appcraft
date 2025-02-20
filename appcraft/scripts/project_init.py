@@ -9,8 +9,7 @@ from appcraft.templates.base.files.infrastructure.\
 from appcraft.utils.template_loader import TemplateLoader
 
 from appcraft.templates.base.files.infrastructure.\
-    framework.appcraft.core.package_manager\
-    import PackageManager
+    framework.appcraft.core.package_manager import PackageManager
 
 
 def project_init():

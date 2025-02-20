@@ -1,0 +1,26 @@
+[project]
+name = "appcraft"
+version = "0.4.1"
+description = "Um framework que cria estruturas de projeto personalizadas."
+authors = [{ name = "Dux Tecnologia", email = "contato@tpereira.com.br" }]
+dependencies = [
+    "prompt_toolkit",
+    "toml"
+]
+classifiers= [
+    'Programming Language :: Python :: 3',
+    'License :: OSI Approved :: MIT License',
+    'Operating System :: OS Independent'
+]
+
+requires-python = ">=3.6"
+
+readme = {file = "README.md", content-type = "text/markdown"}
+
+[project.scripts]
+appcraft = "appcraft.scripts.cli:main"
+
+
+[build-system]
+requires = ["setuptools", "wheel", "toml"]
+build-backend = "setuptools.build_meta"

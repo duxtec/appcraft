@@ -3,14 +3,21 @@ import sys
 
 
 def main():
-    sys.path.append(
-        os.path.abspath(
-            os.path.join(
-                os.path.dirname(__file__), "..",
-                "templates", "base", "files"
+    appcraft_root_path = os.path.abspath(
+        os.path.join(
+            os.path.dirname(
+                os.path.dirname(__file__)
             )
         )
     )
+
+    base_template_path = os.path.join(
+        appcraft_root_path,
+        "templates", "base", "files"
+    )
+
+    sys.path.append(appcraft_root_path)
+    sys.path.append(base_template_path)
 
     from .project_init import project_init
     from .list_templates import list_templates
@@ -34,5 +41,5 @@ def main():
     else:
         print(f"Unknown Command: {command}")
         print("""\
-Available Commands: init, create_app, create_init, list_templates""")
+Available Commands: init, list_templates""")
         sys.exit(1)

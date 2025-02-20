@@ -1,0 +1,253 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Templates &mdash; Appcraft 0.4.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=09dc0c05" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=6c02275b"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Base Template" href="base/index.html" />
+    <link rel="prev" title="Getting Started" href="../getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Appcraft
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#starting-a-new-project">Starting a New Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="base/index.html">Base Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="logs/index.html">Logs Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="locales/index.html">Locales Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flask_ui/index.html">Flask UI Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="flask_api/index.html">Flask API Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_scraping/index.html">Web Scraping Template</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/index.html">Layered Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/runner/index.html">Runner Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#what-to-do-in-runners">What to Do in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#what-to-avoid-in-runners">What to Avoid in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#types-of-runners">Types of runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#example-of-a-runner">Example of a Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#running-applications">Running Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#running-auxiliary-runner">Running Auxiliary Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#id2">Executing a Specific Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/presentation/index.html">Presentation Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#what-to-do-in-presentation">What to Do in Presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#what-to-avoid-in-presentation">What to Avoid in Presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#example-of-a-cli-presentation">Example of a CLI Presentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/application/index.html">Application Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#what-to-do-in-application">What to Do in Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#what-to-avoid-in-application">What to Avoid in Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-of-a-dto">Example of a DTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-of-a-mapper">Example of a Mapper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-of-a-service">Example of a Service</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/domain/index.html">Domain Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#what-to-do-in-domain">What to Do in Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#what-to-avoid-in-domain">What to Avoid in Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#example-of-a-model">Example of a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#example-of-repository-interface">Example of Repository Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#example-of-adapter-interface">Example of Adapter Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/infrastructure/index.html">Infrastructure Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/infrastructure/index.html#under-construction">Under construction</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contribute.html">Contribute</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contribute.html#under-construction">Under construction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">Contact</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../contact.html#under-construction">Under construction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../versions/index.html">Versions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Appcraft</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Templates</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/templates/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="templates">
+<h1>Templates<a class="headerlink" href="#templates" title="Link to this heading"></a></h1>
+<p>In AppCraft, templates define the foundation of a <strong>layered architecture</strong>, ensuring modularity and independence. Each template provides a specific set of features that seamlessly integrate into a project.</p>
+<p>All templates are <strong>modular and independent</strong>, allowing them to be combined as needed, making project construction <strong>flexible and scalable</strong>. Whether you require <strong>logging, localization, web interfaces, or API handling</strong>, you can mix and match templates without compromising the core structure of your application.</p>
+<p>By leveraging AppCraft’s template-based system, developers can streamline development while maintaining a <strong>clean and maintainable architecture</strong>.</p>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Templates</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="base/index.html">Base Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logs/index.html">Logs Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="locales/index.html">Locales Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flask_ui/index.html">Flask UI Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="flask_api/index.html">Flask API Template</a></li>
+<li class="toctree-l1"><a class="reference internal" href="web_scraping/index.html">Web Scraping Template</a></li>
+</ul>
+</div>
+<p class="rubric">Base Template</p>
+<p>The <strong>Base Template</strong> is the foundational template of the framework, providing the backbone for the project’s architecture in layers. It serves as the starting point for any application using the framework, offering a solid foundation and essential functionalities for efficient project management.</p>
+<p>The Base Template includes the following features:</p>
+<ul class="simple">
+<li><p><strong>Simplified Management and Execution of EntryPoints</strong>: The Base Template facilitates the setup and execution of various entry points in your project, allowing you to define and organize the core functions of your application.</p></li>
+<li><p><strong>Automatic Management and Installation of Missing Dependencies</strong>: The template automatically handles the installation of dependencies, ensuring that your project has everything it needs to run correctly without requiring manual setup.</p></li>
+<li><p><strong>Error Handler</strong>: It includes a robust error handling mechanism, allowing you to capture and manage exceptions appropriately, ensuring the stability and integrity of the system.</p></li>
+<li><p><strong>CLI UI Theme</strong>: The Base Template includes a user interface theme for the CLI, providing a visually organized and consistent way to interact with the system, improving the user experience.</p></li>
+<li><p><strong>Customizable Message Printer</strong>: The template offers a system for printing custom messages, allowing you to display different types of messages (such as success, warning, error, critical, title, and info) in a clear and formatted way, making communication with users easier during execution.</p></li>
+</ul>
+<p>With these features, the Base Template establishes a solid and easy-to-use foundation for building and expanding projects, keeping them organized while offering great control over dependencies and user interaction.</p>
+<p>For more information about this template, you can check the dedicated page: <a class="reference external" href="base/index.html">Base Template Documentation</a>.</p>
+<p class="rubric">Logs</p>
+<p>The <strong>Logs Template</strong> provides a structured logging system that enhances error tracking and debugging capabilities. It includes <strong>log rotation</strong>, configurable <strong>logging levels</strong>, and multiple output formats to ensure all application logs are properly stored and organized.</p>
+<p>This template features a <strong>customized Logger</strong> that automatically saves logs in <strong>time-organized files</strong>, making it easier to locate specific entries. In <strong>debug mode</strong>, it leverages the libs <strong>structlog, better-exceptions, and rich</strong> to improve log readability in the terminal.</p>
+<p>Seamlessly integrated into the <strong>Core</strong> of the framework, the logging system operates <strong>automatically</strong>, requiring no additional imports or manual configuration, ensuring a smooth developer experience.</p>
+<p>For more information about this template, you can check the dedicated page: <a class="reference external" href="logs/index.html">Logs Template Documentation</a>.</p>
+<p class="rubric">Locales</p>
+<p>The <strong>Locales Template</strong> provides a <strong>built-in internationalization (i18n) system</strong> for managing multilingual support in applications. It automatically handles <strong>language detection, message translation, and formatted output</strong>, ensuring seamless adaptation to different locales.</p>
+<p>At its core, the <strong>MessageManager</strong> class manages <strong>gettext-based translations</strong>, loading the preferred language dynamically based on system settings or user configuration. It supports <strong>.po and .mo files</strong>, automatically compiling translation files when necessary.</p>
+<p>This template also enhances <strong>CLI interactions</strong> by intercepting the standard print function, ensuring that messages are automatically translated before being displayed. Integrated directly into the framework’s <strong>Core</strong>, the <strong>Locales Template</strong> requires no additional setup, providing a modular and efficient solution for multilingual applications.</p>
+<p>For more information about this template, you can check the dedicated page: <a class="reference external" href="locales/index.html">Locales Template Documentation</a>.</p>
+<p class="rubric">Flask UI</p>
+<p>The <strong>Flask UI Template</strong> provides an integrated <strong>FlaskApp</strong> that can function independently or in combination with the <strong>Flask API</strong> and <strong>SQLAlchemy</strong> templates if installed. It ensures a seamless integration within a <strong>layered architecture</strong>, maintaining modularity and flexibility in web application development.</p>
+<p>This template introduces a well-structured <strong>presentation layer</strong> for UI endpoints under <cite>presentation/web/ui</cite>, offering built-in support and examples for constructing <strong>Web UIs</strong> efficiently.. It automatically sets up a <strong>Flask application</strong>, configures <strong>routing</strong> for <strong>dynamic views, static views, and assets</strong> and includes <strong>error handling</strong> for missing routes.</p>
+<p>Additionally, if the <strong>SQLAlchemy Template</strong> is installed, the <strong>Flask UI Template</strong> will attempt to initialize the database connection, providing built-in support for ORM-based persistence. Otherwise, it gracefully operates without database integration, ensuring versatility in different application setups.</p>
+<p>For more information about this template, you can check the dedicated page: <a class="reference external" href="flask_ui/index.html">Flask UI Template Documentation</a>.</p>
+<p class="rubric">Flask API</p>
+<p>The <strong>Flask API Template</strong> provides an integrated <strong>FlaskApp</strong> that can function independently or in combination with the <strong>Flask API</strong> and <strong>SQLAlchemy</strong> templates if installed. It ensures a seamless integration within a <strong>layered architecture</strong>, maintaining modularity and flexibility in web application development.</p>
+<p>This template introduces a well-structured <strong>presentation layer</strong> for API endpoints under <cite>presentation/web/api/v1</cite>, offering built-in support and examples for constructing <strong>RESTful APIs</strong> efficiently.. It automatically sets up a <strong>Flask application</strong>, configures <strong>routing</strong> for <strong>APIs</strong> and includes <strong>error handling</strong> for missing routes.</p>
+<p>This template is designed to manage <strong>APIs</strong>, offering built-in support and examples for constructing <strong>RESTful APIs</strong> efficiently. It automatically sets up a <strong>Flask application</strong>, configures <strong>routing</strong> and includes <strong>error handling</strong> for missing routes.</p>
+<p>This template includes essential <strong>API dependencies</strong>, such as:</p>
+<ul class="simple">
+<li><p><strong>flask-login</strong> (user authentication)</p></li>
+<li><p><strong>flask-restful</strong> (simplified API routing)</p></li>
+<li><p><strong>flask-cors</strong> (cross-origin resource sharing)</p></li>
+<li><p><strong>flask-compress</strong> (response compression)</p></li>
+</ul>
+<p>Additionally, if the <strong>SQLAlchemy Template</strong> is installed, the <strong>Flask API Template</strong> will attempt to initialize the database connection, providing built-in support for ORM-based persistence. Otherwise, it gracefully operates without database integration, ensuring versatility in different application setups.</p>
+<p>For more information about this template, you can check the dedicated page: <a class="reference external" href="flask_api/index.html">Flask API Template Documentation</a>.</p>
+<p class="rubric">Web Scrapping</p>
+<p>The <strong>Web Scraping Template</strong> provides a structured environment for efficiently extracting data from websites. It includes <strong>pre-configured scripts</strong> and essential libraries for handling web requests, parsing HTML, and automating interactions with web pages.</p>
+<ul>
+<li><p><strong>Key Features</strong></p>
+<blockquote>
+<div><ul class="simple">
+<li><p><strong>Multiple Web Scraping Adapters:</strong> The template includes an <strong>adapter for each scraping library</strong>, allowing flexibility in choosing the best approach for different use cases.</p></li>
+<li><p><strong>Standardized Architecture:</strong> It provides an <strong>abstract base class</strong> for web scraping adapters, ensuring a <strong>consistent and reusable</strong> structure across different implementations.</p></li>
+<li><p><strong>Service Demonstrations:</strong> It includes examples of <strong>data extraction and storage services</strong>, showcasing best practices for handling scraped data.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p><strong>Included Dependencies</strong></p>
+<blockquote>
+<div><p>This template integrates powerful web scraping tools, such as:</p>
+<ul class="simple">
+<li><p><strong>browser_manager</strong> (headless browser management)</p></li>
+<li><p><strong>scrapy</strong> (high-level web scraping framework)</p></li>
+<li><p><strong>selenium</strong> (browser automation)</p></li>
+<li><p><strong>requests &amp; requests-html</strong> (HTTP requests and dynamic content rendering)</p></li>
+<li><p><strong>beautifulsoup4, lxml, pyquery</strong> (HTML/XML parsing)</p></li>
+<li><p><strong>fake-useragent</strong> (randomized user agents for avoiding detection)</p></li>
+<li><p><strong>retrying &amp; tenacity</strong> (automatic request retrying for failed attempts)</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+<p>By offering <strong>pre-built adapters and service examples</strong>, this template simplifies the process of building <strong>scalable and maintainable</strong> web scraping solutions while following best development practices.</p>
+<p>For more information about this template, you can check the dedicated page: <a class="reference external" href="web_scrapping/index.html">Web Scrapping Template Documentation</a>.</p>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../getting_started.html" class="btn btn-neutral float-left" title="Getting Started" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="base/index.html" class="btn btn-neutral float-right" title="Base Template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dux Tecnologia, Thiago Costa Pereira.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 import sys
-from infrastructure.framework.appcraft.utils.import_manager\
-    import ImportManager
+from appcraft.templates.base.files.infrastructure.\
+    framework.appcraft.utils.import_manager import ImportManager
 
 
 def create_init():
@@ -16,5 +16,3 @@ def create_init():
         import_text = '\n'.join(manager.update_init_file())
         print(import_text)
         print()
-
-

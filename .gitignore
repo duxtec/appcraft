@@ -24,7 +24,7 @@ logs/
 *.so
 *.pyd
 build/
-!**/docs/**/build
+!**/docs/build
 dist/
 *.egg-info/
 *.eggs/
