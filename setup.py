@@ -11,8 +11,9 @@ setup(
     include_package_data=True,
     package_data={
         'appcraft': [
-            'template/**/*',
+            'templates/**/*',
             'scripts/**/*',
+            'utils/**/*',
         ],
     },
     entry_points={

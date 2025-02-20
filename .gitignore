@@ -15,7 +15,7 @@ pip-delete-this-directory.txt
 .ipynb_checkpoints/
 
 logs/
-!*/template/logs/
+!**/templates/logs
 *.log
 *.out
 *.err
@@ -24,6 +24,7 @@ logs/
 *.so
 *.pyd
 build/
+!**/docs/**/build
 dist/
 *.egg-info/
 *.eggs/

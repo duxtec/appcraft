@@ -1,3 +1,4 @@
-include README.md
-recursive-include appcraft/template *
-recursive-include appcraft/scripts *
+include README.md LICENSE
+include appcraft/templates/*
+global-exclude *.py
+global-exclude __pycache__/*.pyc
