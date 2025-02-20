@@ -1,0 +1,11 @@
+# Configuration for the Appcraft application
+name = "Appcraft"
+version = "1.0.0"
+environment = "development" # production or development
+debug_mode = true
+log_level = "info" # debug, info, warning, error or critical
+lang = "en" # see supported langs
+lang_preference = "config" # config or system
+supported_langs = ["en", "pt_BR"]
+
+# Use 'lang_preference' to decide if language should be set from config or system

@@ -4,7 +4,6 @@ from infrastructure.framework.appcraft.utils.import_manager\
 
 
 def create_init():
-    # Define the execution/import root (Father Folder Directory 'Template')
     root_dir = "./"
     sys.path.insert(0, root_dir)
 

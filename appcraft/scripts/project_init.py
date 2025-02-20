@@ -1,12 +1,14 @@
+import os
+import shutil
 import sys
 import argparse
 
-from appcraft.template.base.files.infrastructure.\
+from appcraft.templates.base.files.infrastructure.\
     framework.appcraft.utils.printer import Printer
 
 from appcraft.utils.template_loader import TemplateLoader
 
-from appcraft.template.base.files.infrastructure.\
+from appcraft.templates.base.files.infrastructure.\
     framework.appcraft.core.package_manager\
     import PackageManager
 
@@ -44,9 +46,45 @@ The following templates do not exist: {', '.join(nonexistent_templates)}"
             if template.name in template_names
         ]
 
+        template_dir = os.path.join(
+            os.path.dirname(__file__), '..', 'templates',
+        )
+
+        project_template_folder = os.path.join(
+            os.getcwd(), "infrastructure", "framework",
+            "appcraft", "templates"
+        )
+
         for template in templates:
             Printer.info(f"Installing the '{template.name}' template...")
             template.install()
+
+        shutil.copy2(
+            os.path.join(template_dir, "template_manager.py"),
+            os.path.join(project_template_folder, "template_manager.py"),
+        )
+
+        shutil.copy2(
+            os.path.join(template_dir, "template_abc.py"),
+            os.path.join(project_template_folder, "template_abc.py"),
+        )
+
+        for template in tl.template_names:
+            project_this_template_folder = os.path.join(
+                project_template_folder, template
+            )
+
+            os.makedirs(
+                project_this_template_folder,
+                exist_ok=True
+            )
+
+            shutil.copy2(
+                os.path.join(template_dir, template, "__init__.py"),
+                os.path.join(
+                    project_this_template_folder, "__init__.py"
+                )
+            )
 
         Printer.info("Installing requirements...")
 

@@ -7,7 +7,7 @@ def main():
         os.path.abspath(
             os.path.join(
                 os.path.dirname(__file__), "..",
-                "template", "base", "files"
+                "templates", "base", "files"
             )
         )
     )

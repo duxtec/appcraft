@@ -3,6 +3,8 @@ import toml
 import subprocess
 import shutil
 
+from appcraft.templates.template_manager import TemplateManager
+
 
 class TemplateAdder:
     def __init__(self):
@@ -12,7 +14,7 @@ class TemplateAdder:
         current_dir = os.getcwd()
 
         template_dir = os.path.join(
-            os.path.dirname(__file__), '..', 'template', template_name,
+            os.path.dirname(__file__), '..', 'templates', template_name,
         )
 
         template_files_dir = os.path.join(
@@ -43,18 +45,15 @@ class TemplateAdder:
                 "appcraft", "templates", template_name
             )
 
-            template_file = os.path.join(
-                template_dir, "__init__.py"
-            )
             if not os.path.exists(project_template_folder):
                 os.makedirs(project_template_folder)
 
-            shutil.copy2(template_file, project_template_folder)
+        TemplateManager.add_template(template_name)
 
     def merge_pipfiles(self, template_name):
         base_pipfile_path = "Pipfile"
         template_dir = os.path.join(
-            os.path.dirname(__file__), '..', 'template', template_name
+            os.path.dirname(__file__), '..', 'templates', template_name
         )
         pipfile_template = os.path.join(template_dir, "files", "Pipfile")
 

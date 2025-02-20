@@ -1,0 +1,43 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: pt_BR\n"
+
+msgid "Welcome to {app_name}"
+msgstr "Bem-vindo ao {app_name}"
+
+msgid "App Informations"
+msgstr "Informações do aplicativo"
+
+msgid "Name"
+msgstr "Nome"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "Version"
+msgstr "Versão"
+
+msgid "Environment"
+msgstr "Ambiente"
+
+msgid "production"
+msgstr "produção"
+
+msgid "development"
+msgstr "desenvolvimento"
+
+msgid "Debug Mode"
+msgstr "Modo de depuração"
+
+msgid "True"
+msgstr "ligado"
+
+msgid "False"
+msgstr "desligado"
+
+msgid "Log Level"
+msgstr "Nível de registro"
+
+msgid "Supported Languages"
+msgstr "Idiomas suportados"

@@ -2,14 +2,14 @@ import os
 import argparse
 
 
-class AppGenerator:
+class RunnerGenerator:
     DEFAULT_APP_NAME = "MyApp"
     DEFAULT_RUNNER_COUNT = 1
     DEFAULT_NON_RUNNER_COUNT = 1
 
     TEMPLATE = """from core.app import App
 
-class {app_name}(App):
+class {app_name}(AppRunner):
     {runner_methods}
 
     {non_runner_methods}
@@ -29,7 +29,7 @@ class {app_name}(App):
         for i in range(1, count + 1):
             if method_type == "runner":
                 methods.append(f"""
-    @App.runner
+    @AppRunner.runner
     def runner{i}(self):
         pass
 
@@ -64,7 +64,7 @@ class {app_name}(App):
             f.write(app_content)
 
         print(f"\
-App '{self.app_name}' created with {self.runner_count} runner(s) and \
+Runner '{self.app_name}' created with {self.runner_count} runner(s) and \
 {self.non_runner_count} non-runner(s) methods.")
 
     def get_unique_file_path(self, directory, base_name):
@@ -86,21 +86,21 @@ def create_runner():
 Create a new app with specified runner and non-runner methods."
     )
     parser.add_argument(
-        "app_name", nargs="?", default=AppGenerator.DEFAULT_APP_NAME,
+        "app_name", nargs="?", default=RunnerGenerator.DEFAULT_APP_NAME,
         help="Name of the app (default: MyApp)."
     )
     parser.add_argument(
-        "-r", type=int, default=AppGenerator.DEFAULT_RUNNER_COUNT,
+        "-r", type=int, default=RunnerGenerator.DEFAULT_RUNNER_COUNT,
         help="Number of runner methods (default: 1)."
     )
     parser.add_argument(
-        "-n", type=int, default=AppGenerator.DEFAULT_NON_RUNNER_COUNT,
+        "-n", type=int, default=RunnerGenerator.DEFAULT_NON_RUNNER_COUNT,
         help="Number of non-runner methods (default: 1)."
     )
 
     args = parser.parse_args()
 
-    app_gen = AppGenerator(
+    app_gen = RunnerGenerator(
         app_name=args.app_name, runner_count=args.r, non_runner_count=args.n
     )
 
