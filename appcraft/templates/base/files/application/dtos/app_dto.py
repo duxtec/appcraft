@@ -1,7 +1,9 @@
-class AppDTO:
+from application.dtos.interfaces import DTOInterface
+
+
+class AppDTO(DTOInterface):
     def __init__(
-        self, name: str, version: str,
-        environment: str, debug_mode: bool
+        self, name: str, version: str, environment: str, debug_mode: bool
     ):
         self.name = name
         self.version = version
@@ -13,5 +15,5 @@ class AppDTO:
             "name": self.name,
             "version": self.version,
             "environment": self.environment,
-            "debug_mode": self.debug_mode
+            "debug_mode": self.debug_mode,
         }
