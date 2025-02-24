@@ -1,18 +1,17 @@
+import logging
 import os
 import sys
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
 from infrastructure.framework.appcraft.core.error_handler import ErrorHandler
-from infrastructure.framework.appcraft.core.package_manager import PackageManager
+from infrastructure.framework.appcraft.core.package_manager import (
+    PackageManager,
+)
+from infrastructure.framework.appcraft.utils.printer import Printer
 
-try:
-    from infrastructure.framework.appcraft.utils.logger import Logger
-except Exception:
-    import logging
 
-    from infrastructure.framework.appcraft.utils.printer import Printer
-
+class Initializer:
     class Logger(logging.Logger):
         class Level:
             CRITICAL = logging.CRITICAL
@@ -41,6 +40,7 @@ except Exception:
             self.handlers.clear()
 
             if AppManager.debug_mode():
+
                 class ConsoleHandler(logging.Handler):
                     def emit(self, record):
                         try:
@@ -83,13 +83,20 @@ except Exception:
         def reset_current_log(self):
             pass
 
-
-class Initializer:
     def __init__(self, app_folder=os.path.join("runners", "main")):
         self.start_time = AppManager.get_start_time()
 
         self.package_manager = PackageManager()
-        self.logger = Logger(name="appcraft", level=Logger.Level.ERROR)
+
+        try:
+            from infrastructure.framework.appcraft.utils.logger import Logger
+
+            self.logger = Logger(name="appcraft", level=Logger.Level.ERROR)
+        except Exception:
+            self.logger = self.Logger(
+                name="appcraft", level=self.Logger.Level.ERROR
+            )
+
         self.logger.reset_current_log()
 
         self.error_handler = ErrorHandler(
@@ -104,6 +111,7 @@ class Initializer:
         CorePrinter.warning("Press any key to exit...", end="\n\n")
         try:
             import msvcrt
+
             msvcrt.getch()
         except ImportError:
             import termios
@@ -126,13 +134,17 @@ class Initializer:
 
         try:
             module_path = os.path.join(
-                "infrastructure", "framework", "appcraft",
-                "utils", "message_manager.py"
+                "infrastructure",
+                "framework",
+                "appcraft",
+                "utils",
+                "message_manager.py",
             )
             if os.path.exists(module_path):
                 from infrastructure.framework.appcraft.utils.message_manager import (
                     MessageManager,
                 )
+
                 MessageManager.build_locale_dir()
 
             CorePrinter.program_started()
@@ -140,6 +152,7 @@ class Initializer:
             CorePrinter.program_finished()
             self.await_for_key_to_finish()
         except ImportError as e:
+            self.import_error = True
             self.error_handler.handle_import_error(e, self.main)
         except KeyboardInterrupt:
             CorePrinter.program_interrupted()
@@ -150,7 +163,7 @@ class Initializer:
         finally:
             runner.remove_theme()
 
-    def main(self, import_error=False):
+    def main(self):
         try:
             if self.package_manager.venv_is_active() and not self.import_error:
                 self.execute_runner()

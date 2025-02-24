@@ -3,13 +3,13 @@ import importlib.util
 import inspect
 import os
 import sys
+from typing import Dict, List
 
+from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.core_printer import CorePrinter
+from infrastructure.framework.appcraft.utils.color import Color
 from prompt_toolkit.shortcuts import radiolist_dialog
 from prompt_toolkit.styles import Style
-
-from infrastructure.framework.appcraft.core.core_printer import CorePrinter
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
-from infrastructure.framework.appcraft.utils.color import Color
 
 
 class Runner:
@@ -53,7 +53,9 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
         }
     )
 
-    def __init__(self, theme=None, app_folder="runners/main", args=sys.argv):
+    def __init__(
+        self, theme=None, app_folder="runners/main", args=sys.argv.copy()
+    ):
         self.app_folder = app_folder
         self.selected_module = None
         self.selected_app = None
@@ -64,9 +66,9 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
     def apply_theme(self, theme=None):
         self.custom_style = theme if theme is not None else self.dark_style
         if self.custom_style is self.dark_style:
-            bgcolor = self.darkcolor[1][2].lstrip('#')
+            bgcolor = self.darkcolor[1][2].lstrip("#")
         else:
-            bgcolor = self.lightcolor[1][2].lstrip('#')
+            bgcolor = self.lightcolor[1][2].lstrip("#")
 
         r = int(bgcolor[0:2], 16)
         g = int(bgcolor[2:4], 16)
@@ -74,15 +76,15 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
 
         hex_color = f"rgb:{r:02x}/{g:02x}/{b:02x}"
         try:
-            print(f"\033]11;{hex_color}\007", end='')
+            print(f"\033]11;{hex_color}\007", end="")
         except Exception:
             pass
 
-        print(f"\033]11;{hex_color}\007", end='')
+        print(f"\033]11;{hex_color}\007", end="")
 
     def remove_theme(self):
         try:
-            print("\033]11;#000000\007", end='')
+            print("\033]11;#000000\007", end="")
         except Exception:
             pass
 
@@ -131,8 +133,7 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
         else:
             choices = [(module, module) for module in modules]
             selected_module_name = self.choice(
-                text="Choose a Module to Load:",
-                values=choices
+                text="Choose a Module to Load:", values=choices
             )
 
         if not selected_module_name:
@@ -184,10 +185,7 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
             return self.selected_app
 
         choices = [(cls.__name__, cls.__name__) for cls in apps]
-        selected = self.choice(
-            text="Choose a App to run:",
-            values=choices
-        )
+        selected = self.choice(text="Choose a App to run:", values=choices)
 
         self.selected_app = selected
 
@@ -208,7 +206,9 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
             raise Exception("No runners found.")
 
         if len(self.args) > 1 and self.args[1] in runners:
-            self.selected_method = getattr(self.selected_app(), self.args[1])
+            self.selected_method = getattr(
+                self.selected_app(), self.args.pop(1)
+            )
             return self.selected_method
 
         if len(runners) == 1:
@@ -217,8 +217,7 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
 
         choices = [(runner, runner) for runner in runners]
         selected = self.choice(
-            text="Choose an Action to perform:",
-            values=choices
+            text="Choose an Action to perform:", values=choices
         )
 
         if selected:
@@ -233,6 +232,21 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
             style=self.custom_style,
         ).run()
 
+    def get_args_kwargs(self) -> tuple[List, Dict]:
+        args = []
+        kwargs = {}
+
+        iterator = iter(self.args[1:])
+
+        for arg in iterator:
+            if "=" in arg:
+                key, value = arg.split("=", 1)
+                kwargs[key] = value
+            else:
+                args.append(arg)
+
+        return args, kwargs
+
     def run(self):
         self.selected_module = self.select_module()
         if self.selected_module:
@@ -240,7 +254,8 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
             if self.selected_app:
                 self.selected_method = self.select_method()
                 if self.selected_method:
-                    self.selected_method()
+                    args, kwargs = self.get_args_kwargs()
+                    self.selected_method(*args, **kwargs)
                     return True
 
         CorePrinter.program_interrupted()

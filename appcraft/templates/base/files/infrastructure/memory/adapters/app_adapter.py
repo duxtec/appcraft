@@ -1,6 +1,8 @@
-from domain.adapters.app_adapter_interface import AppAdapterInterface
 from domain.models.app import App
 from infrastructure.framework.appcraft.core.app_manager import AppManager
+from infrastructure.memory.adapters.interfaces.app_adapter_interface import (
+    AppAdapterInterface,
+)
 
 
 class AppAdapter(AppAdapterInterface):
