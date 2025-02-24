@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+from typing import List
 
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
 
@@ -36,9 +37,7 @@ class PipenvManager(PackageManagerABC):
             return False
 
         try:
-            subprocess.check_call(
-                ["pipenv", "install", "--ignore-pipfile"]
-            )
+            subprocess.check_call(["pipenv", "install", "--ignore-pipfile"])
             CorePrinter.installation_success()
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))
@@ -81,10 +80,10 @@ class PipenvManager(PackageManagerABC):
                 CorePrinter.installation_error(str(e))
                 sys.exit(1)
 
-    def run_command(self, command):
+    def run_command(self, command: List):
         try:
             if not self.venv_is_active():
-                command = ["pipenv", "run"] + command.split()
+                command = ["pipenv", "run"] + command
 
             subprocess.check_call(command)
         except subprocess.CalledProcessError:

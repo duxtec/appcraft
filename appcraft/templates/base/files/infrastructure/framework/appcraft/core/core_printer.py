@@ -3,11 +3,13 @@ import traceback
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 
 try:
-    from infrastructure.framework.appcraft.utils.component_printer\
-        import ComponentPrinter
+    from infrastructure.framework.appcraft.utils.component_printer import (
+        ComponentPrinter,
+    )
 except Exception:
-    from infrastructure.framework.appcraft.utils.printer\
-        import Printer as ComponentPrinter
+    from infrastructure.framework.appcraft.utils.printer import (
+        Printer as ComponentPrinter,
+    )
 
 
 class CorePrinter(ComponentPrinter):
@@ -27,9 +29,10 @@ class CorePrinter(ComponentPrinter):
             cls.warning("Package not found")
         else:
             cls.warning("Package not found", end=" ")
-            tb = traceback.extract_tb(error.__traceback__)[-1]
-            last_file, last_line, func_name, text = tb
-            cls.warning(f"in {last_file}, line {last_line}")
+            tb = traceback.extract_tb(error.__traceback__)
+            if len(tb) > 0:
+                last_file, last_line, func_name, text = tb[-1]
+                cls.warning(f"in {last_file}, line {last_line}")
         if packages:
             cls.warning("Missing packages:")
             for package in packages:

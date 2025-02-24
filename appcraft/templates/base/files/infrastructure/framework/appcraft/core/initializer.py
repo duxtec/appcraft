@@ -8,6 +8,7 @@ from infrastructure.framework.appcraft.core.error_handler import ErrorHandler
 from infrastructure.framework.appcraft.core.package_manager import (
     PackageManager,
 )
+from infrastructure.framework.appcraft.core.runner.themes import RunnerThemes
 from infrastructure.framework.appcraft.utils.printer import Printer
 
 
@@ -129,7 +130,9 @@ class Initializer:
         from infrastructure.framework.appcraft.core.runner import Runner
 
         runner = Runner(
-            Runner.dark_style, app_folder=self.app_folder, args=sys.argv.copy()
+            RunnerThemes.dark_style,
+            app_folder=self.app_folder,
+            args=sys.argv.copy(),
         )
 
         try:
@@ -148,8 +151,11 @@ class Initializer:
                 MessageManager.build_locale_dir()
 
             CorePrinter.program_started()
-            runner.run()
-            CorePrinter.program_finished()
+            if runner.run():
+                CorePrinter.program_finished()
+            else:
+                CorePrinter.program_interrupted()
+
             self.await_for_key_to_finish()
         except ImportError as e:
             self.import_error = True
@@ -161,16 +167,16 @@ class Initializer:
             self.error_handler.handle_other_errors(e)
             self.await_for_key_to_finish()
         finally:
-            runner.remove_theme()
+            runner.themes.remove_theme()
 
     def main(self):
         try:
             if self.package_manager.venv_is_active() and not self.import_error:
                 self.execute_runner()
             else:
-                self.package_manager.run_command(
-                    f"python {' '.join(sys.argv)}"
-                )
+                command = ["python"]
+                command.extend(sys.argv)
+                self.package_manager.run_command(command)
         except ImportError as e:
             self.import_error = True
             self.error_handler.handle_import_error(e, self.main)

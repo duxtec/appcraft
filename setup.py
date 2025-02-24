@@ -1,4 +1,3 @@
-import os
 from setuptools import setup, find_packages
 import toml
 
@@ -22,5 +21,5 @@ setup(
     url=project["url"],
     packages=find_packages(),
     package_data=project["package_data"],
-    include_package_data=True
+    include_package_data=True,
 )

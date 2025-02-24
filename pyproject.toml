@@ -1,7 +1,7 @@
 [project]
 name = "appcraft"
-version = "0.4.1"
-description = "Um framework que cria estruturas de projeto personalizadas."
+version = "0.5.3"
+description = "Appcraft is a modular framework designed to simplify software development by providing a structured and extensible architecture. It enables developers to create and manage complex applications with ease, ensuring scalability and maintainability."
 authors = [{ name = "Dux Tecnologia", email = "contato@tpereira.com.br" }]
 dependencies = [
     "prompt_toolkit",
