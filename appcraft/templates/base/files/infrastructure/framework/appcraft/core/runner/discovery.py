@@ -12,7 +12,7 @@ from infrastructure.framework.appcraft.core.app_runner import (
 class RunnerDiscovery:
     @staticmethod
     def get_modules(folder: str) -> List[str]:
-        modules = []
+        modules: list[str] = []
         py_files = [
             file for file in os.listdir(folder) if file.endswith(".py")
         ]
@@ -27,8 +27,8 @@ class RunnerDiscovery:
 
     @staticmethod
     def get_apps(module: ModuleType) -> List[Type[AppRunnerInterface]]:
-        apps = []
-        for name, obj in module.__dict__.items():
+        apps: List[type[AppRunnerInterface]] = []
+        for _, obj in module.__dict__.items():
             if (
                 inspect.isclass(obj)
                 and issubclass(obj, AppRunnerInterface)
@@ -39,16 +39,18 @@ class RunnerDiscovery:
 
     @staticmethod
     def get_app_runners(app: Type[AppRunnerInterface]) -> List[str]:
-        runners = []
+        runners: List[str] = []
         for name, method in app.__dict__.items():
             if callable(method) and hasattr(method, "is_app_runner"):
                 runners.append(name)
         return runners
 
     @staticmethod
-    def get_args_kwargs(args_input: List) -> tuple[List, Dict]:
-        args = []
-        kwargs = {}
+    def get_args_kwargs(
+        args_input: List[str],
+    ) -> tuple[List[str], Dict[str, str]]:
+        args: List[str] = []
+        kwargs: Dict[str, str] = {}
 
         iterator = iter(args_input)
 

@@ -1,6 +1,7 @@
 import importlib
 import importlib.util
 import os
+from types import ModuleType
 from typing import Any, List, Sequence
 
 from infrastructure.framework.appcraft.core.app_runner import (
@@ -14,11 +15,11 @@ from prompt_toolkit.shortcuts import radiolist_dialog
 
 
 class RunnerSelector:
-    def __init__(self, args: List = []):
+    def __init__(self, args: List[str] = []):
         self.args = args
         self.themes = RunnerThemes()
 
-    def select_module(self, folder: str):
+    def select_module(self, folder: str) -> ModuleType | None:
         modules = RunnerDiscovery.get_modules(folder)
         if len(modules) < 1:
             raise Exception("No modules found.")
@@ -54,7 +55,7 @@ class RunnerSelector:
         self.selected_module = module
         return self.selected_module
 
-    def select_app(self, module):
+    def select_app(self, module: ModuleType):
         apps = RunnerDiscovery.get_apps(module)
 
         app_map = {app.__name__: app for app in apps}

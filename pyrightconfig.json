@@ -11,5 +11,7 @@
                 "appcraft/templates/base/files"
             ]
         }
-    ]
+    ],
+    "typeCheckingMode": "strict"
+      
 }

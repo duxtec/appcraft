@@ -1,7 +1,7 @@
 import os
 import subprocess
 import sys
-from typing import List
+from typing import List, Optional
 
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
 from infrastructure.framework.appcraft.core.package_manager.interface import (
@@ -14,9 +14,9 @@ class PipenvManager(PackageManagerInterface):
         super().__init__()
 
         if not self.venv_is_active():
-            self.check_and_install_pipenv()
+            self.check_and_install_package_manager()
 
-    def check_and_install_pipenv(self):
+    def check_and_install_package_manager(self):
         try:
             subprocess.check_call(
                 [sys.executable, "-m", "pip", "show", "pipenv"],
@@ -24,7 +24,7 @@ class PipenvManager(PackageManagerInterface):
                 stderr=subprocess.DEVNULL,
             )
         except subprocess.CalledProcessError:
-            CorePrinter.pipenv_not_found()
+            CorePrinter.package_manager_not_found("Poetry")
             try:
                 subprocess.check_call(
                     [sys.executable, "-m", "pip", "install", "pipenv"]
@@ -50,7 +50,7 @@ class PipenvManager(PackageManagerInterface):
     def get_activate_command(self):
         return ""
 
-    def install_requirements(self, requirements=None):
+    def install_requirements(self, requirements: Optional[str] = None):
         if self.venv_is_active():
             return
 
@@ -66,7 +66,7 @@ class PipenvManager(PackageManagerInterface):
             CorePrinter.installation_error(str(e))
             sys.exit(1)
 
-    def install_package(self, package_name):
+    def install_package(self, package_name: str):
         if self.venv_is_active():
             command = ["pip", "install", package_name]
         else:
@@ -81,7 +81,7 @@ class PipenvManager(PackageManagerInterface):
                 CorePrinter.installation_error(str(e))
                 sys.exit(1)
 
-    def run_command(self, command: List):
+    def run_command(self, command: List[str]):
         try:
             if not self.venv_is_active():
                 command = ["pipenv", "run"] + command

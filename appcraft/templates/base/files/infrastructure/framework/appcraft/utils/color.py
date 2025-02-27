@@ -1,12 +1,35 @@
 import colorsys
-from typing import List, Union
+from typing import Any, Dict, List, Literal, Union, overload
 
 from infrastructure.framework.appcraft.core.config import Config
 
 
 class Color:
+
     @staticmethod
-    def RGBtoHSL(rgb, array=False) -> Union[str, List[Union[int, float]]]:
+    @overload
+    def HSLtoRGB(
+        hsl: List[int | float], array: Literal[True]
+    ) -> List[int]: ...
+
+    @staticmethod
+    @overload
+    def HSLtoRGB(
+        hsl: List[int | float], array: Literal[False] = False
+    ) -> str: ...
+
+    @staticmethod
+    @overload
+    def RGBtoHSL(rgb: str, array: Literal[True]) -> List[int | float]: ...
+
+    @staticmethod
+    @overload
+    def RGBtoHSL(rgb: str, array: Literal[False] = False) -> str: ...
+
+    @staticmethod
+    def RGBtoHSL(
+        rgb: str, array: bool = False
+    ) -> Union[str, List[Union[int, float]]]:
         if len(rgb) == 7:
             red = int(rgb[1:3], 16)
             green = int(rgb[3:5], 16)
@@ -31,7 +54,9 @@ class Color:
         return f"hsl({hue},{saturation}%,{lightness}%)"
 
     @staticmethod
-    def HSLtoRGB(hsl, array=False):
+    def HSLtoRGB(
+        hsl: List[int | float], array: bool = False
+    ) -> List[int] | str:
         hue, saturation, lightness = hsl
         hue /= 360.0
         saturation /= 100.0
@@ -52,7 +77,7 @@ class Color:
         return f"#{red}{green}{blue}"
 
     @staticmethod
-    def palette():
+    def palette() -> Dict[str, Any]:
         try:
             theme = Config().get("theme")
             color1 = theme["color1"]
@@ -65,7 +90,7 @@ class Color:
         hsl1 = list(Color.RGBtoHSL(color1, True))
         hsl2 = list(Color.RGBtoHSL(color2, True))
 
-        palette_dict = {
+        palette_dict: Dict[str, List[Any]] = {
             "darkcolor": [[] for _ in range(3)],
             "lightcolor": [[] for _ in range(3)],
             "brightcolor": [[] for _ in range(3)],
@@ -75,7 +100,6 @@ class Color:
         palette_dict["lightcolor"][0].append("#FFF")
 
         for i in range(5, 30, 5):
-            # Generate dark colors
             hsl1_dark = hsl1[:]
             hsl2_dark = hsl2[:]
             hsl1_dark[2] = i

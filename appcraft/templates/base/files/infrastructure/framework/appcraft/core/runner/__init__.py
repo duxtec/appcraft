@@ -1,5 +1,6 @@
 import os
 import sys
+from typing import List, Optional
 
 from infrastructure.framework.appcraft.core.runner.discovery import (
     RunnerDiscovery,
@@ -7,14 +8,15 @@ from infrastructure.framework.appcraft.core.runner.discovery import (
 from infrastructure.framework.appcraft.core.runner.selector import (
     RunnerSelector,
 )
+from prompt_toolkit.styles import Style
 
 
 class Runner:
     def __init__(
         self,
-        theme=None,
-        app_folder=os.path.join("runner", "main"),
-        args=sys.argv[1:].copy(),
+        theme: Optional[Style] = None,
+        app_folder: str = os.path.join("runner", "main"),
+        args: List[str] = sys.argv[1:].copy(),
     ):
         self.selector = RunnerSelector(args)
         self.app_folder = app_folder

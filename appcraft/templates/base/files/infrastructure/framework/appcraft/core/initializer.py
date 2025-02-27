@@ -1,6 +1,7 @@
 import importlib
 import os
 import sys
+from typing import LiteralString
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
@@ -9,8 +10,6 @@ from infrastructure.framework.appcraft.core.package_manager import (
     PackageManager,
 )
 from infrastructure.framework.appcraft.core.runner.themes import RunnerThemes
-from infrastructure.framework.appcraft.templates.locales import LocalesTemplate
-from infrastructure.framework.appcraft.templates.logs import LogsTemplate
 from infrastructure.framework.appcraft.utils.logger.base import LoggerBase
 from infrastructure.framework.appcraft.utils.logger.interface import (
     LoggerInterface,
@@ -21,7 +20,9 @@ class Initializer:
     class Logger(LoggerBase):
         pass
 
-    def __init__(self, app_folder=os.path.join("runners", "main")):
+    def __init__(
+        self, app_folder: LiteralString = os.path.join("runners", "main")
+    ):
         self.start_time = AppManager().start_time
 
         self.package_manager = PackageManager()
@@ -71,6 +72,10 @@ class Initializer:
         )
 
         try:
+            locales_template_module = importlib.import_module(
+                "infrastructure.framework.appcraft.templates.locales"
+            )
+            LocalesTemplate = locales_template_module.LocalesTemplate
             if LocalesTemplate.is_installed():
                 message_manager_module = importlib.import_module(
                     'infrastructure.framework.appcraft.utils.message_manager'
@@ -100,6 +105,10 @@ class Initializer:
 
     def main(self):
         try:
+            logs_template_module = importlib.import_module(
+                "infrastructure.framework.appcraft.templates.locales"
+            )
+            LogsTemplate = logs_template_module.LogsTemplate
             if LogsTemplate.is_installed():
                 logger_module = importlib.import_module(
                     'infrastructure.framework.appcraft.utils.logger.logger'

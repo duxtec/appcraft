@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import List
+from typing import List, TypeAlias
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 
@@ -51,45 +51,48 @@ class STYLES(Enum):
     HIDDEN = "8"
 
 
-class Printer:
+SepType: TypeAlias = str | None
+EndType: TypeAlias = str | None
+StylesType: TypeAlias = List[STYLES]
 
+print()
+
+
+class Printer:
     @classmethod
     def print(
         cls,
-        message="",
+        *values: object,
         color: COLORS = COLORS.WHITE,
         styles: List[STYLES] = [],
-        sep: str | None = " ",
-        end: str | None = "\n",
-        if_debug=False,
-    ):
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
+    ) -> None:
         if if_debug and not AppManager.debug_mode:
-            return
+            return None
 
-        codes = []
+        codes: List[str] = []
 
-        if isinstance(color, COLORS):
-            codes.append(color.value)
+        codes.append(color.value)
 
         for style in styles:
-            if isinstance(style, STYLES):
-                codes.append(style.value)
+            codes.append(style.value)
 
         style_code = ";".join(codes)
 
-        print(f"\033[{style_code}m{message}\033[0m", sep=sep, end=end)
-        return message
+        print(f"\033[{style_code}m{values}\033[0m", sep=sep, end=end)
 
     @classmethod
     def success(
         cls,
-        message,
-        sep: str | None = " ",
-        end: str | None = "\n",
-        if_debug=False,
-    ):
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
+    ) -> None:
         return cls.print(
-            message=message,
+            *values,
             color=COLORS.GREEN,
             styles=[STYLES.BOLD],
             sep=sep,
@@ -100,13 +103,13 @@ class Printer:
     @classmethod
     def error(
         cls,
-        message,
-        sep: str = " ",
-        end: str = "\n",
-        if_debug=False,
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
     ):
         return cls.print(
-            message=message,
+            *values,
             color=COLORS.RED,
             styles=[STYLES.BOLD],
             sep=sep,
@@ -117,13 +120,13 @@ class Printer:
     @classmethod
     def warning(
         cls,
-        message,
-        sep: str = " ",
-        end: str = "\n",
-        if_debug=False,
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
     ):
         return cls.print(
-            message,
+            *values,
             color=COLORS.YELLOW,
             styles=[STYLES.BOLD],
             sep=sep,
@@ -134,13 +137,13 @@ class Printer:
     @classmethod
     def info(
         cls,
-        message,
-        sep: str = " ",
-        end: str = "\n",
-        if_debug=False,
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
     ):
         return cls.print(
-            message=message,
+            *values,
             color=COLORS.BLUE,
             sep=sep,
             end=end,
@@ -150,13 +153,13 @@ class Printer:
     @classmethod
     def title(
         cls,
-        message,
-        sep: str = " ",
-        end: str = "\n",
-        if_debug=False,
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
     ):
         return cls.print(
-            message=message,
+            *values,
             color=COLORS.MAGENTA,
             styles=[STYLES.BOLD, STYLES.UNDERLINE],
             sep=sep,
@@ -167,13 +170,13 @@ class Printer:
     @classmethod
     def critical(
         cls,
-        message,
-        sep: str = " ",
-        end: str = "\n",
-        if_debug=False,
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
     ):
         return cls.print(
-            message=message,
+            *values,
             color=COLORS.RED,
             styles=[STYLES.BOLD, STYLES.REVERSED],
             sep=sep,
@@ -184,13 +187,13 @@ class Printer:
     @classmethod
     def debug(
         cls,
-        message,
-        sep: str = " ",
-        end: str = "\n",
-        if_debug=False,
+        *values: object,
+        sep: SepType = " ",
+        end: EndType = "\n",
+        if_debug: bool = False,
     ):
         return cls.print(
-            message=message,
+            *values,
             color=COLORS.DARK_GRAY,
             sep=sep,
             end=end,

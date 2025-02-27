@@ -1,6 +1,7 @@
 import os
 import subprocess
 import sys
+from typing import List, Optional
 
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
 from infrastructure.framework.appcraft.core.package_manager.interface import (
@@ -9,6 +10,9 @@ from infrastructure.framework.appcraft.core.package_manager.interface import (
 
 
 class PipManager(PackageManagerInterface):
+    def check_and_install_package_manager(self):
+        pass
+
     def venv_create(self):
         try:
             venv_path = os.path.join(os.getcwd(), ".venv")
@@ -36,27 +40,27 @@ class PipManager(PackageManagerInterface):
         else:
             return f"source \"{os.path.join(venv_path, 'bin', 'activate')}\""
 
-    def install_requirements(self, requirements=None):
+    def install_requirements(self, requirements: Optional[str] = None):
         try:
             if not requirements:
                 requirements = "requirements.txt"
-            self.run_command(f"pip install -r {requirements}")
+            self.run_command(["pip", "install" "-r", requirements])
             self.requirements_installed = True
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))
             sys.exit(1)
 
-    def install_package(self, package_name):
+    def install_package(self, package_name: str):
         if package_name not in self.attempted_packages:
             self.attempted_packages.add(package_name)
             try:
-                self.run_command(f"pip install {package_name}")
+                self.run_command(["pip", "install", package_name])
                 CorePrinter.installation_success()
             except subprocess.CalledProcessError as e:
                 CorePrinter.installation_error(str(e))
                 sys.exit(1)
 
-    def run_command(self, command):
+    def run_command(self, command: List[str]):
         try:
             activate_command = self.venv_activate()
             full_command = f"{activate_command} && {command}"

@@ -1,21 +1,26 @@
 import os
 import sys
-from typing import Callable
+from typing import Any, Callable
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
 from infrastructure.framework.appcraft.core.package_manager.interface import (
     PackageManagerInterface,
 )
+from infrastructure.framework.appcraft.utils.logger.base import LoggerBase
 
 
 class ErrorHandler:
-    def __init__(self, package_manager: PackageManagerInterface, logger):
+    def __init__(
+        self, package_manager: PackageManagerInterface, logger: LoggerBase
+    ):
         self.package_manager = package_manager
-        self.logger = logger
+        self.logger: LoggerBase = logger
         self.debug = AppManager().debug_mode
 
-    def handle_import_error(self, error: Exception, action: Callable) -> bool:
+    def handle_import_error(
+        self, error: Exception, action: Callable[..., Any]
+    ) -> bool:
         try:
             tb = error.__traceback__
             for _ in range(2):
@@ -53,7 +58,7 @@ class ErrorHandler:
                 self.package_manager.install_requirements()
             self.package_manager.install_package(missing_package)
             try:
-                exc_type, exc_value, exc_tb = sys.exc_info()
+                _, exc_value, _ = sys.exc_info()
                 if exc_value:
                     del exc_value
                 action()
@@ -63,12 +68,12 @@ class ErrorHandler:
         else:
             return False
 
-    def handle_other_errors(self, error):
+    def handle_other_errors(self, error: Exception):
         tb = error.__traceback__
 
         total_levels = 0
         tb_temp = tb
-        
+
         while tb_temp is not None:
             total_levels += 1
             tb_temp = tb_temp.tb_next

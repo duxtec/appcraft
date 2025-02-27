@@ -25,3 +25,7 @@ appcraft = "appcraft.scripts.cli:main"
 [build-system]
 requires = ["setuptools", "wheel", "toml"]
 build-backend = "setuptools.build_meta"
+
+[tool.pyright]
+typeCheckingMode = "strict"
+

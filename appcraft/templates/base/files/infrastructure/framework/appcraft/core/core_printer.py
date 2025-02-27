@@ -1,4 +1,5 @@
 import traceback
+from typing import List, Optional
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 from infrastructure.framework.appcraft.utils.component_printer import (
@@ -14,18 +15,22 @@ class CorePrinter(ComponentPrinter):
         cls.title("Program started!", end="\n\n")
 
     @classmethod
-    def pipenv_not_found(cls):
-        cls.warning("Pipenv not found. Installing ...")
+    def package_manager_not_found(cls, package_manager: str) -> None:
+        cls.warning(f"{package_manager} not found. Installing ...")
 
     @classmethod
-    def packages_not_found(cls, packages=None, error=None):
+    def packages_not_found(
+        cls,
+        packages: Optional[List[str]] = None,
+        error: Optional[Exception] = None,
+    ) -> None:
         if not error:
             cls.warning("Package not found")
         else:
             cls.warning("Package not found", end=" ")
             tb = traceback.extract_tb(error.__traceback__)
             if len(tb) > 0:
-                last_file, last_line, func_name, text = tb[-1]
+                last_file, last_line, _, _ = tb[-1]
                 cls.warning(f"in {last_file}, line {last_line}")
         if packages:
             cls.warning("Missing packages:")
@@ -33,15 +38,15 @@ class CorePrinter(ComponentPrinter):
                 print(f" • {package}")
 
     @classmethod
-    def trying_to_install_the_packages(cls):
+    def trying_to_install_the_packages(cls) -> None:
         cls.info("Trying to install the packages...")
 
     @classmethod
-    def installation_success(cls):
+    def installation_success(cls) -> None:
         cls.success("Packages installed successfully.")
 
     @classmethod
-    def installation_error(cls, error_message=None):
+    def installation_error(cls, error_message: Optional[str] = None) -> None:
         if error_message:
             cls.error(error_message, end="\n\n")
 
@@ -50,7 +55,7 @@ class CorePrinter(ComponentPrinter):
         cls.execution_duration()
 
     @classmethod
-    def execution_error(cls, error_message=None):
+    def execution_error(cls, error_message: Optional[str] = None):
         if error_message:
             cls.error(f"{error_message}", end="\n\n")
 
