@@ -1,0 +1,15 @@
+{
+    "include": [
+        "appcraft/scripts",
+        "appcraft/templates/base/files",
+        "appcraft/scripts",
+    ],
+    "executionEnvironments": [
+        {
+            "root": "appcraft/templates/base/files",
+            "extraPaths": [
+                "appcraft/templates/base/files"
+            ]
+        }
+    ]
+}

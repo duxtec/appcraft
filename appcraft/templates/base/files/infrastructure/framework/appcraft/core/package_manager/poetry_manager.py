@@ -3,11 +3,12 @@ import subprocess
 import sys
 
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
+from infrastructure.framework.appcraft.core.package_manager.interface import (
+    PackageManagerInterface,
+)
 
-from .package_manager_abc import PackageManagerABC
 
-
-class PoetryManager(PackageManagerABC):
+class PoetryManager(PackageManagerInterface):
     def __init__(self):
         super().__init__()
 
@@ -33,12 +34,10 @@ class PoetryManager(PackageManagerABC):
 
     def venv_create(self):
         if self.venv_is_active():
-            return False
+            return
 
         try:
-            subprocess.check_call(
-                ["poetry", "install"]
-            )
+            subprocess.check_call(["poetry", "install"])
             CorePrinter.installation_success()
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))
@@ -48,17 +47,15 @@ class PoetryManager(PackageManagerABC):
         return
 
     def get_activate_command(self):
-        return
+        return ""
 
     def install_requirements(self, requirements=None):
         if self.venv_is_active():
-            return False
+            return
 
         try:
             if requirements and os.path.exists(requirements):
-                subprocess.check_call(
-                    ["poetry", "add", "-r", requirements]
-                )
+                subprocess.check_call(["poetry", "add", "-r", requirements])
             else:
                 subprocess.check_call(["poetry", "install"])
             self.requirements_installed = True

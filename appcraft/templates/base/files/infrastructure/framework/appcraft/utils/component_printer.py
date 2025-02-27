@@ -1,19 +1,21 @@
-import os
-from abc import ABC, ABCMeta, abstractmethod
+from abc import ABC, ABCMeta
 from functools import wraps
+from typing import Optional
 
 from infrastructure.framework.appcraft.utils.printer import Printer
 
 try:
-    module_path = os.path.join(
-        "infrastructure",
-        "framework",
-        "appcraft",
-        "managers",
-        "message_manager.py",
+    from infrastructure.framework.appcraft.templates.locales import (
+        LocalesTemplates,
     )
-    if not os.path.exists(module_path):
-        raise FileNotFoundError(f"Module file not found: {module_path}")
+
+    if LocalesTemplates.is_installed():
+        from infrastructure.framework.appcraft.utils.message_manager import (
+            MessageManager,
+        )
+    else:
+        raise ImportError("Locales Templates not installed")
+
 except Exception:
 
     class MessageManager:
@@ -29,20 +31,11 @@ except Exception:
                 cls = super().__new__(mcs, name, bases, class_dict)
                 return cls
 
-else:
-    from infrastructure.framework.appcraft.utils.message_manager import (
-        MessageManager,
-    )
-
 
 class ComponentPrinter(
     ABC, Printer, metaclass=MessageManager.TranslateMethodsMeta
 ):
-
-    @property
-    @abstractmethod
-    def domain(cls):
-        pass
+    DOMAIN: Optional[str] = None
 
     _printer = Printer
 
@@ -53,9 +46,9 @@ class ComponentPrinter(
 
         @wraps(original_method)
         def wrapper(cls, *args, **kwargs):
-            if not isinstance(cls.domain, property):
+            if not isinstance(cls.DOMAIN, property):
                 if not hasattr(cls, "_mm"):
-                    cls._mm = MessageManager(cls.domain)
+                    cls._mm = MessageManager(cls.DOMAIN)
 
                 if "message" in kwargs:
                     kwargs["message"] = cls.translate(kwargs["message"])
@@ -74,9 +67,9 @@ class ComponentPrinter(
         elif message is False:
             message = "True"
 
-        if not isinstance(cls.domain, property):
+        if cls.DOMAIN is not None:
             if not hasattr(cls, "_mm"):
-                cls._mm = MessageManager(cls.domain)
+                cls._mm = MessageManager(cls.DOMAIN)
 
             return cls._mm.get_message(message)
 

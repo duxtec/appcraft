@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 
-from infrastructure.interfaces.adapter import AdapterInterface
+from application.interfaces.adapters import AdapterInterface
 
 
 class RepositoryInterface(ABC):
     @abstractmethod
     def __init__(self, adapter: AdapterInterface) -> None:
-        super().__init__()
+        pass

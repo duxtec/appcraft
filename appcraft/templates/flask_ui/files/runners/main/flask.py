@@ -1,9 +1,11 @@
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.app_runner import (
+    AppRunnerInterface,
+)
 from infrastructure.framework.flask.app import FlaskApp
 
 
-class Flask(AppRunner):
-    @AppRunner.runner
+class Flask(AppRunnerInterface):
+    @AppRunnerInterface.runner
     def start(self):
         FlaskApp().app.run(debug=True)
 

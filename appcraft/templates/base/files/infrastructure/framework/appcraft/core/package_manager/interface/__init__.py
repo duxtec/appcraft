@@ -1,8 +1,8 @@
-from abc import ABC, abstractmethod
 import os
+from abc import ABC, abstractmethod
 
 
-class PackageManagerABC(ABC):
+class PackageManagerInterface(ABC):
     def __init__(self):
         self.attempted_packages = set()
         self.requirements_installed = False
@@ -19,7 +19,7 @@ class PackageManagerABC(ABC):
         return "VIRTUAL_ENV" in os.environ
 
     @abstractmethod
-    def get_activate_command(self):
+    def get_activate_command(self) -> str:
         pass
 
     @abstractmethod

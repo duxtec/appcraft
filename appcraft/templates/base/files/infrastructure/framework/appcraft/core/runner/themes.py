@@ -1,3 +1,5 @@
+from typing import Optional
+
 from infrastructure.framework.appcraft.utils.color import Color
 from prompt_toolkit.styles import Style
 
@@ -45,12 +47,12 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
     style: Style = dark_style
 
     @classmethod
-    def apply_theme(self, style: Style = None):
-        self.style = style or self.style
-        if self.style is self.dark_style:
-            bgcolor = self.darkcolor[1][2].lstrip("#")
+    def apply_theme(cls, style: Optional[Style] = None):
+        style = style or cls.style
+        if style is cls.dark_style:
+            bgcolor = cls.darkcolor[1][2].lstrip("#")
         else:
-            bgcolor = self.lightcolor[1][2].lstrip("#")
+            bgcolor = cls.lightcolor[1][2].lstrip("#")
 
         r = int(bgcolor[0:2], 16)
         g = int(bgcolor[2:4], 16)

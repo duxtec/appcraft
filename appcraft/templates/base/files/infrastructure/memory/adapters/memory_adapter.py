@@ -1,19 +1,21 @@
 from typing import Dict, List, Type
 
+from application.interfaces.adapters.database_adapter import (
+    DatabaseAdapterInterface,
+)
 from domain.filters import (
     EqualFilter,
-    FilterInterface,
     InFilter,
     LikeFilter,
     MaxFilter,
     MinFilter,
 )
+from domain.filters.interface import FilterInterface
 from domain.models.exceptions import ModelNotFoundError
 from domain.models.interfaces import ModelInterface
-from infrastructure.interfaces.adapter import AdapterInterface
 
 
-class MemoryAdapter(AdapterInterface):
+class MemoryAdapter(DatabaseAdapterInterface):
     def __init__(self):
         self._storage: StorageMemory = StorageMemory()
         self._filter: FilterMemory = FilterMemory()
@@ -96,7 +98,8 @@ class FilterMemory:
         return {
             key: item
             for key, item in model_storage.items()
-            if getattr(item, filter.property, None) >= filter.value
+            if (value := getattr(item, filter.property, None)) is not None
+            and value >= filter.value
         }
 
     @classmethod
@@ -106,7 +109,8 @@ class FilterMemory:
         return {
             key: item
             for key, item in model_storage.items()
-            if getattr(item, filter.property, None) <= filter.value
+            if (value := getattr(item, filter.property, None)) is not None
+            and value <= filter.value
         }
 
     @classmethod

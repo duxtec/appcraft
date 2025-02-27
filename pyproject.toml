@@ -5,7 +5,8 @@ description = "Appcraft is a modular framework designed to simplify software dev
 authors = [{ name = "Dux Tecnologia", email = "contato@tpereira.com.br" }]
 dependencies = [
     "prompt_toolkit",
-    "toml"
+    "toml",
+    "py-automapper (>=2.1.0,<3.0.0)"
 ]
 classifiers= [
     'Programming Language :: Python :: 3',
@@ -13,7 +14,7 @@ classifiers= [
     'Operating System :: OS Independent'
 ]
 
-requires-python = ">=3.6"
+requires-python = ">=3.8"
 
 readme = {file = "README.md", content-type = "text/markdown"}
 

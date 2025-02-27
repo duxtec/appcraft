@@ -1,7 +1,9 @@
-class App:
+from domain.models.interfaces import ModelInterface
+
+
+class App(ModelInterface):
     def __init__(
-        self, name: str, version: str, environment: str,
-        debug_mode: bool
+        self, name: str, version: str, environment: str, debug_mode: bool
     ):
         self._name = name
         self._version = version

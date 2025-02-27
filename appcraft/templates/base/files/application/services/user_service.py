@@ -3,7 +3,8 @@ from typing import List
 from application.dtos.user_dto import UserDTO
 from application.mappers.user_mapper import UserMapper
 from application.services.interfaces import ServiceInterface
-from domain.filters import EqualFilter, FilterInterface
+from domain.filters import EqualFilter
+from domain.filters.interface import FilterInterface
 from domain.interfaces.repositories.user_repository import (
     UserRepositoryInterface,
 )
@@ -32,7 +33,7 @@ class UserService(ServiceInterface):
         return user_dto
 
     def update(self, id: int, username: str) -> UserDTO:
-        filters = [EqualFilter(User.id, id)]
+        filters: List[FilterInterface] = [EqualFilter(User.id, id)]
         user = self.user_repository.get(filters)
         if len(user) == 0:
             raise UserModelNotFoundError()
@@ -44,6 +45,6 @@ class UserService(ServiceInterface):
         return user_dto
 
     def delete(self, id: int) -> None:
-        filters = [EqualFilter(User.id, id)]
+        filters: List[FilterInterface] = [EqualFilter(User.id, id)]
         user = self.user_repository.get(filters)[0]
         self.user_repository.delete(user)

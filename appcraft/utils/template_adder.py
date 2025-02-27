@@ -1,25 +1,26 @@
 import os
-import toml
-import subprocess
 import shutil
+import subprocess
+
+import toml
 
 from appcraft.templates.template_manager import TemplateManager
 
 
 class TemplateAdder:
-    def __init__(self):
-        pass
+    def __init__(self, target_dir=None):
+        self.target_dir = target_dir or os.getcwd()
 
-    def add_template(self, template_name):
-        current_dir = os.getcwd()
+    def add_template(self, template_name: str):
 
         template_dir = os.path.join(
-            os.path.dirname(__file__), '..', 'templates', template_name,
+            os.path.dirname(__file__),
+            '..',
+            'templates',
+            template_name,
         )
 
-        template_files_dir = os.path.join(
-            template_dir, "files"
-        )
+        template_files_dir = os.path.join(template_dir, "files")
 
         if not os.path.exists(template_files_dir):
             raise FileNotFoundError(
@@ -29,7 +30,7 @@ class TemplateAdder:
 
         for item in os.listdir(template_files_dir):
             s = os.path.join(template_files_dir, item)
-            d = os.path.join(current_dir, item)
+            d = os.path.join(self.target_dir, item)
             if os.path.isdir(s):
                 if not os.path.exists(d):
                     os.makedirs(d)
@@ -41,14 +42,17 @@ class TemplateAdder:
                     shutil.copy2(s, d)
 
             project_template_folder = os.path.join(
-                current_dir, "infrastructure", "framework",
-                "appcraft", "templates", template_name
+                self.target_dir,
+                "infrastructure",
+                "framework",
+                "appcraft",
+                "templates",
+                template_name,
             )
 
             if not os.path.exists(project_template_folder):
                 os.makedirs(project_template_folder)
-
-        TemplateManager.add_template(template_name)
+        TemplateManager(target_dir=self.target_dir).add_template(template_name)
 
     def merge_pipfiles(self, template_name):
         base_pipfile_path = "Pipfile"
@@ -78,8 +82,10 @@ class TemplateAdder:
             return
             # print(f"Error: {e}. Make sure the Pipfile path is correct.")
         except subprocess.CalledProcessError as e:
-            print(f"\
-Error during the addition of dependencies for template '{template_name}': {e}")
+            print(
+                f"\
+Error during the addition of dependencies for template '{template_name}': {e}"
+            )
 
     def _copy_directory_contents(self, src_dir, dst_dir):
         for item in os.listdir(src_dir):

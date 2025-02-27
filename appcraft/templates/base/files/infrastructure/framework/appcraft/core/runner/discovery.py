@@ -4,11 +4,14 @@ import os
 from types import ModuleType
 from typing import Dict, List, Type
 
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.app_runner import (
+    AppRunnerInterface,
+)
 
 
 class RunnerDiscovery:
-    def get_modules(self, folder: str) -> List[ModuleType]:
+    @staticmethod
+    def get_modules(folder: str) -> List[str]:
         modules = []
         py_files = [
             file for file in os.listdir(folder) if file.endswith(".py")
@@ -16,36 +19,38 @@ class RunnerDiscovery:
 
         for file in py_files:
             filepath = os.path.join(folder, file)
-            if os.path.isfile(filepath) and self.file_contains_app_class(
-                filepath
-            ):
-                modules.append(os.path.splitext(file)[0])
+            if os.path.isfile(filepath):
+                if RunnerDiscovery.file_contains_app_class(filepath):
+                    modules.append(os.path.splitext(file)[0])
 
         return modules
 
-    def get_apps(self, module: ModuleType) -> List[Type[AppRunner]]:
+    @staticmethod
+    def get_apps(module: ModuleType) -> List[Type[AppRunnerInterface]]:
         apps = []
         for name, obj in module.__dict__.items():
             if (
                 inspect.isclass(obj)
-                and issubclass(obj, AppRunner)
-                and obj is not AppRunner
+                and issubclass(obj, AppRunnerInterface)
+                and obj is not AppRunnerInterface
             ):
                 apps.append(obj)
         return apps
 
-    def get_app_runners(self, app: Type[AppRunner]) -> List[str]:
+    @staticmethod
+    def get_app_runners(app: Type[AppRunnerInterface]) -> List[str]:
         runners = []
         for name, method in app.__dict__.items():
             if callable(method) and hasattr(method, "is_app_runner"):
                 runners.append(name)
         return runners
 
-    def get_args_kwargs(self, args: List) -> tuple[List, Dict]:
+    @staticmethod
+    def get_args_kwargs(args_input: List) -> tuple[List, Dict]:
         args = []
         kwargs = {}
 
-        iterator = iter(args[1:])
+        iterator = iter(args_input)
 
         for arg in iterator:
             if "=" in arg:
@@ -56,18 +61,19 @@ class RunnerDiscovery:
 
         return args, kwargs
 
-    def file_contains_app_class(self, filepath) -> bool:
-        with open(filepath, "r") as file:
-            node = ast.parse(file.read(), filename=filepath)
+    @staticmethod
+    def file_contains_app_class(file_path: str) -> bool:
+        with open(file_path, "r") as file:
+            node = ast.parse(file.read(), filename=file_path)
             for class_node in ast.walk(node):
                 if isinstance(class_node, ast.ClassDef):
                     for base in class_node.bases:
                         if (
                             isinstance(base, ast.Name)
-                            and (base.id == "AppRunner")
+                            and (base.id == "AppRunnerInterface")
                             or (
                                 isinstance(base, ast.Attribute)
-                                and base.attr == "AppRunner"
+                                and base.attr == "AppRunnerInterface"
                             )
                         ):
                             return True

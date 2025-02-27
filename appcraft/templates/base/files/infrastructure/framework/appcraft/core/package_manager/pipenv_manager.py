@@ -4,11 +4,12 @@ import sys
 from typing import List
 
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
+from infrastructure.framework.appcraft.core.package_manager.interface import (
+    PackageManagerInterface,
+)
 
-from .package_manager_abc import PackageManagerABC
 
-
-class PipenvManager(PackageManagerABC):
+class PipenvManager(PackageManagerInterface):
     def __init__(self):
         super().__init__()
 
@@ -34,7 +35,7 @@ class PipenvManager(PackageManagerABC):
 
     def venv_create(self):
         if self.venv_is_active():
-            return False
+            return
 
         try:
             subprocess.check_call(["pipenv", "install", "--ignore-pipfile"])
@@ -47,11 +48,11 @@ class PipenvManager(PackageManagerABC):
         return
 
     def get_activate_command(self):
-        return
+        return ""
 
     def install_requirements(self, requirements=None):
         if self.venv_is_active():
-            return False
+            return
 
         try:
             if requirements and os.path.exists(requirements):

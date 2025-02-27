@@ -2,21 +2,17 @@ import os
 import subprocess
 import sys
 
-
-from infrastructure.framework.appcraft.core.core_printer\
-    import CorePrinter
-
-from .package_manager_abc\
-    import PackageManagerABC
+from infrastructure.framework.appcraft.core.core_printer import CorePrinter
+from infrastructure.framework.appcraft.core.package_manager.interface import (
+    PackageManagerInterface,
+)
 
 
-class PipManager(PackageManagerABC):
+class PipManager(PackageManagerInterface):
     def venv_create(self):
         try:
             venv_path = os.path.join(os.getcwd(), ".venv")
-            subprocess.check_call(
-                [sys.executable, "-m", "venv", venv_path]
-            )
+            subprocess.check_call([sys.executable, "-m", "venv", venv_path])
             CorePrinter.installation_success()
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))

@@ -1,6 +1,9 @@
 import os
 import sys
 
+from infrastructure.framework.appcraft.core.runner.discovery import (
+    RunnerDiscovery,
+)
 from infrastructure.framework.appcraft.core.runner.selector import (
     RunnerSelector,
 )
@@ -11,10 +14,9 @@ class Runner:
         self,
         theme=None,
         app_folder=os.path.join("runner", "main"),
-        args=sys.argv.copy(),
+        args=sys.argv[1:].copy(),
     ):
         self.selector = RunnerSelector(args)
-
         self.app_folder = app_folder
         self.selected_module = None
         self.selected_app = None
@@ -34,6 +36,6 @@ class Runner:
         if not self.selected_method:
             return False
 
-        args, kwargs = self.discovery.get_args_kwargs(self.selector.args)
+        args, kwargs = RunnerDiscovery.get_args_kwargs(self.selector.args)
         self.selected_method(*args, **kwargs)
         return True

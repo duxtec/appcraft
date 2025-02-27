@@ -1,17 +1,21 @@
 import os
 import sys
+from typing import Callable
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
 from infrastructure.framework.appcraft.core.core_printer import CorePrinter
+from infrastructure.framework.appcraft.core.package_manager.interface import (
+    PackageManagerInterface,
+)
 
 
 class ErrorHandler:
-    def __init__(self, package_manager, logger):
+    def __init__(self, package_manager: PackageManagerInterface, logger):
         self.package_manager = package_manager
         self.logger = logger
-        self.debug = AppManager.debug_mode()
+        self.debug = AppManager().debug_mode
 
-    def handle_import_error(self, error, action):
+    def handle_import_error(self, error: Exception, action: Callable) -> bool:
         try:
             tb = error.__traceback__
             for _ in range(2):
@@ -28,19 +32,19 @@ class ErrorHandler:
                     self.handle_other_errors(error)
                     missing_package = parts[3]
             else:
-                self.handle_other_errors(error)
+                return False
 
             root_dirs = [
-                d for d in os.listdir(".")
+                d
+                for d in os.listdir(".")
                 if os.path.isdir(os.path.join(".", d))
             ]
-            if (
-                missing_package.startswith(".")
-                or any(missing_package.startswith(dir) for dir in root_dirs)
+            if missing_package.startswith(".") or any(
+                missing_package.startswith(dir) for dir in root_dirs
             ):
-                self.handle_other_errors(error)
+                return False
         except Exception:
-            self.handle_other_errors(error)
+            return False
 
         if missing_package not in self.package_manager.attempted_packages:
             CorePrinter.packages_not_found([missing_package], error=error)
@@ -48,20 +52,36 @@ class ErrorHandler:
             if not self.package_manager.requirements_installed:
                 self.package_manager.install_requirements()
             self.package_manager.install_package(missing_package)
-            action()
-            sys.exit()
+            try:
+                exc_type, exc_value, exc_tb = sys.exc_info()
+                if exc_value:
+                    del exc_value
+                action()
+                return True
+            except Exception:
+                return False
         else:
-            self.handle_other_errors(error)
-            sys.exit(1)
+            return False
 
     def handle_other_errors(self, error):
         tb = error.__traceback__
-        for _ in range(3):
+
+        total_levels = 0
+        tb_temp = tb
+        
+        while tb_temp is not None:
+            total_levels += 1
+            tb_temp = tb_temp.tb_next
+
+        max_remove = min(3, total_levels - 1)
+
+        for _ in range(max_remove):
             if tb is not None:
                 tb = tb.tb_next
+
         error.__traceback__ = tb
 
-        self.logger.exception(str(error))
+        self.logger.exception(error)
 
         if self.debug:
             message = None
@@ -69,4 +89,3 @@ class ErrorHandler:
             message = None
 
         CorePrinter.execution_error(message)
-        sys.exit(1)

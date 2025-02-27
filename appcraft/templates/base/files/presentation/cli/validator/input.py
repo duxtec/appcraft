@@ -10,8 +10,10 @@ class InputCLIValidator:
     def get_valid_input(
         prompt: str,
         value_object: type[ValueObjectInterface],
-        value: Optional[str] = None,
-        error_action: Optional[Callable[[ValueObjectError], None]] = None,
+        value: Optional[Any] = None,
+        error_action: Optional[
+            Callable[[ValueObjectError, Optional[str]], None]
+        ] = None,
         error_message: Optional[str] = None,
         max_attempts: Optional[int] = 3,
     ) -> Any:
@@ -28,7 +30,7 @@ class InputCLIValidator:
                 value = None
                 attempts += 1
                 if error_action:
-                    error_action(e, value)
+                    error_action(e, str(value))
                 elif error_message:
                     Printer.warning(error_message)
                     print()

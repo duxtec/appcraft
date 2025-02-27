@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, List, TypeVar
 
-from domain.filters import FilterInterface
+from domain.filters.interface import FilterInterface
 from domain.models.interfaces import ModelInterface
 
 T = TypeVar("T")

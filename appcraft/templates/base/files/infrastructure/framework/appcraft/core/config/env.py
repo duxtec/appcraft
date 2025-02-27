@@ -2,8 +2,7 @@ from .base import BaseConfig
 
 
 class EnvConfig(BaseConfig):
-    def __init__(self, dir="config/"):
-        super().__init__("env", dir)
+    EXTENSIONS = ["env"]
 
     def _load_file(self, file_path):
         config = {}

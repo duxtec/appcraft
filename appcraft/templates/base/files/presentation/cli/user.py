@@ -1,4 +1,4 @@
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from application.dtos.user_dto import UserDTO
 from application.services.user_service import UserService
@@ -10,7 +10,7 @@ from domain.value_objects.username import Username
 from infrastructure.framework.appcraft.utils.component_printer import (
     ComponentPrinter,
 )
-from presentation.cli.validator.input_validator import InputCLIValidator
+from presentation.cli.validator.input import InputCLIValidator
 
 
 class UserCLIPresentation:
@@ -80,9 +80,9 @@ class UserCLIPresentation:
 
     def update(self, id: Optional[int] = None, username: Optional[str] = None):
         while True:
+            id = self._get_id(id)
+            username = self._get_username(username)
             try:
-                id = self._get_id(id)
-                username = self._get_username(username)
                 user = self.user_service.update(id, username)
                 self.Printer.update_successfully(user)
                 return
@@ -93,8 +93,8 @@ class UserCLIPresentation:
 
     def delete(self, id: Optional[int] = None):
         while True:
+            id = self._get_id(id)
             try:
-                id = self._get_id(id)
                 self.user_service.delete(id)
                 self.Printer.delete_successfully(id)
                 return
@@ -102,14 +102,14 @@ class UserCLIPresentation:
                 self.Printer.user_not_exist(id)
                 id = None
 
-    def _get_id(self, id: Optional[int] = None):
+    def _get_id(self, id: Optional[Union[int, str]] = None) -> int:
         return InputCLIValidator().get_valid_input(
             prompt="Enter the ID: ",
             value_object=Id,
-            value=id,
+            value=str(id),
         )
 
-    def _get_username(self, username: Optional[str]):
+    def _get_username(self, username: Optional[str]) -> str:
         return InputCLIValidator().get_valid_input(
             prompt="Enter the username: ",
             value_object=Username,

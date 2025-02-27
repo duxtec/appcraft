@@ -1,107 +1,102 @@
 import os
 from datetime import datetime
-from typing import List, Optional
+from typing import Any, Dict, List
 
 
 class AppManager:
     _start_time = None
 
-    @classmethod
-    def get_start_time(self, format="%Y-%m-%d %H:%M:%S"):
+    def __init__(self):
+        try:
+            from infrastructure.framework.appcraft.core.config import (
+                Config as ExternalConfig,
+            )
+
+            self._config = ExternalConfig()
+        except Exception:
+
+            class Config:
+                def get(self, file_name: str) -> Dict[str, Any]:
+                    return {}
+
+            self._config = Config()
+
+    @property
+    def start_time(self, format="%Y-%m-%d %H:%M:%S") -> str:
         start_time = os.getenv("START_TIME")
         if start_time is None:
             start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
             os.environ["START_TIME"] = start_time
 
-        start_time = datetime.strptime(
-            start_time, "%Y-%m-%d %H:%M:%S"
-        ).strftime("%Y-%m-%d %H:%M:%S")
+        if format != "%Y-%m-%d %H:%M:%S":
+            start_time = datetime.strptime(
+                start_time, "%Y-%m-%d %H:%M:%S"
+            ).strftime(format)
 
         return start_time
 
-    @classmethod
-    def get_uptime(cls):
-        start_time = cls.get_start_time()
+    @property
+    def uptime(self):
+        start_time = self.start_time
         uptime = datetime.now() - datetime.strptime(
             start_time, "%Y-%m-%d %H:%M:%S"
         )
         return str(uptime)
 
-    @classmethod
-    def name(self) -> bool:
-        return self.environ_or_config(
-            "APP_NAME", "name", "Appcraft"
-        )
+    @property
+    def name(self) -> str:
+        return self.environ_or_config("name", "Appcraft")
 
-    @classmethod
-    def version(self) -> bool:
-        return self.environ_or_config(
-            "APP_VERSION", "version", "0.0.1"
-        )
+    @property
+    def version(self) -> str:
+        return self.environ_or_config("version", "0.0.1")
 
-    @classmethod
+    @property
     def environment(self) -> str:
-        return self.environ_or_config(
-            "ENVIRONMENT", "environment", "development"
-        )
+        return self.environ_or_config("environment", "development")
 
-    @classmethod
+    @property
     def debug_mode(self) -> bool:
-        return self.environ_or_config(
-            "APP_DEBUG_MODE", "debug_mode"
-        ).lower() == "true"
+        return self.environ_or_config("debug_mode")
 
-    @classmethod
+    @property
     def log_level(self) -> str:
-        return self.environ_or_config(
-            "LOG_LEVEL", "log_level", "info"
-        )
+        return self.environ_or_config("log_level", "info")
 
-    @classmethod
+    @property
     def lang(self) -> str:
-        return self.environ_or_config(
-            "LANG", "lang", "en"
-        )
+        return self.environ_or_config("lang", "en")
 
-    @classmethod
+    @property
     def lang_preference(self) -> str:
-        return self.environ_or_config(
-            "LANG_PREFERENCE", "lang_preference", "system"
-        )
+        return self.environ_or_config("lang_preference", "system")
 
-    @classmethod
+    @property
     def supported_langs(self) -> List:
-        return self.environ_or_config(
-            "SUPPORTED_LANGS", "supported_langs", ["en"]
-        ).split(",")
+        return self.environ_or_config("supported_langs", ["en"]).split(",")
 
-    @classmethod
-    def config(self):
-        try:
-            from infrastructure.framework.appcraft.core.config\
-                import Config
+    @property
+    def config(self) -> Dict[str, Any]:
+        return self._config.get("app")
 
-            return Config().get("app")
-        except Exception:
-            class Config:
-                def get(*args, **kargs):
-                    return None
-        return None
-
-    @classmethod
     def environ_or_config(
-        cls, environ_name,
-        config_name: Optional[str] = None, default_value=False
+        self,
+        config_name: str,
+        default_value: Any = False,
     ):
+        environ_name = config_name.upper()
         if not config_name:
             config_name = environ_name
 
-        value = str(
-            os.getenv(environ_name)
-            or (cls.config() and cls.config().get(config_name))
+        value = (
+            os.getenv(f"APPCRAFT_{environ_name}")
+            or os.getenv(f"APP_{environ_name}")
+            or os.getenv(environ_name)
+            or self.config.get(config_name)
             or default_value
         )
 
-        os.environ[environ_name] = value
+        if isinstance(value, str):
+            os.environ[f"APPCRAFT_{environ_name}"] = value
 
         return value

@@ -1,6 +1,9 @@
 from typing import List
 
-from domain.filters import FilterInterface
+from application.interfaces.adapters.database_adapter import (
+    DatabaseAdapterInterface,
+)
+from domain.filters.interface import FilterInterface
 from domain.interfaces.repositories.user_repository import (
     UserRepositoryInterface,
 )
@@ -9,11 +12,10 @@ from domain.models.exceptions.user_model_not_found import (
     UserModelNotFoundError,
 )
 from domain.models.user import User
-from infrastructure.interfaces.adapter import AdapterInterface
 
 
 class UserRepository(UserRepositoryInterface):
-    def __init__(self, adapter: AdapterInterface) -> None:
+    def __init__(self, adapter: DatabaseAdapterInterface) -> None:
         self.adapter = adapter
 
     def get(self, filters: List[FilterInterface]) -> List[User]:

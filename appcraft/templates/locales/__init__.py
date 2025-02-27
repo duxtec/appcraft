@@ -1,7 +1,7 @@
 from ..template_abc import TemplateABC
 
 
-class LocaleTemplate(TemplateABC):
+class LocalesTemplate(TemplateABC):
     active = True
     description = "\
 Locale Template provides a structured way to manage multiple languages in \

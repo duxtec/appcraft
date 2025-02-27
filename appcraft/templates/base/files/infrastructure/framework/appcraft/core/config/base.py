@@ -1,49 +1,49 @@
 import os
 from abc import ABC, abstractmethod
+from typing import Any, Dict, List
 
 
 class BaseConfig(ABC):
-    def __init__(self, extensions, dir="config"):
-        self.dir = dir
-        # Garante que seja uma lista
-        self.extensions = (
-            extensions if isinstance(extensions, list) else [extensions]
-        )
+    EXTENSIONS: List[str]
 
-    def _load(self):
-        # Filtra os arquivos que têm as extensões especificadas
+    def __new__(cls, *args, **kwargs):
+        if not hasattr(cls, 'EXTENSIONS') or cls.EXTENSIONS is None:
+            raise TypeError(f"{cls.__name__} must define 'EXTENSIONS'.")
+        return super().__new__(cls)
+
+    def __init__(self, dir: str = "config"):
+        self.dir = dir
+        self.loaded_files: Dict[str, Any] = {}
+
+    def _load(self) -> Dict[str, Any]:
         files = [
             f
             for f in os.listdir(self.dir)
-            if any(f.endswith(ext) for ext in self.extensions)
+            if any(f.endswith(ext) for ext in self.EXTENSIONS)
         ]
-        configs = {}  # Variável local para armazenar configurações
         for file_name in files:
             file_path = os.path.join(self.dir, file_name)
-            config = self._load_file(file_path)
-            configs[os.path.splitext(file_name)[0]] = config
-        return configs  # Retorna as configurações carregadas
+            self.get(file_path)
+        return self.loaded_files
 
     @abstractmethod
-    def _load_file(self, file_path):  # pragma: no cover
-        """Esse método deve ser implementado pelas subclasses
-        para carregar arquivos específicos."""
+    def _load_file(self, file_path: str) -> Dict[str, Any]:
         pass
 
-    def get(self, file_name):
-        # Filtra os arquivos que têm as extensões especificadas
+    def get(self, file_name: str) -> Dict[str, Any]:
+        if file_name in self.loaded_files:
+            return self.loaded_files[file_name]
+
         files = [
             f
             for f in os.listdir(self.dir)
-            if any(f.endswith(f"{file_name}.{ext}") for ext in self.extensions)
+            if any(f.endswith(f"{file_name}.{ext}") for ext in self.EXTENSIONS)
         ]
 
-        # Verifica se file_name está na lista de arquivos
-        if not files:
-            raise FileNotFoundError(
-                f"\
-The '{file_name}' setup file was not found in the '{self.dir}' folder."
-            )
-
-        file_path = os.path.join(self.dir, files[0])
-        return self._load_file(file_path)
+        try:
+            file_path = os.path.join(self.dir, files[0])
+            loaded_file = self._load_file(file_path)
+            self.loaded_files[file_name] = loaded_file
+            return loaded_file
+        except Exception:
+            return {}

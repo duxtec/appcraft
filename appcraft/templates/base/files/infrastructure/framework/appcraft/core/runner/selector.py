@@ -1,8 +1,11 @@
 import importlib
+import importlib.util
 import os
 from typing import Any, List, Sequence
 
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.app_runner import (
+    AppRunnerInterface,
+)
 from infrastructure.framework.appcraft.core.runner.discovery import (
     RunnerDiscovery,
 )
@@ -13,11 +16,10 @@ from prompt_toolkit.shortcuts import radiolist_dialog
 class RunnerSelector:
     def __init__(self, args: List = []):
         self.args = args
-        self.discovery = RunnerDiscovery()
         self.themes = RunnerThemes()
 
     def select_module(self, folder: str):
-        modules = self.discovery.get_modules(folder)
+        modules = RunnerDiscovery.get_modules(folder)
         if len(modules) < 1:
             raise Exception("No modules found.")
         elif len(self.args) and self.args[0] in modules:
@@ -34,7 +36,7 @@ class RunnerSelector:
         if not selected_module_name:
             return None
 
-        filepath = os.path.join(self.app_folder, selected_module_name + ".py")
+        filepath = os.path.join(folder, str(selected_module_name) + ".py")
 
         if not os.path.isfile(filepath):
             print(f'The file "{selected_module_name}" was not found.')
@@ -42,14 +44,18 @@ class RunnerSelector:
 
         modulename = os.path.splitext(os.path.basename(filepath))[0]
         spec = importlib.util.spec_from_file_location(modulename, filepath)
+        if spec is None:
+            raise Exception(f"Cannot load module from {filepath}")
         module = importlib.util.module_from_spec(spec)
+        if spec.loader is None:
+            raise Exception(f"Cannot load module from {filepath}")
         spec.loader.exec_module(module)
 
         self.selected_module = module
         return self.selected_module
 
     def select_app(self, module):
-        apps = self.discovery.get_apps(module)
+        apps = RunnerDiscovery.get_apps(module)
 
         app_map = {app.__name__: app for app in apps}
 
@@ -75,14 +81,14 @@ class RunnerSelector:
 
         return self.selected_app
 
-    def select_method(self, app: AppRunner):
+    def select_method(self, app: type[AppRunnerInterface]):
         app = self.selected_app
-        runners = self.discovery.get_app_runners(app)
+        runners = RunnerDiscovery.get_app_runners(app)
 
         if len(runners) < 1:
             raise Exception("No runners found.")
 
-        if len(self.args) and self.args[1] in runners:
+        if len(self.args) and self.args[0] in runners:
             self.selected_method = getattr(
                 self.selected_app(), self.args.pop(0)
             )

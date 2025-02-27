@@ -1,11 +1,12 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import List
 
-from domain.filters import FilterInterface
+from domain.filters.interface import FilterInterface
+from domain.interfaces.repositories import RepositoryInterface
 from domain.models.user import User
 
 
-class UserRepositoryInterface(ABC):
+class UserRepositoryInterface(RepositoryInterface):
     @abstractmethod
     def get(self, filters: List[FilterInterface]) -> List[User]:
         pass

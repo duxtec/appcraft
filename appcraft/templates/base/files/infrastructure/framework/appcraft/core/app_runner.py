@@ -1,14 +1,15 @@
 import functools
+from abc import ABC
 
 
-class AppRunner:
+class AppRunnerInterface(ABC):
     @staticmethod
     def runner(func):
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
 
-        wrapper.is_app_runner = True
+        setattr(wrapper, 'is_app_runner', True)
         return wrapper
 
     @staticmethod
@@ -17,5 +18,5 @@ class AppRunner:
         def wrapper(*args, **kwargs):
             return func(*args, **kwargs)
 
-        wrapper.is_app_runner = False
+        setattr(wrapper, 'is_app_runner', False)
         return wrapper

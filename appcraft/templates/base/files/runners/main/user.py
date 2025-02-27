@@ -1,13 +1,15 @@
 from typing import Optional
 
+from application.repositories.user_repository import UserRepository
 from application.services.user_service import UserService
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.app_runner import (
+    AppRunnerInterface,
+)
 from infrastructure.memory.adapters.memory_adapter import MemoryAdapter
-from infrastructure.repositories.user_repository import UserRepository
-from presentation.cli.user_cli_presentation import UserCLIPresentation
+from presentation.cli.user import UserCLIPresentation
 
 
-class UserRunner(AppRunner):
+class UserRunner(AppRunnerInterface):
     def __init__(self) -> None:
         memory_adapter = MemoryAdapter()
         user_repository = UserRepository(memory_adapter)
@@ -19,21 +21,21 @@ class UserRunner(AppRunner):
         self.user_service.create("Mary Jane")
         self.user_service.create("Thiago Costa")
 
-    @AppRunner.runner
+    @AppRunnerInterface.runner
     def list(self):
         self.presentation.list()
 
-    @AppRunner.runner
+    @AppRunnerInterface.runner
     def create(self, username: Optional[str] = None):
         self.presentation.create(username)
         self.presentation.list()
 
-    @AppRunner.runner
+    @AppRunnerInterface.runner
     def update(self, id: Optional[int] = None, username: Optional[str] = None):
         self.presentation.update(id, username)
         self.presentation.list()
 
-    @AppRunner.runner
+    @AppRunnerInterface.runner
     def delete(self, id: Optional[int] = None):
         self.presentation.delete(id)
         self.presentation.list()

@@ -1,19 +1,13 @@
 import traceback
 
 from infrastructure.framework.appcraft.core.app_manager import AppManager
-
-try:
-    from infrastructure.framework.appcraft.utils.component_printer import (
-        ComponentPrinter,
-    )
-except Exception:
-    from infrastructure.framework.appcraft.utils.printer import (
-        Printer as ComponentPrinter,
-    )
+from infrastructure.framework.appcraft.utils.component_printer import (
+    ComponentPrinter,
+)
 
 
 class CorePrinter(ComponentPrinter):
-    domain = "core"
+    DOMAIN = "core"
 
     @classmethod
     def program_started(cls):
@@ -78,6 +72,7 @@ class CorePrinter(ComponentPrinter):
 
     @classmethod
     def execution_duration(cls):
-        if AppManager.debug_mode():
+        app_manager = AppManager()
+        if app_manager.debug_mode:
             cls.info("Execution duration", end=": ")
-            cls.print(AppManager.get_uptime())
+            cls.print(app_manager.uptime)

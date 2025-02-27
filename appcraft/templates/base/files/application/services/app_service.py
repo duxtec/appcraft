@@ -1,8 +1,6 @@
 from application.dtos.app_dto import AppDTO
+from application.interfaces.adapters.app_adapter import AppAdapterInterface
 from application.mappers.app_mapper import AppMapper
-from infrastructure.memory.adapters.interfaces.app_adapter_interface import (
-    AppAdapterInterface,
-)
 
 
 class AppService:

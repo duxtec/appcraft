@@ -1,10 +1,12 @@
 import colorsys
+from typing import List, Union
+
 from infrastructure.framework.appcraft.core.config import Config
 
 
 class Color:
     @staticmethod
-    def RGBtoHSL(rgb, array=False):
+    def RGBtoHSL(rgb, array=False) -> Union[str, List[Union[int, float]]]:
         if len(rgb) == 7:
             red = int(rgb[1:3], 16)
             green = int(rgb[3:5], 16)
@@ -56,15 +58,12 @@ class Color:
             color1 = theme["color1"]
             color2 = theme["color2"]
         except Exception:
-            theme = {
-                "color1": "#FFFFFF",
-                "color2": "#000000"
-            }
+            theme = {"color1": "#FFFFFF", "color2": "#000000"}
             color1 = theme["color1"]
             color2 = theme["color2"]
 
-        hsl1 = Color.RGBtoHSL(color1, True)
-        hsl2 = Color.RGBtoHSL(color2, True)
+        hsl1 = list(Color.RGBtoHSL(color1, True))
+        hsl2 = list(Color.RGBtoHSL(color2, True))
 
         palette_dict = {
             "darkcolor": [[] for _ in range(3)],
