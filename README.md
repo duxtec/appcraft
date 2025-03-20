@@ -1,5 +1,7 @@
 # Appcraft
 
+![Appcraft Logo](logo.png)
+
 ## Introduction
 
 Welcome to the Appcraft!

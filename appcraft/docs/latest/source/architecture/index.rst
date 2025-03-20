@@ -21,3 +21,8 @@ The architecture layers are:
    domain/index
    infrastructure/index
 
+.. toctree::
+   :maxdepth: 2
+   :caption: Application flow
+
+   flow/index

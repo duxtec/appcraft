@@ -1,14 +1,16 @@
 Web Scraping Template
 =============================
+
 The **Web Scraping Template** provides a structured environment for efficiently extracting data from websites. It includes **pre-configured scripts** and essential libraries for handling web requests, parsing HTML, and automating interactions with web pages.  
 
-- **Key Features**
+Key Features
+--------------------
 
-   - **Multiple Web Scraping Adapters:** The template includes an **adapter for each scraping library**, allowing flexibility in choosing the best approach for different use cases.  
+- **Multiple Web Scraping Adapters:** The template includes an **adapter for each scraping library**, allowing flexibility in choosing the best approach for different use cases.  
 
-   - **Standardized Architecture:** It provides an **abstract base class** for web scraping adapters, ensuring a **consistent and reusable** structure across different implementations.  
+- **Standardized Architecture:** It provides an **abstract base class** for web scraping adapters, ensuring a **consistent and reusable** structure across different implementations.  
 
-   - **Service Demonstrations:** It includes examples of **data extraction and storage services**, showcasing best practices for handling scraped data.  
+- **Service Demonstrations:** It includes examples of **data extraction and storage services**, showcasing best practices for handling scraped data.  
 
 - **Included Dependencies**  
 

@@ -1,0 +1,66 @@
+\xpg@aux {}{english}
+\contentsline {section}{\numberline {1}Getting Started}{2}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Installation}{2}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Starting a New Project}{2}{subsection.1.2}%
+\contentsline {section}{\numberline {2}Templates}{3}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Base Template}{3}{subsection.2.1}%
+\contentsline {subsubsection}{Key Features:}{3}{subsubsection*.2}%
+\contentsline {subsubsection}{Benefits:}{3}{subsubsection*.3}%
+\contentsline {subsection}{\numberline {2.2}Logs Template}{4}{subsection.2.2}%
+\contentsline {subsubsection}{Key Features}{4}{subsubsection*.4}%
+\contentsline {subsubsection}{Benefits}{4}{subsubsection*.5}%
+\contentsline {subsection}{\numberline {2.3}Locales Template}{4}{subsection.2.3}%
+\contentsline {subsubsection}{Key Features:}{4}{subsubsection*.6}%
+\contentsline {subsubsection}{Benefits:}{5}{subsubsection*.7}%
+\contentsline {subsection}{\numberline {2.4}Flask UI Template}{5}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Flask API Template}{5}{subsection.2.5}%
+\contentsline {subsection}{\numberline {2.6}Web Scraping Template}{6}{subsection.2.6}%
+\contentsline {subsubsection}{Key Features}{6}{subsubsection*.8}%
+\contentsline {subsection}{\numberline {2.7}Git Template}{6}{subsection.2.7}%
+\contentsline {subsubsection}{Key features:}{6}{subsubsection*.9}%
+\contentsline {subsubsection}{Benefits:}{7}{subsubsection*.10}%
+\contentsline {subsection}{\numberline {2.8}GitHub Template}{7}{subsection.2.8}%
+\contentsline {subsubsection}{Key Features:}{7}{subsubsection*.11}%
+\contentsline {subsubsection}{Benefits:}{8}{subsubsection*.12}%
+\contentsline {section}{\numberline {3}Layered Architecture}{8}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Runner Layer}{8}{subsection.3.1}%
+\contentsline {subsubsection}{What to Do in Runners}{9}{subsubsection*.13}%
+\contentsline {subsubsection}{What to Avoid in Runners}{9}{subsubsection*.14}%
+\contentsline {subsubsection}{Types of runners}{9}{subsubsection*.15}%
+\contentsline {subsubsection}{Example of a Runner}{10}{subsubsection*.16}%
+\contentsline {subsubsection}{Running Applications}{10}{subsubsection*.17}%
+\contentsline {subsubsection}{Running Auxiliary Runner}{10}{subsubsection*.18}%
+\contentsline {subsubsection}{Executing a Specific Runner}{11}{subsubsection*.19}%
+\contentsline {subsection}{\numberline {3.2}Presentation Layer}{11}{subsection.3.2}%
+\contentsline {subsubsection}{What to Do in Presentation}{12}{subsubsection*.20}%
+\contentsline {subsubsection}{What to Avoid in Presentation}{12}{subsubsection*.21}%
+\contentsline {subsubsection}{Example of a CLI Presentation}{13}{subsubsection*.22}%
+\contentsline {subsection}{\numberline {3.3}Application Layer}{14}{subsection.3.3}%
+\contentsline {subsubsection}{What to Do in Application}{14}{subsubsection*.23}%
+\contentsline {subsubsection}{What to Avoid in Application}{15}{subsubsection*.24}%
+\contentsline {subsubsection}{Example of a DTO}{15}{subsubsection*.25}%
+\contentsline {subsubsection}{Example of a Mapper}{16}{subsubsection*.26}%
+\contentsline {subsubsection}{Example of a Service}{17}{subsubsection*.27}%
+\contentsline {subsection}{\numberline {3.4}Domain Layer}{17}{subsection.3.4}%
+\contentsline {subsubsection}{What to Do in Domain}{17}{subsubsection*.28}%
+\contentsline {subsubsection}{What to Avoid in Domain}{18}{subsubsection*.29}%
+\contentsline {subsubsection}{Example of a Model}{18}{subsubsection*.30}%
+\contentsline {subsubsection}{Example of Repository Interface}{19}{subsubsection*.31}%
+\contentsline {subsubsection}{Example of Adapter Interface}{19}{subsubsection*.32}%
+\contentsline {subsection}{\numberline {3.5}Infrastructure Layer}{20}{subsection.3.5}%
+\contentsline {subsubsection}{Under construction}{20}{subsubsection*.33}%
+\contentsline {subsection}{\numberline {3.6}Application Flow}{20}{subsection.3.6}%
+\contentsline {subsubsection}{Request Flow}{20}{subsubsection*.34}%
+\contentsline {subsubsection}{Response Flow}{20}{subsubsection*.35}%
+\contentsline {section}{\numberline {4}Contributing}{20}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Creating New Templates}{21}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Updating Existing Templates}{21}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Translating Templates}{22}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Why Use a Temporary Project?}{22}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Working in a temporary project}{22}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Ready to Contribute?}{23}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Contact}{23}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Under construction}{23}{subsection.5.1}%
+\contentsline {section}{\numberline {6}Versions}{23}{section.6}%
+\contentsline {section}{\numberline {7}Version Information}{23}{section.7}%
+\contentsline {section}{\numberline {8}Features in Version 0.5.4}{23}{section.8}%

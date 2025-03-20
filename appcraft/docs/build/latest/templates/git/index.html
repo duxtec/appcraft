@@ -1,0 +1,231 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>2.7. Git Template &mdash; Appcraft 0.5.4 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=09dc0c05" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=e1a677a5"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2.8. GitHub Template" href="../github/index.html" />
+    <link rel="prev" title="2.6. Web Scraping Template" href="../web_scraping/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Appcraft
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">1. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">1.1. Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#starting-a-new-project">1.2. Starting a New Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">2. Templates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html">2.1. Base Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#key-features">2.1.1. Key Features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#benefits">2.1.2. Benefits:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../logs/index.html">2.2. Logs Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../logs/index.html#key-features">2.2.1. Key Features</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../logs/index.html#benefits">2.2.2. Benefits</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../locales/index.html">2.3. Locales Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../locales/index.html#key-features">2.3.1. Key Features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../locales/index.html#benefits">2.3.2. Benefits:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask_ui/index.html">2.4. Flask UI Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../flask_api/index.html">2.5. Flask API Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../web_scraping/index.html">2.6. Web Scraping Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#key-features">2.6.1. Key Features</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.7. Git Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#key-features">2.7.1. Key features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#benefits">2.7.2. Benefits:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../github/index.html">2.8. GitHub Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#key-features">2.8.1. Key Features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#benefits">2.8.2. Benefits:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">3. Layered Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/runner/index.html">3.1. Runner Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#what-to-do-in-runners">3.1.1. What to Do in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#what-to-avoid-in-runners">3.1.2. What to Avoid in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#types-of-runners">3.1.3. Types of runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#example-of-a-runner">3.1.4. Example of a Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#running-applications">3.1.5. Running Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#running-auxiliary-runner">3.1.6. Running Auxiliary Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#id2">3.1.7. Executing a Specific Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/presentation/index.html">3.2. Presentation Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#what-to-do-in-presentation">3.2.1. What to Do in Presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#what-to-avoid-in-presentation">3.2.2. What to Avoid in Presentation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#example-of-a-cli-presentation">3.2.3. Example of a CLI Presentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/application/index.html">3.3. Application Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#what-to-do-in-application">3.3.1. What to Do in Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#what-to-avoid-in-application">3.3.2. What to Avoid in Application</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-of-a-dto">3.3.3. Example of a DTO</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-of-a-mapper">3.3.4. Example of a Mapper</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-of-a-service">3.3.5. Example of a Service</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/domain/index.html">3.4. Domain Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#what-to-do-in-domain">3.4.1. What to Do in Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#what-to-avoid-in-domain">3.4.2. What to Avoid in Domain</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-of-a-model">3.4.3. Example of a Model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-of-repository-interface">3.4.4. Example of Repository Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-of-adapter-interface">3.4.5. Example of Adapter Interface</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/infrastructure/index.html">3.5. Infrastructure Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#under-construction">3.5.1. Under construction</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/flow/index.html">3.6. Application Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/flow/index.html#request-flow">3.6.1. Request Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/flow/index.html#response-flow">3.6.2. Response Flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">4. Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#id2">4.1. Creating New Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#id3">4.2. Updating Existing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#id5">4.3. Translating Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#why-use-a-temporary-project">4.4. Why Use a Temporary Project?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#id6">4.5. Working in a temporary project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#ready-to-contribute">4.6. Ready to Contribute?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">5. Contact</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contact.html#under-construction">5.1. Under construction</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions/index.html">6. Versions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Appcraft</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><span class="section-number">2. </span>Templates</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">2.7. </span>Git Template</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/templates/git/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="git-template">
+<h1><span class="section-number">2.7. </span>Git Template<a class="headerlink" href="#git-template" title="Link to this heading"></a></h1>
+<p>The <strong>Git Template</strong> serves as a foundational setup for initializing a local Git repository, establishing a structured branching strategy tailored to various development environments. This template ensures a standardized workflow, facilitating seamless collaboration and efficient version management across different stages of development.</p>
+<section id="key-features">
+<h2><span class="section-number">2.7.1. </span>Key features:<a class="headerlink" href="#key-features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Structured Branching Strategy:</strong> The template introduces an organized branching model that aligns with semantic versioning and distinct development environments, including:
+- <strong>Development (`dev`):</strong> A branch dedicated to active development and integration of new features.
+- <strong>Alpha (`alpha`):</strong> An environment for early testing phases, allowing for initial feedback and iterative improvements.
+- <strong>Beta (`beta`):</strong> A pre-release stage focusing on refining features and addressing identified issues before the final release.
+- <strong>Production (`production`):</strong> The stable branch representing the live application, ensuring reliability and performance for end-users.</p></li>
+<li><p><strong>Initial Repository Setup:</strong> Upon initialization, the template configures the local repository with the aforementioned branches, providing a clear pathway for code progression from development to production.</p></li>
+<li><p><strong>Environment-Specific Configurations:</strong> Each branch is equipped with configurations pertinent to its respective environment, facilitating tailored testing, deployment, and monitoring processes.</p></li>
+<li><p><strong>Semantic Versioning Integration:</strong> The branching strategy incorporates semantic versioning principles, promoting clarity in version management and release cycles.</p></li>
+<li><p><strong>GitAdapter Integration:</strong> The template includes a <strong>GitAdapter</strong> component, designed to streamline interactions with Git. This adapter simplifies command executions, automates routine tasks, and provides a consistent interface for Git operations, enhancing productivity and reducing the potential for errors.</p></li>
+</ul>
+</section>
+<section id="benefits">
+<h2><span class="section-number">2.7.2. </span>Benefits:<a class="headerlink" href="#benefits" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Consistent Workflow:</strong> By adhering to a predefined branching strategy, teams can maintain a consistent workflow, reducing complexities associated with code integration and deployment.</p></li>
+<li><p><strong>Enhanced Collaboration:</strong> Clear delineation of development stages allows team members to work concurrently on different aspects of the project without conflicts, streamlining collaboration efforts.</p></li>
+<li><p><strong>Improved Release Management:</strong> Structured branches corresponding to specific environments enable systematic testing and deployment, enhancing the overall quality and reliability of releases.</p></li>
+<li><p><strong>Simplified Git Operations:</strong> With the GitAdapter, developers can perform Git operations more efficiently, focusing on development tasks rather than manual version control management.</p></li>
+</ul>
+<p>The <strong>Git Template</strong> serves as a robust framework for managing codebases, ensuring that development practices are standardized, efficient, and scalable across various environments.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../web_scraping/index.html" class="btn btn-neutral float-left" title="2.6. Web Scraping Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../github/index.html" class="btn btn-neutral float-right" title="2.8. GitHub Template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dux Tecnologia, Thiago Costa Pereira.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
