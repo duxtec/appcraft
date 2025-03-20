@@ -20,11 +20,13 @@ repository = "https://github.com/duxtec/appcraft"
 documentation = "https://duxtec.github.io/appcraft/latest/index.html"
 keywords = ["appcraft"]
 classifiers = ["Development Status :: 4 - Beta"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.12"
 toml = "0.10.2"
 prompt-toolkit = "*"
+py-automapper = "2.1.0"
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "8.0.2"
