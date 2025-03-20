@@ -1,6 +1,6 @@
 import sys
-from appcraft.templates.base.files.infrastructure.\
-    framework.appcraft.utils.import_manager import ImportManager
+
+from appcraft.utils import ImportManager
 
 
 def create_init():

@@ -11,6 +11,7 @@ pip-delete-this-directory.txt
 .vscode/
 .idea/
 *.sublime-workspace
+*.code-workspace
 
 .ipynb_checkpoints/
 
@@ -28,6 +29,7 @@ build/
 dist/
 *.egg-info/
 *.eggs/
+temp/
 
 poetry.lock
 Pipfile.lock

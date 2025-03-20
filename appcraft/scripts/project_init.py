@@ -2,13 +2,11 @@ import argparse
 import os
 import shutil
 import sys
+from typing import Callable
 
-from appcraft.templates.base.files.infrastructure.framework.appcraft.core.package_manager import (
-    PackageManager,
-)
-from appcraft.templates.base.files.infrastructure.framework.appcraft.utils.printer import (
-    Printer,
-)
+from appcraft.templates.template_abc import TemplateABC
+from appcraft.utils import PackageManager, Printer
+from appcraft.utils.exceptions import TemplateNotFoundError
 from appcraft.utils.template_loader import TemplateLoader
 
 
@@ -38,16 +36,31 @@ def project_init():
         ]
 
         if nonexistent_templates:
-            raise ValueError(
-                f"\
-The following templates do not exist: {', '.join(nonexistent_templates)}"
-            )
+            raise TemplateNotFoundError(', '.join(nonexistent_templates))
 
-        templates = [
-            template
-            for template in tl.templates
-            if template.name in template_names
-        ]
+        templates: list[type[TemplateABC]] = []
+
+        def add_template_with_dependencies(template: type[TemplateABC]):
+            if template.name in {t.name for t in templates}:
+                return
+
+            for dependency in template.dependencies:
+                if dependency in {t.name for t in templates}:
+                    continue
+
+                dep_template = next(
+                    (t for t in tl.templates if t.name == dependency), None
+                )
+                if dep_template:
+                    add_template_with_dependencies(dep_template)
+
+            templates.append(template)
+
+        for template in tl.templates:
+            if template.name not in template_names:
+                continue
+
+            add_template_with_dependencies(template)
 
         appcraft_root_path = os.path.abspath(
             os.path.join(
@@ -63,10 +76,22 @@ The following templates do not exist: {', '.join(nonexistent_templates)}"
 
         project_folder = os.getcwd()
 
-        print(appcraft_root_path)
+        if (
+            project_folder == appcraft_root_path
+            or project_folder == os.path.join(template_dir, "temp", "files")
+        ):
+            temp_dir = os.path.join(template_dir, "temp", "files")
+            if os.path.exists(temp_dir):
+                for item in os.listdir(temp_dir):
+                    item_path = os.path.join(temp_dir, item)
+                    if os.path.isfile(item_path):
+                        os.remove(item_path)
+                    elif os.path.isdir(item_path):
+                        shutil.rmtree(item_path)
 
-        if project_folder == appcraft_root_path:
-            project_folder = os.path.join(template_dir, "example", "files")
+            os.makedirs(temp_dir, exist_ok=True)
+            os.chdir(temp_dir)
+            project_folder = temp_dir
 
         project_template_folder = os.path.join(
             project_folder,
@@ -107,9 +132,17 @@ The following templates do not exist: {', '.join(nonexistent_templates)}"
         package_manager = PackageManager()
         package_manager.install_requirements()
 
+        for template in templates:
+            if isinstance(template.post_install, Callable):
+                Printer.info(
+                    f"\
+Executing post install scripts from '{template.name}' template..."
+                )
+                template.post_install()
+
         Printer.success("Project created!")
     except Exception as e:
-        print(f"Error: {e}")
+        Printer.error(f"Error: {e}")
         sys.exit(1)
 
 

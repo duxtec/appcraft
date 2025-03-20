@@ -1,6 +1,8 @@
-import sys
 import argparse
+import sys
+
 from appcraft.utils.template_adder import TemplateAdder
+from appcraft.utils.template_loader import TemplateLoader
 
 
 def add_template():
@@ -11,8 +13,10 @@ def add_template():
 
     # O primeiro argumento é o nome do script e será ignorado
     parser.add_argument(
-        "templates", nargs="*", default=[TemplateAdder.DEFAULT_TEMPLATE_NAME],
-        help="Names of the templates to add (default: base)."
+        "templates",
+        nargs="*",
+        default=TemplateLoader().default_template_names,
+        help="Names of the templates to add (default: base).",
     )
 
     # Analisa os argumentos
@@ -23,11 +27,11 @@ def add_template():
 
     # Instanciar a classe TemplateAdder com os
     # nomes dos templates fornecidos pelo usuário
-    template_adder = TemplateAdder(template_names=template_names)
+    template_adder = TemplateAdder()
 
     try:
         # Adicionar os templates com base nos nomes fornecidos
-        for template in template_adder.template_names:
+        for template in template_names:
             template_adder.add_template(template)
     except Exception as e:
         print(f"Error: {e}")

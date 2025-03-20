@@ -2,7 +2,7 @@
     "include": [
         "appcraft/scripts",
         "appcraft/templates/base/files",
-        "appcraft/scripts",
+        "appcraft/utils",
     ],
     "executionEnvironments": [
         {
@@ -12,6 +12,5 @@
             ]
         }
     ],
-    "typeCheckingMode": "strict"
-      
+    "typeCheckingMode": "strict"  
 }
