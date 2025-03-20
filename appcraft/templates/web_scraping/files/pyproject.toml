@@ -1,0 +1,13 @@
+[tool.poetry.dependencies]
+browser_manager = "0.2.0"
+scrapy = "*"
+selenium = "*"
+requests = "*"
+requests-html = "*"
+beautifulsoup4 = "*"
+lxml = "*"
+pyquery = "*"
+fake-useragent = "*"
+retrying = "*"
+tenacity = "*"
+
