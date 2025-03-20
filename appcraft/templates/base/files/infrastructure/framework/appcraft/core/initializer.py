@@ -9,7 +9,6 @@ from infrastructure.framework.appcraft.core.error_handler import ErrorHandler
 from infrastructure.framework.appcraft.core.package_manager import (
     PackageManager,
 )
-from infrastructure.framework.appcraft.core.runner.themes import RunnerThemes
 from infrastructure.framework.appcraft.utils.logger.base import LoggerBase
 from infrastructure.framework.appcraft.utils.logger.interface import (
     LoggerInterface,
@@ -64,6 +63,9 @@ class Initializer:
 
     def execute_runner(self):
         from infrastructure.framework.appcraft.core.runner import Runner
+        from infrastructure.framework.appcraft.core.runner.themes import (
+            RunnerThemes,
+        )
 
         runner = Runner(
             RunnerThemes.dark_style,
@@ -106,7 +108,7 @@ class Initializer:
     def main(self):
         try:
             logs_template_module = importlib.import_module(
-                "infrastructure.framework.appcraft.templates.locales"
+                "infrastructure.framework.appcraft.templates.logs"
             )
             LogsTemplate = logs_template_module.LogsTemplate
             if LogsTemplate.is_installed():

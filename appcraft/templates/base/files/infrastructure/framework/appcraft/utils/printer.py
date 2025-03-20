@@ -55,14 +55,12 @@ SepType: TypeAlias = str | None
 EndType: TypeAlias = str | None
 StylesType: TypeAlias = List[STYLES]
 
-print()
-
 
 class Printer:
     @classmethod
     def print(
         cls,
-        *values: object,
+        message: str,
         color: COLORS = COLORS.WHITE,
         styles: List[STYLES] = [],
         sep: SepType = " ",
@@ -81,18 +79,22 @@ class Printer:
 
         style_code = ";".join(codes)
 
-        print(f"\033[{style_code}m{values}\033[0m", sep=sep, end=end)
+        print(f"\033[{style_code}m{message}\033[0m", sep=sep, end=end)
 
     @classmethod
     def success(
         cls,
-        *values: object,
+        message: str,
+        emoji: bool = True,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ) -> None:
+        if emoji:
+            print("✅", end=" ")
+
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.GREEN,
             styles=[STYLES.BOLD],
             sep=sep,
@@ -103,13 +105,17 @@ class Printer:
     @classmethod
     def error(
         cls,
-        *values: object,
+        message: str,
+        emoji: bool = True,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ):
+        if emoji:
+            print("❌", end=" ")
+
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.RED,
             styles=[STYLES.BOLD],
             sep=sep,
@@ -120,13 +126,17 @@ class Printer:
     @classmethod
     def warning(
         cls,
-        *values: object,
+        message: str,
+        emoji: bool = True,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ):
+        if emoji:
+            print("⚠️", end="  ")
+
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.YELLOW,
             styles=[STYLES.BOLD],
             sep=sep,
@@ -137,13 +147,17 @@ class Printer:
     @classmethod
     def info(
         cls,
-        *values: object,
+        message: str,
+        emoji: bool = True,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ):
+        if emoji:
+            cls.print("📘", end=" ", color=COLORS.BLUE)
+
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.BLUE,
             sep=sep,
             end=end,
@@ -153,13 +167,13 @@ class Printer:
     @classmethod
     def title(
         cls,
-        *values: object,
+        message: str,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ):
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.MAGENTA,
             styles=[STYLES.BOLD, STYLES.UNDERLINE],
             sep=sep,
@@ -170,13 +184,17 @@ class Printer:
     @classmethod
     def critical(
         cls,
-        *values: object,
+        message: str,
+        emoji: bool = True,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ):
+        if emoji:
+            print("🚨", end=" ")
+
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.RED,
             styles=[STYLES.BOLD, STYLES.REVERSED],
             sep=sep,
@@ -187,13 +205,13 @@ class Printer:
     @classmethod
     def debug(
         cls,
-        *values: object,
+        message: str,
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ):
         return cls.print(
-            *values,
+            message=message,
             color=COLORS.DARK_GRAY,
             sep=sep,
             end=end,

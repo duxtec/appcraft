@@ -1,5 +1,12 @@
 from abc import ABC
-from typing import Generic, Optional, TypeVar
+from typing import (
+    Generic,
+    Optional,
+    TypeVar,
+    get_args,
+    get_origin,
+    get_type_hints,
+)
 
 from domain.filters.interface import FilterInterface
 from domain.models.interfaces import ModelInterface
@@ -25,20 +32,41 @@ class FilterBase(FilterInterface, Generic[Value], ABC):
         if model_property.fget is None:
             raise ValueError("The model_property must have a getter method.")
 
+        model_name = model_property.fget.__qualname__.split(".")[0]
+        model = model_property.fget.__globals__[model_name]
+
         value_type = type[value]
         expected_type = self.__annotations__['value']
-        model_property_type = type(model_property.fget(None))
+        expected_origin = get_origin(expected_type) or expected_type
+        expected_types = (
+            get_args(expected_type)
+            if get_args(expected_type)
+            else (expected_origin,)
+        )
 
-        if value_type != expected_type or value_type != model_property_type:
+        model_property_type = get_type_hints(model_property.fget).get(
+            "return", None
+        )
+
+        model_property_origin = (
+            get_origin(model_property_type) or model_property_type
+        )
+
+        model_property_types = (
+            get_args(model_property_type)
+            if get_args(model_property_type)
+            else (model_property_origin,)
+        )
+
+        try:
+            any(issubclass(value_type, t) for t in model_property_types)
+        except TypeError:
             raise TypeError(
                 f"\
 Types mismatch: value_type={value_type}, \
 expected_type={expected_type}, \
 model_property_type={model_property_type}"
             )
-
-        model_name = model_property.fget.__qualname__.split(".")[0]
-        model = model_property.fget.__globals__[model_name]
 
         if not issubclass(model, ModelInterface):
             raise TypeError(
@@ -51,6 +79,9 @@ The class of {model_property} must inherit from ModelInterface."
         self.value = value
         self.not_param = not_param
         self.include = include
+
+    def _verify_types(self):
+        pass
 
     def __repr__(self):
         props_repr = []

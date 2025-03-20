@@ -1,8 +1,8 @@
 from abc import abstractmethod
-from typing import Any, Dict
+from typing import Any
 
 
 class DTOInterface:
     @abstractmethod
-    def to_dict(self) -> Dict[str, Any]:
+    def to_dict(self) -> dict[str, Any]:
         pass

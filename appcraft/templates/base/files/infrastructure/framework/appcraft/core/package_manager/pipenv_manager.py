@@ -53,7 +53,6 @@ class PipenvManager(PackageManagerInterface):
     def install_requirements(self, requirements: Optional[str] = None):
         if self.venv_is_active():
             return
-
         try:
             if requirements and os.path.exists(requirements):
                 subprocess.check_call(

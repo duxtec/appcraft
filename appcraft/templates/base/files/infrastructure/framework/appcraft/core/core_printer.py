@@ -31,7 +31,7 @@ class CorePrinter(ComponentPrinter):
             tb = traceback.extract_tb(error.__traceback__)
             if len(tb) > 0:
                 last_file, last_line, _, _ = tb[-1]
-                cls.warning(f"in {last_file}, line {last_line}")
+                cls.warning(f"in {last_file}, line {last_line}", emoji=False)
         if packages:
             cls.warning("Missing packages:")
             for package in packages:

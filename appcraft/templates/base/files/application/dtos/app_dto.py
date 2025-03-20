@@ -1,3 +1,5 @@
+from typing import Any
+
 from application.dtos.interfaces import DTOInterface
 
 
@@ -10,7 +12,7 @@ class AppDTO(DTOInterface):
         self.environment = environment
         self.debug_mode = debug_mode
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "version": self.version,

@@ -6,7 +6,7 @@ from domain.value_objects.interfaces import ValueObjectInterface
 class ValueObjectError(Exception):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface],
+        value_object: type[ValueObjectInterface[Any]],
         value: Any,
         message: Optional[str] = None,
     ):
@@ -25,7 +25,7 @@ Invalid value '{self.value}' for {self.value_object_name}."
 class ValueObjectNonNumericError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface],
+        value_object: type[ValueObjectInterface[Any]],
         value: Any,
         message: Optional[str] = None,
     ):
@@ -39,7 +39,7 @@ class ValueObjectNonNumericError(ValueObjectError):
 class ValueObjectNonIntegerError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface],
+        value_object: type[ValueObjectInterface[Any]],
         value: Any,
         message: Optional[str] = None,
     ):
@@ -53,7 +53,7 @@ class ValueObjectNonIntegerError(ValueObjectError):
 class ValueObjectNonPositiveError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface],
+        value_object: type[ValueObjectInterface[Any]],
         value: Any,
         message: Optional[str] = None,
     ):
@@ -67,7 +67,7 @@ class ValueObjectNonPositiveError(ValueObjectError):
 class ValueObjectNonBooleanError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface],
+        value_object: type[ValueObjectInterface[Any]],
         value: Any,
         message: Optional[str] = None,
     ):
@@ -81,7 +81,7 @@ class ValueObjectNonBooleanError(ValueObjectError):
 class ValueObjectNonDatetimeError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface],
+        value_object: type[ValueObjectInterface[Any]],
         value: Any,
         message: Optional[str] = None,
     ):

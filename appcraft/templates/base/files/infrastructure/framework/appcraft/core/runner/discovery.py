@@ -1,6 +1,7 @@
 import ast
 import inspect
 import os
+from abc import ABC
 from types import ModuleType
 from typing import Dict, List, Type
 
@@ -33,16 +34,21 @@ class RunnerDiscovery:
                 inspect.isclass(obj)
                 and issubclass(obj, AppRunnerInterface)
                 and obj is not AppRunnerInterface
+                and not isinstance(obj, ABC)
             ):
                 apps.append(obj)
+
         return apps
 
-    @staticmethod
-    def get_app_runners(app: Type[AppRunnerInterface]) -> List[str]:
+    @classmethod
+    def get_app_runners(cls, app: type[AppRunnerInterface]) -> List[str]:
         runners: List[str] = []
-        for name, method in app.__dict__.items():
+
+        for name in dir(app):
+            method = getattr(app, name, None)
             if callable(method) and hasattr(method, "is_app_runner"):
                 runners.append(name)
+
         return runners
 
     @staticmethod
@@ -63,20 +69,37 @@ class RunnerDiscovery:
 
         return args, kwargs
 
-    @staticmethod
-    def file_contains_app_class(file_path: str) -> bool:
-        with open(file_path, "r") as file:
-            node = ast.parse(file.read(), filename=file_path)
-            for class_node in ast.walk(node):
-                if isinstance(class_node, ast.ClassDef):
-                    for base in class_node.bases:
-                        if (
-                            isinstance(base, ast.Name)
-                            and (base.id == "AppRunnerInterface")
-                            or (
-                                isinstance(base, ast.Attribute)
-                                and base.attr == "AppRunnerInterface"
-                            )
-                        ):
-                            return True
+    @classmethod
+    def file_contains_app_class(cls, file_path: str) -> bool:
+        try:
+            with open(file_path, "r") as file:
+                """
+                tree = ast.parse(file.read(), filename=file_path)
+                hierarchy = RunnerClassExtractor.get_class_hierarchy(tree)
+
+                for node in ast.walk(tree):
+                    if isinstance(node, ast.Subscript):
+                        bases = RunnerClassExtractor.extract_subscript_base(
+                            node, hierarchy
+                        )
+
+                return
+                """
+                node = ast.parse(file.read(), filename=file_path)
+                for class_node in ast.walk(node):
+                    if isinstance(class_node, ast.ClassDef):
+                        for base in class_node.bases:
+                            if (
+                                isinstance(base, ast.Name)
+                                and (base.id == "AppRunnerInterface")
+                                or (
+                                    isinstance(base, ast.Attribute)
+                                    and base.attr == "AppRunnerInterface"
+                                )
+                            ):
+                                return True
+
+        except Exception:
+            pass
+
         return False

@@ -20,7 +20,7 @@ class UserService(ServiceInterface):
 
     def get(self, filters: List[FilterInterface] = []) -> List[UserDTO]:
         users = self.user_repository.get(filters)
-        users_dto = []
+        users_dto: List[UserDTO] = []
         for user in users:
             users_dto.append(UserMapper.to_dto(user))
 

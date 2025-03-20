@@ -1,4 +1,4 @@
-from typing import List, Optional, Union
+from typing import List, Optional
 
 from application.dtos.user_dto import UserDTO
 from application.services.user_service import UserService
@@ -10,7 +10,7 @@ from domain.value_objects.username import Username
 from infrastructure.framework.appcraft.utils.component_printer import (
     ComponentPrinter,
 )
-from presentation.cli.validator.input import InputCLIValidator
+from presentation.cli.validator.input import InputCLI
 
 
 class UserCLIPresentation:
@@ -32,9 +32,9 @@ class UserCLIPresentation:
             cls.title("List of user IDs")
             for i, user in enumerate(users):
                 if i == len(users) - 1:
-                    cls.info(user.id)
+                    cls.info(str(user.id))
                 else:
-                    cls.info(user.id, end=", ")
+                    cls.info(str(user.id), end=", ")
 
         @classmethod
         def user_not_exist(cls, id: int):
@@ -42,7 +42,7 @@ class UserCLIPresentation:
             print()
 
         @classmethod
-        def username_too_short(cls, username):
+        def username_too_short(cls, username: str):
             cls.error(f"Username '{username}' too short")
             cls.error("Username must be at least 5 characters long.")
             print()
@@ -73,12 +73,14 @@ class UserCLIPresentation:
         users = self.user_service.get()
         self.Printer.list_ids(users)
 
-    def create(self, username: Optional[str] = None):
+    def create(self, username: str | None = None):
         username = self._get_username(username)
         user = self.user_service.create(username)
         self.Printer.create_successfully(user)
 
-    def update(self, id: Optional[int] = None, username: Optional[str] = None):
+    def update(
+        self, id: int | str | None = None, username: Optional[str] = None
+    ):
         while True:
             id = self._get_id(id)
             username = self._get_username(username)
@@ -91,7 +93,7 @@ class UserCLIPresentation:
                 self.Printer.user_not_exist(id)
                 id = None
 
-    def delete(self, id: Optional[int] = None):
+    def delete(self, id: int | str | None = None):
         while True:
             id = self._get_id(id)
             try:
@@ -102,16 +104,12 @@ class UserCLIPresentation:
                 self.Printer.user_not_exist(id)
                 id = None
 
-    def _get_id(self, id: Optional[Union[int, str]] = None) -> int:
-        return InputCLIValidator().get_valid_input(
-            prompt="Enter the ID: ",
-            value_object=Id,
-            value=str(id),
-        )
+    def _get_id(self, value: str | int | None = None) -> int:
+        return InputCLI[Id].input(prompt="Enter the ID: ", value=value).value
 
-    def _get_username(self, username: Optional[str]) -> str:
-        return InputCLIValidator().get_valid_input(
-            prompt="Enter the username: ",
-            value_object=Username,
-            value=username,
+    def _get_username(self, value: Optional[str]) -> str:
+        return (
+            InputCLI[Username]
+            .input(prompt="Enter the username: ", value=value)
+            .value
         )

@@ -4,6 +4,8 @@ import os
 from types import ModuleType
 from typing import Any, List, Sequence
 
+from prompt_toolkit.shortcuts import radiolist_dialog
+
 from infrastructure.framework.appcraft.core.app_runner import (
     AppRunnerInterface,
 )
@@ -11,7 +13,6 @@ from infrastructure.framework.appcraft.core.runner.discovery import (
     RunnerDiscovery,
 )
 from infrastructure.framework.appcraft.core.runner.themes import RunnerThemes
-from prompt_toolkit.shortcuts import radiolist_dialog
 
 
 class RunnerSelector:
@@ -74,7 +75,7 @@ class RunnerSelector:
             self.selected_app = apps[0]
             return self.selected_app
 
-        choices = [(cls.__name__, cls.__name__) for cls in apps]
+        choices = [(cls, cls.__name__) for cls in apps]
         selected_text = "Choose a App to run:"
         selected = self.choice(text=selected_text, values=choices)
 

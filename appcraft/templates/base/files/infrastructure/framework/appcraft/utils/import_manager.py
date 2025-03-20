@@ -1,16 +1,18 @@
-import pkgutil
 import importlib
-from os.path import join, relpath, abspath
-from os import getcwd, sep, listdir
 import inspect
+import pkgutil
+from os import getcwd, listdir, sep
+from os.path import abspath, join, relpath
+from types import ModuleType
+from typing import Any, Dict, List
 
 
 class ImportManager:
-    def __init__(self, package_name="."):
+    def __init__(self, package_name: str = "."):
         self.package_name = package_name
 
         if self.package_name and not self.package_name.startswith("."):
-            self.abs_package_path = abspath(getcwd())
+            self.abs_package_path: str = abspath(getcwd())
             self.abs_package_path = self._get_package_path()
             self.package_path = self.abs_package_path
         else:
@@ -36,24 +38,21 @@ class ImportManager:
                 f"Failed to import package '{self.package_name}': {e}"
             )
 
-    def _get_package_path(self):
+    def _get_package_path(self) -> str:
         try:
             package = self._import_package()
             if hasattr(package, "__file__") and package.__file__:
                 package_file = package.__file__
                 return package_file.replace("__init__.py", "")
 
-            if hasattr(package, "__path__") and package.__path__:
-                package_path = list(package.__path__)[
-                    0
-                ]  # Usa o primeiro caminho do namespace
-                return package_path.replace("__init__.py", "")
+            package_path = list(package.__path__)[0]
+            return package_path.replace("__init__.py", "")
         except Exception as e:
             raise FileNotFoundError(
                 f"Package or directory '{self.package_name}' not found: {e}"
             )
 
-    def convert_package_to_directory(self, package_name):
+    def convert_package_to_directory(self, package_name: str):
         prefix = ""
         count = 0
         for char in package_name:
@@ -75,7 +74,10 @@ class ImportManager:
         return dir_path
 
     def get_module_attributes(
-        self, module_name=".", include_privates=False, include_imported=False
+        self,
+        module_name: str = ".",
+        include_privates: bool = False,
+        include_imported: bool = False,
     ):
         if self.package_name == ".":
             module = importlib.import_module(module_name)
@@ -91,7 +93,11 @@ class ImportManager:
         )
 
     def _extract_module_attributes(
-        self, module, module_name, include_privates, include_imported
+        self,
+        module: ModuleType,
+        module_name: str,
+        include_privates: bool,
+        include_imported: bool,
     ):
         if hasattr(module, "__file__") and not hasattr(module, "__path__"):
             return self._extract_module_attributes_from_file(
@@ -110,9 +116,13 @@ class ImportManager:
         )
 
     def _extract_module_attributes_from_file(
-        self, module, module_name, include_privates, include_imported
-    ):
-        attributes = {}
+        self,
+        module: ModuleType,
+        module_name: str,
+        include_privates: bool,
+        include_imported: bool,
+    ) -> Dict[str, Any]:
+        attributes: Dict[str, Any] = {}
         for name in dir(module):
             if not include_privates and name.startswith("_"):
                 continue
@@ -129,9 +139,13 @@ class ImportManager:
         return attributes
 
     def _extract_module_attributes_from_package(
-        self, module, module_name, include_privates, include_imported
-    ):
-        attributes = {}
+        self,
+        module: ModuleType,
+        module_name: str,
+        include_privates: bool,
+        include_imported: bool,
+    ) -> Dict[str, Any]:
+        attributes: Dict[str, Any] = {}
         for name in dir(module):
             if not include_privates and name.startswith("_"):
                 continue
@@ -150,9 +164,13 @@ class ImportManager:
         return attributes
 
     def _extract_module_attributes_from_directory(
-        self, module, module_name, include_privates, include_imported
-    ):
-        attributes = {}
+        self,
+        module: ModuleType,
+        module_name: str,
+        include_privates: bool,
+        include_imported: bool,
+    ) -> Dict[str, Any]:
+        attributes: Dict[str, Any] = {}
         path = module.__path__[0]
 
         module_dir = relpath(path, start=self.abs_package_path)
@@ -173,8 +191,11 @@ class ImportManager:
         return attributes
 
     def _is_part_of_package(
-        self, attr_module_name, module_name, include_imported
-    ):
+        self,
+        attr_module_name: str,
+        module_name: str,
+        include_imported: bool = False,
+    ) -> bool:
         if attr_module_name.startswith(module_name):
             return True
 
@@ -183,11 +204,18 @@ class ImportManager:
 
         return include_imported
 
-    def _format_module_name(self, attr_module_name, module_name):
+    def _format_module_name(self, attr_module_name: str, module_name: str):
         attr_module_name = attr_module_name.replace(self.package_name, "")
         return attr_module_name.replace(module_name, "").strip()
 
-    def create_import_strings(self, list=False, relative=False):
+    def create_import_strings(
+        self, list: bool = False, relative: bool = False
+    ):
+        import_list = self.create_import_list(relative=relative)
+
+        return "\n".join(import_list)
+
+    def create_import_list(self, relative: bool = False):
         self.package_path = self._get_package_path()
         module_names = [
             name for _, name, _ in pkgutil.iter_modules([self.package_path])
@@ -196,7 +224,7 @@ class ImportManager:
         if not module_names:
             module_names = [""]
 
-        import_strings = []
+        import_strings: List[str] = []
 
         # import_strings_def = self._build_import_string
 
@@ -205,12 +233,9 @@ class ImportManager:
                 import_string = self._build_import_string(name, relative)
                 if import_string:
                     import_strings.append(import_string)
-
-        if not list:
-            return "\n".join(import_strings)
         return import_strings
 
-    def _build_import_string(self, module_name, relative=False):
+    def _build_import_string(self, module_name: str, relative: bool = False):
         if module_name and not module_name.startswith("."):
             module_name = f".{module_name}"
 
@@ -228,7 +253,7 @@ class ImportManager:
 
             return import_string
 
-    def _is_valid_module(self, module_name):
+    def _is_valid_module(self, module_name: str):
         return module_name not in {
             "__init__",
             self.package_name,

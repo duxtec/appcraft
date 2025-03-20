@@ -1,8 +1,9 @@
 from abc import ABC
 from typing import Type
 
+from automapper import mapper  # type: ignore
+
 from application.mappers.interfaces import MapperInterface
-from automapper import mapper
 from domain.types.dto import DTOType
 from domain.types.model import ModelType
 from infrastructure.framework.appcraft.core.property_meta import PropertyMeta

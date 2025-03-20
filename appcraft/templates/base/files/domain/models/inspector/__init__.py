@@ -1,41 +1,39 @@
 from datetime import datetime
-from typing import Any, Callable, Dict, Optional, Type
+from typing import Any, Callable, Dict, Generic, Optional, Type, TypeVar
 
 from domain.models.exceptions import ModelPropertyValueError
 from domain.models.interfaces import ModelInterface
 
+ModelType = TypeVar("ModelType", bound=ModelInterface)
+PropertyType = TypeVar("PropertyType", bound=property)
 
-class ModelPropertyInspector:
-    def __init__(self, model_property: property) -> None:
-        self._cached_cls = None
-        self._property = model_property
-        self._cached_type: Optional[Type] = None
+
+class ModelPropertyInspector(Generic[ModelType, PropertyType]):
+    def __init__(self, model_property: PropertyType) -> None:
+        self.prop = model_property
+        self._cached_cls: Optional[ModelType] = None
+        self._cached_type: Optional[Type[Any]] = None
         self._cached_name: Optional[str] = None
 
-        if not isinstance(model_property, property) and not isinstance(
-            model_property, property
-        ):
-            raise TypeError("Must provide a valid property")
-
-        if not issubclass(self.cls, ModelInterface):
-            raise TypeError(
-                f"\
-The {self.cls} class of {model_property} \
-property must inherit from ModelInterface."
-            )
-
     @property
-    def prop(self) -> property:
+    def prop(self) -> PropertyType:
         return self._property
 
+    @prop.setter
+    def prop(self, value: PropertyType):
+        if value.fget is None:
+            raise ValueError("The property must have a getter method.")
+
+        self._property = value
+
     @property
-    def cls(self) -> ModelInterface:
+    def cls(self) -> ModelType:
         if not self._cached_cls:
             self._cached_cls = self._find_owner_class()
         return self._cached_cls
 
     @property
-    def type(self) -> Type:
+    def type(self) -> Type[PropertyType]:
         if not self._cached_type:
             self._cached_type = self._resolve_property_type()
         return self._cached_type
@@ -46,30 +44,31 @@ property must inherit from ModelInterface."
             self._cached_name = self._get_property_name()
         return self._cached_name
 
-    def _find_owner_class(self) -> ModelInterface:
+    def _find_owner_class(self) -> ModelType:
+        if self.prop.fget is None:
+            raise ValueError("The property must have a getter method.")
+
         model_name = self.prop.fget.__qualname__.split(".")[0]
         model = self.prop.fget.__globals__[model_name]
         return model
 
-    def _resolve_property_type(self) -> Type:
+    def _resolve_property_type(self) -> Type[Any]:
         try:
             from typing import get_type_hints
 
             hints = get_type_hints(self.cls)
-            return hints.get(self.name, object)
+            return hints.get(self.name, self.cls)
         except Exception as e:
             raise TypeError(
                 f"Could not resolve property type: {str(e)}"
             ) from e
 
     def _get_property_name(self) -> str:
-        if self.prop.fget:
-            return self.prop.fget.__name__
         if self.prop.fset:
             return self.prop.fset.__name__
         raise AttributeError("Property has neither fget nor fset methods")
 
-    def set(self, value):
+    def set(self, value: Any):
         self.prop.__set__(self.cls, value)
 
     def __repr__(self) -> str:
@@ -86,7 +85,7 @@ class ModelPropertyTypeConversor:
 
     def converter(self, value: str) -> Any:
         type = self.model_property.type
-        converters: Dict[Type, Callable[[str], Any]] = {
+        converters: Dict[Type[Any], Callable[[str], Any]] = {
             int: self._convert_int,
             float: self._convert_float,
             bool: self._convert_bool,

@@ -1,27 +1,27 @@
 from abc import ABC, abstractmethod
 from typing import Generic, TypeVar
 
-T = TypeVar("T")
+ValueType = TypeVar("ValueType")
 
 
-class ValueObjectInterface(ABC, Generic[T]):
-    value: T
-    _value = T
+class ValueObjectInterface(Generic[ValueType], ABC):
+    _value: ValueType
 
     @abstractmethod
-    def __init__(self, value: T) -> None:
+    def __init__(self, value: ValueType | str) -> None:
         pass
 
     @property
-    def value(self):
-        return self._value
+    @abstractmethod
+    def value(self) -> ValueType:
+        pass
 
     @value.setter
-    def value(self, value: T):
-        if self.is_valid(value):
-            self._value = value
+    @abstractmethod
+    def value(self, value: ValueType):
+        pass
 
     @classmethod
     @abstractmethod
-    def is_valid(value: T) -> bool:
+    def is_valid(cls, value: ValueType) -> bool:
         pass

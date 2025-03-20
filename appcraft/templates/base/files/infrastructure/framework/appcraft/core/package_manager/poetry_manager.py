@@ -53,7 +53,6 @@ class PoetryManager(PackageManagerInterface):
     def install_requirements(self, requirements: Optional[str] = None):
         if self.venv_is_active():
             return
-
         try:
             if requirements and os.path.exists(requirements):
                 subprocess.check_call(["poetry", "add", "-r", requirements])
@@ -66,8 +65,9 @@ class PoetryManager(PackageManagerInterface):
 
     def install_package(self, package_name: str):
         if self.venv_is_active():
-            command = ["pip", "install", package_name]
+            command = ["poetry", "add", package_name]
         else:
+            self.check_and_install_package_manager()
             command = ["poetry", "add", package_name]
 
         if package_name not in self.attempted_packages:
@@ -81,8 +81,7 @@ class PoetryManager(PackageManagerInterface):
 
     def run_command(self, command: List[str]):
         try:
-            if not self.venv_is_active():
-                command = ["poetry", "run"] + command
+            command = ["poetry", "run"] + command
 
             subprocess.check_call(command)
         except subprocess.CalledProcessError:

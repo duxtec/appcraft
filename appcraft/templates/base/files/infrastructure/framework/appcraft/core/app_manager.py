@@ -48,6 +48,10 @@ class AppManager:
         return self.environ_or_config("name", "Appcraft")
 
     @property
+    def description(self) -> str:
+        return self.environ_or_config("description", "Appcraft")
+
+    @property
     def version(self) -> str:
         return self.environ_or_config("version", "0.0.1")
 
@@ -57,7 +61,7 @@ class AppManager:
 
     @property
     def debug_mode(self) -> bool:
-        return self.environ_or_config("debug_mode")
+        return self.environ_or_config("debug_mode", False)
 
     @property
     def log_level(self) -> str:
@@ -72,7 +76,7 @@ class AppManager:
         return self.environ_or_config("lang_preference", "system")
 
     @property
-    def supported_langs(self) -> List:
+    def supported_langs(self) -> List[str]:
         return self.environ_or_config("supported_langs", ["en"]).split(",")
 
     @property
@@ -83,7 +87,7 @@ class AppManager:
         self,
         config_name: str,
         default_value: Any = False,
-    ):
+    ) -> Any:
         environ_name = config_name.upper()
         if not config_name:
             config_name = environ_name

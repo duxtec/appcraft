@@ -86,10 +86,10 @@ class FilterMemory:
 
         filter_action = filter_actions.get(filter_name, None)
 
-        if filter_action:
-            return filter_action(model_storage, filter)
-        else:
+        if not filter_action:
             raise TypeError(f"Unsupported filter type: {filter_name}")
+
+        return filter_action(model_storage, filter)  # type: ignore
 
     @classmethod
     def apply_min_filter(
@@ -148,7 +148,7 @@ class ModelStorageMemory:
     def __init__(self, model: Type[ModelInterface]) -> None:
         self.model = model
         self._last_id = 0
-        self._data = {}
+        self._data: Dict[int, ModelInterface] = {}
 
     @property
     def last_id(self):
@@ -165,12 +165,15 @@ class ModelStorageMemory:
         if not isinstance(model, self.model):
             raise TypeError("The entity is not of the expected model type.")
 
+        if model.id is None:
+            raise TypeError("The model's id is None.")
+
         self.data[model.id] = model
 
 
 class StorageMemory:
     def __init__(self) -> None:
-        self.model_storages = {}
+        self.model_storages: Dict[str, ModelStorageMemory] = {}
 
     def create_model_storage(self, model: Type[ModelInterface]):
         model_name = model.__name__

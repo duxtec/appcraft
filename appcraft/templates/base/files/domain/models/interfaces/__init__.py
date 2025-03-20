@@ -5,16 +5,17 @@ from domain.value_objects.id import Id
 
 
 class ModelInterface(ABC):
+    _id: Optional[int] = None
+    id: Optional[int]
+
     def __init__(self, id: Optional[int]) -> None:
-        if id is None:
-            self._id = id
-        else:
-            self.id = id
+        self.id = id
 
     @property
-    def id(self) -> int:
+    def id(self) -> int | None:
         return self._id
 
     @id.setter
     def id(self, value: Optional[int]):
-        self._id = Id(value).value
+        if value:
+            self._id = Id(value).value
