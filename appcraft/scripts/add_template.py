@@ -1,38 +1,63 @@
 import argparse
 import sys
 
-from appcraft.utils.template_adder import TemplateAdder
-from appcraft.utils.template_loader import TemplateLoader
+from infrastructure.framework.appcraft.core.package.manager.base import (
+    PackageManagerBase,
+)
+
+from appcraft.utils import Printer
+from appcraft.utils.template.loader import TemplateLoader
 
 
 def add_template():
-    # Configura o parser de argumentos
+    tl = TemplateLoader(get_inactives=True)
+
     parser = argparse.ArgumentParser(
-        description="Initialize the project with specified templates."
+        description="Add templates to an existing project."
     )
 
-    # O primeiro argumento é o nome do script e será ignorado
     parser.add_argument(
         "templates",
         nargs="*",
-        default=TemplateLoader().default_template_names,
+        default=tl.default_template_names,
         help="Names of the templates to add (default: base).",
     )
+    parser.add_argument(
+        "--install-inactive",
+        action="store_true",
+        help=(
+            "Allow adding templates marked inactive (active=False), "
+            "e.g. templates still under development."
+        ),
+    )
 
-    # Analisa os argumentos
     args = parser.parse_args()
-
-    # O primeiro argumento na lista de templates deve ser ignorado
-    template_names = args.templates
-
-    # Instanciar a classe TemplateAdder com os
-    # nomes dos templates fornecidos pelo usuário
-    template_adder = TemplateAdder()
+    requested_template_names: list[str] = args.templates
 
     try:
-        # Adicionar os templates com base nos nomes fornecidos
-        for template in template_names:
-            template_adder.add_template(template)
+        templates = tl.resolve(
+            requested_template_names,
+            allow_inactive=args.install_inactive,
+        )
+
+        for template in templates:
+            Printer.info(f"Installing the '{template.name}' template...")
+            template.install()
+
+        Printer.info("Installing requirements...")
+        PackageManagerBase().install_requirements()
+
+        for template in templates:
+            if template.post_install:
+                Printer.info(f"\
+Executing post install scripts from '{template.name}' template...")
+                template.post_install()
+
+        Printer.success("Templates added!")
     except Exception as e:
-        print(f"Error: {e}")
+        Printer.error(f"Error: {e}")
         sys.exit(1)
+
+
+if __name__ == "__main__":
+    add_template()

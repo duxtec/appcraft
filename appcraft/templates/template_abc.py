@@ -1,10 +1,11 @@
 from abc import ABC, ABCMeta
-from typing import Any, Callable, Dict, List, Optional
+from pathlib import Path
+from typing import Any, Callable, ClassVar
 
-from infrastructure.framework.appcraft.core.package_manager.interface import (
-    PackageManagerInterface,
+from infrastructure.framework.appcraft.core.package.manager import (
+    PackageManager,
 )
-from infrastructure.framework.appcraft.core.package_manager.poetry_manager import (
+from infrastructure.framework.appcraft.core.package.manager.poetry import (
     PoetryManager,
 )
 
@@ -14,7 +15,7 @@ from .template_manager import TemplateManager
 
 
 class TemplateABCMeta(ABCMeta):
-    def __new__(cls, name: str, bases: tuple[type, ...], dct: Dict[str, Any]):
+    def __new__(cls, name: str, bases: tuple[type, ...], dct: dict[str, Any]):
         if bases:
             dct["name"] = dct["__module__"].split(".")[-1]
 
@@ -27,23 +28,22 @@ class TemplateABCMeta(ABCMeta):
 
     def __setattr__(cls, name: str, value: Any):
         if name in ["default", "description"]:
-            raise AttributeError(
-                f"\
-Cannot modify class-level attribute '{name}'"
-            )
+            raise AttributeError(f"\
+Cannot modify class-level attribute '{name}'")
         super().__setattr__(name, value)
 
 
 class TemplateABC(ABC, metaclass=TemplateABCMeta):
     name: str
     description: str
-    package_manager: PackageManagerInterface = PoetryManager()
+    package_manager: PackageManager = PoetryManager()
     default: bool = False
     active: bool = False
-    post_install: Optional[Callable[..., None]] = None
-    dependencies: List[str] = []
+    standalone: bool = True
+    post_install: Callable[..., None] | None = None
+    dependencies: ClassVar[list[str]] = []
 
-    def __new__(cls, *args: List[Any], **kwargs: Dict[str, Any]):
+    def __new__(cls, *args: list[Any], **kwargs: dict[str, Any]):
         if not isinstance(getattr(cls, "description", None), str):
             raise TypeError(f"{cls.__name__} must define 'description'.")
         return super().__new__(cls, *args, **kwargs)
@@ -55,8 +55,8 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
         return False
 
     @classmethod
-    def install(cls, target_dir: Optional[str] = None) -> None:
-        from appcraft.utils.template_adder import TemplateAdder
+    def install(cls, target_dir: Path | None = None) -> None:
+        from appcraft.utils.template.adder import TemplateAdder
 
         ta = TemplateAdder(
             target_dir=target_dir, package_manager=cls.package_manager

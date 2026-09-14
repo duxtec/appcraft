@@ -1,5 +1,5 @@
 from appcraft.utils import Printer
-from appcraft.utils.template_loader import TemplateLoader
+from appcraft.utils.template.loader import TemplateLoader
 
 
 def list_templates():

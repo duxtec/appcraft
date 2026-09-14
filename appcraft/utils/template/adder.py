@@ -1,39 +1,36 @@
 import os
 import shutil
 import subprocess
-from typing import Any, Dict, Optional
+from pathlib import Path
+from typing import Any
 
 import toml
 
 from appcraft.templates.template_manager import TemplateManager
 from appcraft.utils import (
-    PackageManagerInterface,
+    PackageManager,
     PipenvManager,
     PoetryManager,
     Printer,
 )
 from appcraft.utils.exceptions import TemplateNotFoundError
+from appcraft.utils.file.ignore import is_build_artifact
 
 
 class TemplateAdder:
     def __init__(
         self,
-        target_dir: Optional[str] = None,
-        package_manager: PackageManagerInterface = PoetryManager(),
+        target_dir: Path | None = None,
+        package_manager: PackageManager = PoetryManager(),
     ):
-        self.target_dir = target_dir or os.getcwd()
+        self.target_dir = Path(target_dir) if target_dir else Path(os.getcwd())
         self.package_manager = package_manager
 
     def add_template(self, template_name: str):
 
-        template_dir = os.path.join(
-            os.path.dirname(__file__),
-            '..',
-            'templates',
-            template_name,
-        )
+        template_dir = Path(__file__).parents[2] / "templates" / template_name
 
-        template_files_dir = os.path.join(template_dir, "files")
+        template_files_dir = template_dir / "files"
 
         if not os.path.exists(template_files_dir):
             raise TemplateNotFoundError(template_name)
@@ -60,7 +57,7 @@ class TemplateAdder:
             template_data
         )
 
-    def union_dicts(self, dict1: Dict[Any, Any], dict2: Dict[Any, Any]):
+    def union_dicts(self, dict1: dict[Any, Any], dict2: dict[Any, Any]):
         for prop, value in dict2.items():
             if prop in dict1:
                 if isinstance(dict1[prop], dict) and isinstance(value, dict):
@@ -68,7 +65,13 @@ class TemplateAdder:
                 elif isinstance(dict1[prop], list) and isinstance(
                     value, list
                 ):
-                    dict1[prop].extend(value)
+                    value: Any = value
+                    existing: set[Any] = set(dict1[prop])
+                    dict1[prop].extend(
+                        v
+                        for v in value
+                        if v not in existing and not existing.add(v)
+                    )
             else:
                 dict1[prop] = value
         return dict1
@@ -76,11 +79,9 @@ class TemplateAdder:
     def merge_toml(
         self, template_name: str, toml_name: str = "pyproject.toml"
     ):
-        base_path = toml_name
-        template_dir = os.path.join(
-            os.path.dirname(__file__), '..', 'templates', template_name
-        )
-        file_in_template = os.path.join(template_dir, "files", base_path)
+        base_path = self.target_dir / toml_name
+        template_dir = Path(__file__).parents[2] / "templates" / template_name
+        file_in_template = template_dir / "files" / toml_name
 
         try:
             with open(base_path, 'r') as base_file:
@@ -105,7 +106,7 @@ Error during the addition of dependencies for template '{template_name}': {e}"
             )
 
     def merge_pm_files(self, template_name: str):
-        mapper: Dict[type[PackageManagerInterface], str] = {
+        mapper: dict[type[PackageManager], str] = {
             PoetryManager: "pyproject.toml",
             PipenvManager: "Pipfile",
         }
@@ -115,12 +116,15 @@ Error during the addition of dependencies for template '{template_name}': {e}"
         self.merge_toml(template_name=template_name, toml_name=toml_name)
 
     def _copy_directory_contents(
-        self, src_dir: str, dst_dir: str
-    ) -> list[str]:
-        directory_contents: list[str] = []
+        self, src_dir: Path, dst_dir: Path
+    ) -> list[Path]:
+        directory_contents: list[Path] = []
         for item in os.listdir(src_dir):
-            s = os.path.join(src_dir, item)
-            d = os.path.join(dst_dir, item)
+            if is_build_artifact(item):
+                continue
+
+            s = src_dir / item
+            d = dst_dir / item
             if os.path.isdir(s):
                 if not os.path.exists(d):
                     os.makedirs(d)
@@ -142,11 +146,13 @@ Error during the addition of dependencies for template '{template_name}': {e}"
                     continue
 
                 shutil.copy2(s, d)
-                relative_path = os.path.relpath(d, ".").replace("\\", "/")
+                relative_path = Path(
+                    os.path.relpath(d, ".").replace("\\", "/")
+                )
                 directory_contents.append(relative_path)
         return directory_contents
 
-    def can_overwrite(self, file_path: str):
+    def can_overwrite(self, file_path: Path):
         # Does not allow overwriting any file.
         # Checks if the file already exists
         # Returns True if the file does not exist

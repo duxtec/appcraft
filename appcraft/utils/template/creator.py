@@ -1,6 +1,6 @@
 import os
 import sys
-from typing import Optional
+from pathlib import Path
 
 from appcraft.utils import Printer
 
@@ -8,27 +8,20 @@ from appcraft.utils import Printer
 class TemplateCreator:
     def __init__(
         self,
-        target_dir: Optional[str] = None,
+        target_dir: Path | None = None,
     ):
-        appcraft_root_path = os.path.abspath(
-            os.path.join(
-                os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-            )
-        )
-        templates_folder = os.path.join(
-            appcraft_root_path, "appcraft", "templates"
-        )
+        appcraft_root_path = Path(__file__).resolve().parents[3]
+
+        templates_folder = appcraft_root_path / "appcraft" / "templates"
         self.target_dir = target_dir or templates_folder
-        self.base_template_dir = os.path.join(self.target_dir, "base")
-        self.base_template_files_dir = os.path.join(
-            self.base_template_dir, "files"
-        )
+        self.base_template_dir = self.target_dir / "base"
+        self.base_template_files_dir = self.base_template_dir / "files"
 
     def create_template(self, template_name: str):
 
-        template_dir = os.path.join(self.target_dir, template_name)
+        template_dir = Path(self.target_dir) / template_name
 
-        template_files_dir = os.path.join(template_dir, "files")
+        template_files_dir = template_dir / "files"
 
         os.makedirs(template_files_dir, exist_ok=True)
 
@@ -56,15 +49,17 @@ class TemplateCreator:
         Printer.success(f"Created {template_name} template")
 
     def _copy_directory_contents(
-        self, src_dir: str, dst_dir: str, do_not_copy: list[str]
-    ) -> list[str]:
-        directory_contents: list[str] = []
+        self, src_dir: Path, dst_dir: Path, do_not_copy: list[str]
+    ) -> list[Path]:
+        directory_contents: list[Path] = []
         for item in os.listdir(src_dir):
-            s = os.path.join(src_dir, item)
-            d = os.path.join(dst_dir, item)
-            relative_path = os.path.relpath(
-                s, self.base_template_files_dir
-            ).replace("\\", "/")
+            s = src_dir / item
+            d = dst_dir / item
+            relative_path = Path(
+                os.path.relpath(s, self.base_template_files_dir).replace(
+                    "\\", "/"
+                )
+            )
 
             if relative_path in do_not_copy:
                 continue
@@ -104,13 +99,11 @@ class TemplateCreator:
                 continue
 
             template_runner_content = f"""\
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
+from infrastructure.framework.appcraft.core.runner import Runner
 
 
-class {template_name_pascal_case}Runner(AppRunnerInterface):
-    @AppRunnerInterface.runner
+class {template_name_pascal_case}Runner(Runner):
+    @Runner.runner
     def start(self):
         print("{template_name_pascal_case} Runner Started")\n
 
@@ -129,7 +122,9 @@ class {template_name_pascal_case}Runner(AppRunnerInterface):
         )
 
         if os.path.exists(template_pyproject):
-            Printer.warning(f"⚠️ Skipping existing file: {template_pyproject}")
+            Printer.warning(
+                f"⚠️ Skipping existing file: {template_pyproject}"
+            )
             return
 
         template_pyproject_content = f"""\

@@ -1,36 +1,33 @@
+import filecmp
 import os
 import shutil
-from typing import Optional
+from pathlib import Path
 
 from appcraft.templates.template_manager import TemplateManager
 from appcraft.utils import Printer
 from appcraft.utils.exceptions import TemplateNotFoundError
+from appcraft.utils.file.ignore import is_ignored
 
 
 class TemplateSaver:
     def __init__(
         self,
-        target_dir: Optional[str] = None,
+        target_dir: Path | None = None,
     ):
-        appcraft_root_path = os.path.abspath(
-            os.path.join(
-                os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
-            )
-        )
-        templates_folder = os.path.join(
-            appcraft_root_path, "appcraft", "templates"
-        )
+        appcraft_root_path = Path(__file__).resolve().parents[3]
+
+        templates_folder = appcraft_root_path / "appcraft" / "templates"
+
         self.target_dir = target_dir or templates_folder
-        self.temp_template_dir = os.path.join(self.target_dir, "temp")
-        self.temp_template_files_dir = os.path.join(
-            self.temp_template_dir, "files"
-        )
+
+        self.temp_template_dir = Path(self.target_dir) / "temp"
+        self.temp_template_files_dir = self.temp_template_dir / "files"
 
     def save_template(self, template_name: str):
 
-        template_dir = os.path.join(self.target_dir, template_name)
+        template_dir = self.target_dir / template_name
 
-        template_files_dir = os.path.join(template_dir, "files")
+        template_files_dir = template_dir / "files"
 
         if not os.path.exists(template_files_dir):
             raise TemplateNotFoundError(template_name)
@@ -47,29 +44,24 @@ class TemplateSaver:
 
         template_files = installed_templates[template_name]["files"]
 
-        other_templates_files.extend(
-            [
-                "infrastructure/framework/appcraft/templates",
-                "Pipfile",
-                "Pipfile.lock",
-                "poetry.lock",
-                "config",
-            ]
-        )
-
         directory_contents = self._copy_directory_contents(
             src_dir=self.temp_template_files_dir,
             dst_dir=template_files_dir,
             do_not_copy=other_templates_files,
         )
 
-        installed_templates[template_name]["files"] = directory_contents
+        if directory_contents:
+            Printer.success(f"Saved files in {template_name} template")
+        else:
+            Printer.warning(f"No files to save in {template_name} template")
 
-        tm.save_templates(installed_templates)
-
-        Printer.success(f"Saved files in {template_name} template")
         for content in directory_contents:
-            Printer.info(content)
+            content_str = str(content)
+            if content_str not in installed_templates[template_name]["files"]:
+                installed_templates[template_name]["files"].append(
+                    content_str
+                )
+            Printer.info(content_str)
         print()
 
         removed_files = self._remove_old_files(
@@ -78,13 +70,16 @@ class TemplateSaver:
             dst_dir=template_files_dir,
         )
 
-        removed_folders: list[str] = []
+        removed_folders: list[Path] = []
 
         if removed_files:
             Printer.warning(f"Removed files in {template_name} template")
 
         for path in removed_files:
-            Printer.info(path)
+            path_str = str(path)
+            Printer.info(path_str)
+            if path_str in installed_templates[template_name]["files"]:
+                installed_templates[template_name]["files"].remove(path_str)
             removed_folders.extend(
                 self._remove_old_directories(
                     removed_item=path, template_dir=template_files_dir
@@ -96,20 +91,24 @@ class TemplateSaver:
             Printer.warning(f"Removed folders in {template_name} template")
 
         for path in removed_folders:
-            Printer.info(path)
+            Printer.info(str(path))
+
+        tm.save_templates(installed_templates)
 
     def _copy_directory_contents(
-        self, src_dir: str, dst_dir: str, do_not_copy: list[str]
-    ) -> list[str]:
-        directory_contents: list[str] = []
+        self, src_dir: Path, dst_dir: Path, do_not_copy: list[str]
+    ) -> list[Path]:
+        directory_contents: list[Path] = []
         for item in os.listdir(src_dir):
-            s = os.path.join(src_dir, item)
-            d = os.path.join(dst_dir, item)
-            relative_path = os.path.relpath(
-                s, self.temp_template_files_dir
-            ).replace("\\", "/")
+            s = src_dir / item
+            d = dst_dir / item
+            relative_path = Path(
+                os.path.relpath(s, self.temp_template_files_dir).replace(
+                    "\\", "/"
+                )
+            )
 
-            if relative_path in do_not_copy:
+            if str(relative_path) in do_not_copy or is_ignored(relative_path):
                 continue
 
             if os.path.isdir(s):
@@ -121,14 +120,16 @@ class TemplateSaver:
                 continue
 
             os.makedirs(os.path.dirname(d), exist_ok=True)
-            shutil.copy2(s, d)
-            directory_contents.append(relative_path)
+
+            if not os.path.exists(d) or not filecmp.cmp(s, d, shallow=False):
+                shutil.copy2(s, d)
+                directory_contents.append(relative_path)
         return directory_contents
 
     def _remove_old_files(
-        self, template_files: list[str], src_dir: str, dst_dir: str
-    ) -> list[str]:
-        removed_files: list[str] = []
+        self, template_files: list[Path], src_dir: Path, dst_dir: Path
+    ) -> list[Path]:
+        removed_files: list[Path] = []
 
         for item in template_files:
             s = os.path.join(src_dir, item)
@@ -137,18 +138,20 @@ class TemplateSaver:
             if not os.path.isfile(s):
                 if os.path.isfile(d):
                     os.remove(d)
-                    relative_path = os.path.relpath(
-                        s, self.temp_template_files_dir
-                    ).replace("\\", "/")
+                    relative_path = Path(
+                        os.path.relpath(
+                            s, self.temp_template_files_dir
+                        ).replace("\\", "/")
+                    )
                     removed_files.append(relative_path)
 
         return removed_files
 
-    def _remove_old_directories(self, removed_item: str, template_dir: str):
-        removed_directories: list[str] = []
+    def _remove_old_directories(self, removed_item: Path, template_dir: Path):
+        removed_directories: list[Path] = []
 
         removed_file = os.path.join(template_dir, removed_item)
-        folder = os.path.dirname(removed_file)
+        folder = Path(removed_file).parent
 
         if not os.path.isdir(folder):
             return removed_directories
@@ -164,8 +167,8 @@ class TemplateSaver:
         ]
 
         if not os.listdir(folder):
-            relative_path = os.path.relpath(folder, template_dir).replace(
-                "\\", "/"
+            relative_path = Path(
+                os.path.relpath(folder, template_dir).replace("\\", "/")
             )
             if relative_path not in ignore_folders:
                 shutil.rmtree(folder)

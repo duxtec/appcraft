@@ -8,28 +8,30 @@ class RunnerGenerator:
     DEFAULT_NON_RUNNER_COUNT = 1
 
     TEMPLATE = """\
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
+from infrastructure.framework.appcraft.core.runner import Runner
 
 
-class {app_name}(AppRunnerInterface):
+class {app_name}(Runner):
     {runner_methods}
 
     {non_runner_methods}
     """
+
+    DEFAULT_TARGET = "main"
 
     def __init__(
         self,
         app_name: str | None = None,
         runner_count: int | None = None,
         non_runner_count: int | None = None,
+        target: str | None = None,
     ):
         self.app_name = app_name or self.DEFAULT_APP_NAME
         self.runner_count = runner_count or self.DEFAULT_RUNNER_COUNT
         self.non_runner_count = (
             non_runner_count or self.DEFAULT_NON_RUNNER_COUNT
         )
+        self.target = target or self.DEFAULT_TARGET
 
     def generate_methods(self, method_type: str, count: int):
         methods: list[str] = []
@@ -37,7 +39,7 @@ class {app_name}(AppRunnerInterface):
             if method_type == "runner":
                 methods.append(
                     f"""
-    @AppRunnerInterface.runner
+    @Runner.runner
     def runner{i}(self):
         pass
 
@@ -66,7 +68,7 @@ class {app_name}(AppRunnerInterface):
             non_runner_methods=non_runner_methods,
         )
 
-        app_directory = "app"
+        app_directory = os.path.join("runners", self.target)
         if not os.path.exists(app_directory):
             os.makedirs(app_directory)
         app_file_path = self.get_unique_file_path(app_directory, self.app_name)
@@ -116,11 +118,23 @@ Create a new app with specified runner and non-runner methods."
         default=RunnerGenerator.DEFAULT_NON_RUNNER_COUNT,
         help="Number of non-runner methods (default: 1).",
     )
+    parser.add_argument(
+        "-t",
+        "--target",
+        choices=["main", "tools"],
+        default=RunnerGenerator.DEFAULT_TARGET,
+        help="\
+Which runners folder to generate into, runners/main or runners/tools \
+(default: main).",
+    )
 
     args = parser.parse_args()
 
     app_gen = RunnerGenerator(
-        app_name=args.app_name, runner_count=args.r, non_runner_count=args.n
+        app_name=args.app_name,
+        runner_count=args.r,
+        non_runner_count=args.n,
+        target=args.target,
     )
 
     app_gen.create_runner()

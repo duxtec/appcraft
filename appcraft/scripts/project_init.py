@@ -2,16 +2,17 @@ import argparse
 import os
 import shutil
 import sys
-from typing import Callable
 
-from appcraft.templates.template_abc import TemplateABC
-from appcraft.utils import PackageManager, Printer
-from appcraft.utils.exceptions import TemplateNotFoundError
-from appcraft.utils.template_loader import TemplateLoader
+from infrastructure.framework.appcraft.core.package.manager.base import (
+    PackageManagerBase,
+)
+
+from appcraft.utils import Printer
+from appcraft.utils.template.loader import TemplateLoader
 
 
 def project_init():
-    tl = TemplateLoader()
+    tl = TemplateLoader(get_inactives=True)
     parser = argparse.ArgumentParser(
         description="Initialize the project with specified templates."
     )
@@ -22,45 +23,28 @@ def project_init():
         default=[],
         help="Names of the templates to add (default: base).",
     )
+    parser.add_argument(
+        "--install-inactive",
+        action="store_true",
+        help=(
+            "Allow installing templates marked inactive (active=False), "
+            "e.g. templates still under development."
+        ),
+    )
 
     args = parser.parse_args()
 
-    template_names = args.templates
-    template_names = tl.default_template_names + (template_names or [])
+    requested_template_names: list[str] = args.templates
+    template_names = tl.default_template_names + (
+        requested_template_names or []
+    )
 
     try:
-        nonexistent_templates = [
-            template
-            for template in template_names
-            if template not in tl.template_names
-        ]
-
-        if nonexistent_templates:
-            raise TemplateNotFoundError(', '.join(nonexistent_templates))
-
-        templates: list[type[TemplateABC]] = []
-
-        def add_template_with_dependencies(template: type[TemplateABC]):
-            if template.name in {t.name for t in templates}:
-                return
-
-            for dependency in template.dependencies:
-                if dependency in {t.name for t in templates}:
-                    continue
-
-                dep_template = next(
-                    (t for t in tl.templates if t.name == dependency), None
-                )
-                if dep_template:
-                    add_template_with_dependencies(dep_template)
-
-            templates.append(template)
-
-        for template in tl.templates:
-            if template.name not in template_names:
-                continue
-
-            add_template_with_dependencies(template)
+        templates = tl.resolve(
+            template_names,
+            requested_template_names=requested_template_names,
+            allow_inactive=args.install_inactive,
+        )
 
         appcraft_root_path = os.path.abspath(
             os.path.join(
@@ -129,16 +113,14 @@ def project_init():
 
         Printer.info("Installing requirements...")
 
-        package_manager = PackageManager()
+        package_manager = PackageManagerBase()
         package_manager.install_requirements()
 
         for template in templates:
-            if isinstance(template.post_install, Callable):
-                Printer.info(
-                    f"\
-Executing post install scripts from '{template.name}' template..."
-                )
-                template.post_install()
+            if template.post_install:
+                Printer.info(f"\
+Executing post install scripts from '{template.name}' template...")
+                template.post_install(target_dir=project_folder)
 
         Printer.success("Project created!")
     except Exception as e:
