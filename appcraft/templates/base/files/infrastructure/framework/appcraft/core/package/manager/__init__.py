@@ -1,11 +1,10 @@
 import os
 from abc import ABC, abstractmethod
-from typing import List, Optional, Set
 
 
-class PackageManagerInterface(ABC):
+class PackageManager(ABC):
     def __init__(self):
-        self.attempted_packages: Set[str] = set()
+        self.attempted_packages: set[str] = set()
         self.requirements_installed = False
 
     @abstractmethod
@@ -28,7 +27,7 @@ class PackageManagerInterface(ABC):
         pass
 
     @abstractmethod
-    def install_requirements(self, requirements: Optional[str] = None):
+    def install_requirements(self, requirements: str | None = None):
         pass
 
     @abstractmethod
@@ -36,5 +35,5 @@ class PackageManagerInterface(ABC):
         pass
 
     @abstractmethod
-    def run_command(self, command: List[str]):
+    def run_command(self, command: list[str]):
         pass

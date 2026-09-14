@@ -1,15 +1,15 @@
 import os
+import shlex
 import subprocess
 import sys
-from typing import List, Optional
 
-from infrastructure.framework.appcraft.core.core_printer import CorePrinter
-from infrastructure.framework.appcraft.core.package_manager.interface import (
-    PackageManagerInterface,
+from infrastructure.framework.appcraft.core.package.manager import (
+    PackageManager,
 )
+from infrastructure.framework.appcraft.core.printer import CorePrinter
 
 
-class PipManager(PackageManagerInterface):
+class PipManager(PackageManager):
     def check_and_install_package_manager(self):
         pass
 
@@ -40,11 +40,11 @@ class PipManager(PackageManagerInterface):
         else:
             return f"source \"{os.path.join(venv_path, 'bin', 'activate')}\""
 
-    def install_requirements(self, requirements: Optional[str] = None):
+    def install_requirements(self, requirements: str | None = None):
         try:
             if not requirements:
                 requirements = "requirements.txt"
-            self.run_command(["pip", "install" "-r", requirements])
+            self.run_command(["pip", "install", "-r", requirements])
             self.requirements_installed = True
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))
@@ -60,10 +60,10 @@ class PipManager(PackageManagerInterface):
                 CorePrinter.installation_error(str(e))
                 sys.exit(1)
 
-    def run_command(self, command: List[str]):
+    def run_command(self, command: list[str]):
         try:
-            activate_command = self.venv_activate()
-            full_command = f"{activate_command} && {command}"
+            activate_command = self.get_activate_command()
+            full_command = f"{activate_command} && {shlex.join(command)}"
 
             subprocess.check_call(
                 full_command, shell=True, executable="/bin/bash"

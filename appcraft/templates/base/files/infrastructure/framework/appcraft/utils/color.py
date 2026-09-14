@@ -1,5 +1,5 @@
 import colorsys
-from typing import Any, Dict, List, Literal, Union, overload
+from typing import Any, Literal, Union, overload
 
 from infrastructure.framework.appcraft.core.config import Config
 
@@ -9,18 +9,18 @@ class Color:
     @staticmethod
     @overload
     def HSLtoRGB(
-        hsl: List[int | float], array: Literal[True]
-    ) -> List[int]: ...
+        hsl: list[int | float], array: Literal[True]
+    ) -> list[int]: ...
 
     @staticmethod
     @overload
     def HSLtoRGB(
-        hsl: List[int | float], array: Literal[False] = False
+        hsl: list[int | float], array: Literal[False] = False
     ) -> str: ...
 
     @staticmethod
     @overload
-    def RGBtoHSL(rgb: str, array: Literal[True]) -> List[int | float]: ...
+    def RGBtoHSL(rgb: str, array: Literal[True]) -> list[int | float]: ...
 
     @staticmethod
     @overload
@@ -29,7 +29,7 @@ class Color:
     @staticmethod
     def RGBtoHSL(
         rgb: str, array: bool = False
-    ) -> Union[str, List[Union[int, float]]]:
+    ) -> Union[str, list[Union[int, float]]]:
         if len(rgb) == 7:
             red = int(rgb[1:3], 16)
             green = int(rgb[3:5], 16)
@@ -55,8 +55,8 @@ class Color:
 
     @staticmethod
     def HSLtoRGB(
-        hsl: List[int | float], array: bool = False
-    ) -> List[int] | str:
+        hsl: list[int | float], array: bool = False
+    ) -> list[int] | str:
         hue, saturation, lightness = hsl
         hue /= 360.0
         saturation /= 100.0
@@ -77,7 +77,7 @@ class Color:
         return f"#{red}{green}{blue}"
 
     @staticmethod
-    def palette() -> Dict[str, Any]:
+    def palette() -> dict[str, Any]:
         try:
             theme = Config().get("theme")
             color1 = theme["color1"]
@@ -90,7 +90,7 @@ class Color:
         hsl1 = list(Color.RGBtoHSL(color1, True))
         hsl2 = list(Color.RGBtoHSL(color2, True))
 
-        palette_dict: Dict[str, List[Any]] = {
+        palette_dict: dict[str, list[Any]] = {
             "darkcolor": [[] for _ in range(3)],
             "lightcolor": [[] for _ in range(3)],
             "brightcolor": [[] for _ in range(3)],

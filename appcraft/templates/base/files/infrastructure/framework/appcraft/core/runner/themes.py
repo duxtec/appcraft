@@ -1,7 +1,6 @@
-from typing import Optional
+from prompt_toolkit.styles import Style
 
 from infrastructure.framework.appcraft.utils.color import Color
-from prompt_toolkit.styles import Style
 
 
 class RunnerThemes:
@@ -47,7 +46,7 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
     style: Style = dark_style
 
     @classmethod
-    def apply_theme(cls, style: Optional[Style] = None):
+    def apply_theme(cls, style: Style | None = None):
         style = style or cls.style
         if style is cls.dark_style:
             bgcolor = cls.darkcolor[1][2].lstrip("#")
@@ -64,10 +63,10 @@ bg:{lightcolor[2][2]} {darkcolor[0][0]} bold",
         except Exception:
             pass
 
-        print(f"\033]11;{hex_color}\007", end="")
-
     def remove_theme(self):
         try:
-            print("\033]11;#000000\007", end="")
+            # OSC 111 resets the background to the terminal's own default,
+            # instead of overwriting it with a fixed color.
+            print("\033]111\007", end="")
         except Exception:
             pass

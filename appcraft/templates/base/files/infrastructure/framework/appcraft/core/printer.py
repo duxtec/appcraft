@@ -1,7 +1,6 @@
 import traceback
-from typing import List, Optional
 
-from infrastructure.framework.appcraft.core.app_manager import AppManager
+from infrastructure.framework.appcraft.app.manager import AppManager
 from infrastructure.framework.appcraft.utils.component_printer import (
     ComponentPrinter,
 )
@@ -21,8 +20,8 @@ class CorePrinter(ComponentPrinter):
     @classmethod
     def packages_not_found(
         cls,
-        packages: Optional[List[str]] = None,
-        error: Optional[Exception] = None,
+        packages: list[str] | None = None,
+        error: Exception | None = None,
     ) -> None:
         if not error:
             cls.warning("Package not found")
@@ -46,7 +45,7 @@ class CorePrinter(ComponentPrinter):
         cls.success("Packages installed successfully.")
 
     @classmethod
-    def installation_error(cls, error_message: Optional[str] = None) -> None:
+    def installation_error(cls, error_message: str | None = None) -> None:
         if error_message:
             cls.error(error_message, end="\n\n")
 
@@ -55,7 +54,7 @@ class CorePrinter(ComponentPrinter):
         cls.execution_duration()
 
     @classmethod
-    def execution_error(cls, error_message: Optional[str] = None):
+    def execution_error(cls, error_message: str | None = None):
         if error_message:
             cls.error(f"{error_message}", end="\n\n")
 

@@ -1,18 +1,15 @@
 import ast
 import inspect
 import os
-from abc import ABC
 from types import ModuleType
-from typing import Dict, List, Type
+from typing import Type
 
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
+from infrastructure.framework.appcraft.core.runner import Runner
 
 
 class RunnerDiscovery:
     @staticmethod
-    def get_modules(folder: str) -> List[str]:
+    def get_modules(folder: str) -> list[str]:
         modules: list[str] = []
         py_files = [
             file for file in os.listdir(folder) if file.endswith(".py")
@@ -27,22 +24,22 @@ class RunnerDiscovery:
         return modules
 
     @staticmethod
-    def get_apps(module: ModuleType) -> List[Type[AppRunnerInterface]]:
-        apps: List[type[AppRunnerInterface]] = []
+    def get_apps(module: ModuleType) -> list[Type[Runner]]:
+        apps: list[type[Runner]] = []
         for _, obj in module.__dict__.items():
             if (
                 inspect.isclass(obj)
-                and issubclass(obj, AppRunnerInterface)
-                and obj is not AppRunnerInterface
-                and not isinstance(obj, ABC)
+                and issubclass(obj, Runner)
+                and obj is not Runner
+                and not inspect.isabstract(obj)
             ):
                 apps.append(obj)
 
         return apps
 
     @classmethod
-    def get_app_runners(cls, app: type[AppRunnerInterface]) -> List[str]:
-        runners: List[str] = []
+    def get_app_runners(cls, app: type[Runner]) -> list[str]:
+        runners: list[str] = []
 
         for name in dir(app):
             method = getattr(app, name, None)
@@ -53,10 +50,10 @@ class RunnerDiscovery:
 
     @staticmethod
     def get_args_kwargs(
-        args_input: List[str],
-    ) -> tuple[List[str], Dict[str, str]]:
-        args: List[str] = []
-        kwargs: Dict[str, str] = {}
+        args_input: list[str],
+    ) -> tuple[list[str], dict[str, str]]:
+        args: list[str] = []
+        kwargs: dict[str, str] = {}
 
         iterator = iter(args_input)
 
@@ -91,10 +88,10 @@ class RunnerDiscovery:
                         for base in class_node.bases:
                             if (
                                 isinstance(base, ast.Name)
-                                and (base.id == "AppRunnerInterface")
+                                and (base.id == "Runner")
                                 or (
                                     isinstance(base, ast.Attribute)
-                                    and base.attr == "AppRunnerInterface"
+                                    and base.attr == "Runner"
                                 )
                             ):
                                 return True

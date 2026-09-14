@@ -1,7 +1,7 @@
 from enum import Enum
-from typing import List, TypeAlias
+from typing import TypeAlias
 
-from infrastructure.framework.appcraft.core.app_manager import AppManager
+from infrastructure.framework.appcraft.app.manager import AppManager
 
 
 class COLORS(Enum):
@@ -53,7 +53,7 @@ class STYLES(Enum):
 
 SepType: TypeAlias = str | None
 EndType: TypeAlias = str | None
-StylesType: TypeAlias = List[STYLES]
+StylesType: TypeAlias = list[STYLES]
 
 
 class Printer:
@@ -62,15 +62,15 @@ class Printer:
         cls,
         message: str,
         color: COLORS = COLORS.WHITE,
-        styles: List[STYLES] = [],
+        styles: list[STYLES] = [],
         sep: SepType = " ",
         end: EndType = "\n",
         if_debug: bool = False,
     ) -> None:
-        if if_debug and not AppManager.debug_mode:
+        if if_debug and not AppManager().debug_mode:
             return None
 
-        codes: List[str] = []
+        codes: list[str] = []
 
         codes.append(color.value)
 

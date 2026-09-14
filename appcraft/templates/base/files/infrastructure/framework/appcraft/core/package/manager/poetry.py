@@ -1,15 +1,14 @@
 import os
 import subprocess
 import sys
-from typing import List, Optional
 
-from infrastructure.framework.appcraft.core.core_printer import CorePrinter
-from infrastructure.framework.appcraft.core.package_manager.interface import (
-    PackageManagerInterface,
+from infrastructure.framework.appcraft.core.package.manager import (
+    PackageManager,
 )
+from infrastructure.framework.appcraft.core.printer import CorePrinter
 
 
-class PoetryManager(PackageManagerInterface):
+class PoetryManager(PackageManager):
     def __init__(self):
         super().__init__()
 
@@ -50,10 +49,17 @@ class PoetryManager(PackageManagerInterface):
     def get_activate_command(self):
         return ""
 
-    def install_requirements(self, requirements: Optional[str] = None):
+    def install_requirements(self, requirements: str | None = None):
         if self.venv_is_active():
             return
         try:
+            # Keeps poetry.lock in sync whenever pyproject.toml was just
+            # edited (e.g. a template merging in its own dependencies) —
+            # `poetry install` refuses to run otherwise. By default this
+            # only locks newly added/changed dependencies, it doesn't bump
+            # ones already locked.
+            subprocess.check_call(["poetry", "lock"])
+
             if requirements and os.path.exists(requirements):
                 subprocess.check_call(["poetry", "add", "-r", requirements])
             else:
@@ -79,7 +85,7 @@ class PoetryManager(PackageManagerInterface):
                 CorePrinter.installation_error(str(e))
                 sys.exit(1)
 
-    def run_command(self, command: List[str]):
+    def run_command(self, command: list[str]):
         try:
             command = ["poetry", "run"] + command
 

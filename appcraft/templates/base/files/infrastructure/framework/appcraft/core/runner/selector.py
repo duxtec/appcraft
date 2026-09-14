@@ -2,13 +2,11 @@ import importlib
 import importlib.util
 import os
 from types import ModuleType
-from typing import Any, List, Sequence
+from typing import Any, Sequence
 
 from prompt_toolkit.shortcuts import radiolist_dialog
 
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
+from infrastructure.framework.appcraft.core.runner import Runner
 from infrastructure.framework.appcraft.core.runner.discovery import (
     RunnerDiscovery,
 )
@@ -16,8 +14,8 @@ from infrastructure.framework.appcraft.core.runner.themes import RunnerThemes
 
 
 class RunnerSelector:
-    def __init__(self, args: List[str] = []):
-        self.args = args
+    def __init__(self, args: list[str] | None = None):
+        self.args = args if args is not None else []
         self.themes = RunnerThemes()
 
     def select_module(self, folder: str) -> ModuleType | None:
@@ -83,21 +81,18 @@ class RunnerSelector:
 
         return self.selected_app
 
-    def select_method(self, app: type[AppRunnerInterface]):
-        app = self.selected_app
+    def select_method(self, app: type[Runner]):
         runners = RunnerDiscovery.get_app_runners(app)
 
         if len(runners) < 1:
             raise Exception("No runners found.")
 
         if len(self.args) and self.args[0] in runners:
-            self.selected_method = getattr(
-                self.selected_app(), self.args.pop(0)
-            )
+            self.selected_method = getattr(app(), self.args.pop(0))
             return self.selected_method
 
         if len(runners) == 1:
-            self.selected_method = getattr(self.selected_app(), runners[0])
+            self.selected_method = getattr(app(), runners[0])
             return self.selected_method
 
         choices = [(runner, runner) for runner in runners]
@@ -105,7 +100,7 @@ class RunnerSelector:
         selected = self.choice(text=selected_text, values=choices)
 
         if selected:
-            self.selected_method = getattr(self.selected_app(), selected)
+            self.selected_method = getattr(app(), selected)
             return self.selected_method
 
     def choice(

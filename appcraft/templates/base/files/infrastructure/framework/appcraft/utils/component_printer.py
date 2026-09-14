@@ -1,7 +1,7 @@
 import importlib
 from abc import ABC, ABCMeta
 from functools import wraps
-from typing import Any, Callable, Dict, Type, TypeVar
+from typing import Any, Callable, Type, TypeVar, cast
 
 from infrastructure.framework.appcraft.utils.printer import Printer
 
@@ -31,7 +31,8 @@ try:
 
 except Exception:
     TypeTranslateMethodsMeta = TypeVar(
-        "TypeTranslateMethodsMeta", bound="MessageManager.TranslateMethodsMeta"
+        "TypeTranslateMethodsMeta",
+        bound="MessageManager.TranslateMethodsMeta",
     )
 
     class MessageManager:
@@ -49,7 +50,7 @@ except Exception:
                 mcs: Type[TypeTranslateMethodsMeta],
                 name: str,
                 bases: tuple[type, ...],
-                class_dict: Dict[str, Any],
+                class_dict: dict[str, Any],
             ) -> TypeTranslateMethodsMeta:
                 cls = super().__new__(mcs, name, bases, class_dict)
                 return cls
@@ -67,7 +68,9 @@ class ComponentPrinter(Printer, ABC, metaclass=TranslateMethodsMeta):
     _printer = Printer
 
     @classmethod
-    def _wrap_method(cls: Type[ComponentPrinterType], method_name: str) -> Any:
+    def _wrap_method(
+        cls: Type[ComponentPrinterType], method_name: str
+    ) -> Any:
         original_method: Callable[..., Any] = getattr(cls, method_name)
 
         @wraps(original_method)
@@ -86,14 +89,14 @@ class ComponentPrinter(Printer, ABC, metaclass=TranslateMethodsMeta):
 
             return original_method(cls, *args, **kwargs)
 
-        return classmethod(wrapper)
+        return classmethod(cast(Callable[..., Any], wrapper))
 
     @classmethod
     def translate(cls, message: str | bool):
         if message is True:
             message = "True"
         elif message is False:
-            message = "True"
+            message = "False"
 
         if not hasattr(cls, "_mm"):
             cls._mm = MessageManager(cls.DOMAIN)

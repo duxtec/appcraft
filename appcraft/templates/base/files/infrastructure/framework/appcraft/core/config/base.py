@@ -1,21 +1,21 @@
 import os
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List
+from typing import Any
 
 
 class BaseConfig(ABC):
-    EXTENSIONS: List[str]
+    EXTENSIONS: list[str]
 
-    def __new__(cls, *args, **kwargs):
-        if not hasattr(cls, 'EXTENSIONS') or cls.EXTENSIONS is None:
+    def __new__(cls, *args: Any, **kwargs: Any):
+        if not hasattr(cls, 'EXTENSIONS') or not cls.EXTENSIONS:
             raise TypeError(f"{cls.__name__} must define 'EXTENSIONS'.")
         return super().__new__(cls)
 
     def __init__(self, dir: str = "config"):
         self.dir = dir
-        self.loaded_files: Dict[str, Any] = {}
+        self.loaded_files: dict[str, Any] = {}
 
-    def _load(self) -> Dict[str, Any]:
+    def _load(self) -> dict[str, Any]:
         files = [
             f
             for f in os.listdir(self.dir)
@@ -27,22 +27,24 @@ class BaseConfig(ABC):
         return self.loaded_files
 
     @abstractmethod
-    def _load_file(self, file_path: str) -> Dict[str, Any]:
+    def load_file(self, file_path: str) -> dict[str, Any]:
         pass
 
-    def get(self, file_name: str) -> Dict[str, Any]:
+    def get(self, file_name: str) -> dict[str, Any]:
         if file_name in self.loaded_files:
             return self.loaded_files[file_name]
 
         files = [
             f
             for f in os.listdir(self.dir)
-            if any(f.endswith(f"{file_name}.{ext}") for ext in self.EXTENSIONS)
+            if any(
+                f.endswith(f"{file_name}.{ext}") for ext in self.EXTENSIONS
+            )
         ]
 
         try:
             file_path = os.path.join(self.dir, files[0])
-            loaded_file = self._load_file(file_path)
+            loaded_file = self.load_file(file_path)
             self.loaded_files[file_name] = loaded_file
             return loaded_file
         except Exception:

@@ -3,12 +3,12 @@ import os
 import sys
 from typing import LiteralString
 
-from infrastructure.framework.appcraft.core.app_manager import AppManager
-from infrastructure.framework.appcraft.core.core_printer import CorePrinter
+from infrastructure.framework.appcraft.app.manager import AppManager
 from infrastructure.framework.appcraft.core.error_handler import ErrorHandler
-from infrastructure.framework.appcraft.core.package_manager import (
-    PackageManager,
+from infrastructure.framework.appcraft.core.package.manager.base import (
+    PackageManagerBase,
 )
+from infrastructure.framework.appcraft.core.printer import CorePrinter
 from infrastructure.framework.appcraft.utils.logger.base import LoggerBase
 from infrastructure.framework.appcraft.utils.logger.interface import (
     LoggerInterface,
@@ -24,7 +24,7 @@ class Initializer:
     ):
         self.start_time = AppManager().start_time
 
-        self.package_manager = PackageManager()
+        self.package_manager = PackageManagerBase()
 
         self.logger: LoggerInterface = self.Logger(name="appcraft")
 
@@ -47,28 +47,42 @@ class Initializer:
             except Exception:
                 pass
         else:
-            try:
-                import termios
-                import tty
+            import termios
+            import tty
 
+            try:
                 fd = sys.stdin.fileno()
                 old_settings = termios.tcgetattr(fd)
+
                 try:
-                    tty.setraw(fd)
+                    tty.setcbreak(fd)
                     sys.stdin.read(1)
                 finally:
-                    termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
-            except Exception:
+                    termios.tcsetattr(
+                        fd,
+                        termios.TCSANOW,
+                        old_settings,
+                    )
+
+            except (termios.error, OSError, ValueError):
                 pass
 
     def execute_runner(self):
-        from infrastructure.framework.appcraft.core.runner import Runner
+        from infrastructure.framework.appcraft.core.runner.executor import (
+            RunnerExecutor,
+        )
         from infrastructure.framework.appcraft.core.runner.themes import (
             RunnerThemes,
         )
 
-        runner = Runner(
-            RunnerThemes.dark_style,
+        theme_style = (
+            RunnerThemes.light_style
+            if AppManager().theme == "light"
+            else RunnerThemes.dark_style
+        )
+
+        runner = RunnerExecutor(
+            theme_style,
             app_folder=self.app_folder,
             args=sys.argv[1:].copy(),
         )
@@ -121,7 +135,10 @@ class Initializer:
                 self.logger: LoggerInterface = Logger(name="appcraft")
 
             self.logger.reset_current_log()
-            if self.package_manager.venv_is_active() and not self.import_error:
+            if (
+                self.package_manager.venv_is_active()
+                and not self.import_error
+            ):
                 self.execute_runner()
             else:
                 command = ["python"]

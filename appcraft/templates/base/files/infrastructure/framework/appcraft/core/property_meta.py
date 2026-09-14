@@ -1,9 +1,10 @@
 from abc import ABCMeta
-from typing import Any, TypeVar
+from typing import Any, TypeVar, cast
 
 
 class PropertyMeta(ABCMeta):
     _props = []
+    _generic_cache: dict[tuple[type[Any], tuple[Any, ...]], type[Any]] = {}
 
     def __new__(
         cls,
@@ -51,7 +52,7 @@ class PropertyMeta(ABCMeta):
 
             namespace: dict[str, Any] = concrete_class.__dict__
         else:
-            namespace = namespace_or_cls
+            namespace: dict[str, Any] = cast(dict[str, Any], namespace_or_cls)
 
         params = namespace.get("__parameters__", ())
         orig_bases = namespace.get("__orig_bases__", ())
@@ -71,10 +72,17 @@ class PropertyMeta(ABCMeta):
         if not hasattr(concrete_class, "__class_getitem__"):
 
             def custom_class_getitem(cls: type[PropertyMeta], item: Any):
-                parameters = getattr(cls, "__parameters__")
-                setattr(cls, "__parameters__", parameters + (item,))
-                cls._set_props(cls)
-                return cls
+                new_cls = type(
+                    cls.__name__,
+                    (cls,),
+                    {
+                        "__module__": cls.__module__,
+                    },
+                )
+                parameters = getattr(new_cls, "__parameters__", ())
+                setattr(new_cls, "__parameters__", parameters + (item,))
+                new_cls._set_props(new_cls)
+                return new_cls
 
             setattr(
                 concrete_class,

@@ -1,4 +1,4 @@
-from typing import Any, Dict
+from typing import Any, cast
 
 import toml
 
@@ -11,25 +11,38 @@ class PyProjectConfig(BaseConfig):
     def __init__(self, dir: str = ""):
         super().__init__(dir)
 
-    def get(self, file_name: str) -> Dict[str, Any]:
-        pyproject_file = self._load_file()
+    def _get_nested(self, data: dict[str, Any], dotted_key: str) -> Any:
+        value: Any = data
+        for part in dotted_key.split("."):
+            if not isinstance(value, dict):
+                return None
+            value = value.get(part)
+        return value
+
+    def get(self, file_name: str) -> dict[str, Any]:
+        # The app's own settings are not read from pyproject.toml at all —
+        # config/app.toml is their single source of truth. Only other
+        # templates' nested [tool.appcraft.<template>] tables go through
+        # this lookup.
+        if file_name == "app":
+            return {}
+
+        pyproject_file = self.load_file()
         pyproject_prop = pyproject_file.get(file_name)
         if isinstance(pyproject_prop, dict):
-            configs: Dict[str, Any] = pyproject_prop
+            configs: dict[str, Any] = cast(dict[str, Any], pyproject_prop)
         else:
-            pyproject_prop = pyproject_file.get(f"tool.appcraft.{file_name}")
+            pyproject_prop = self._get_nested(
+                pyproject_file, f"tool.appcraft.{file_name}"
+            )
             if isinstance(pyproject_prop, dict):
-                configs: Dict[str, Any] = pyproject_prop
+                configs = cast(dict[str, Any], pyproject_prop)
             else:
                 configs = {}
 
-        if file_name == "app":
-            app_infos: Dict[str, Any] = pyproject_file.get("tool.poetry") or {}
-            configs.update(app_infos)
-
         return configs
 
-    def _load_file(self, file_path: str = "pyproject.toml") -> Dict[str, Any]:
+    def load_file(self, file_path: str = "pyproject.toml") -> dict[str, Any]:
         try:
             with open(file_path, "r") as file:
                 return toml.load(file)

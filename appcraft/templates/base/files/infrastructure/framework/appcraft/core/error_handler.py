@@ -2,18 +2,16 @@ import os
 import sys
 from typing import Any, Callable
 
-from infrastructure.framework.appcraft.core.app_manager import AppManager
-from infrastructure.framework.appcraft.core.core_printer import CorePrinter
-from infrastructure.framework.appcraft.core.package_manager.interface import (
-    PackageManagerInterface,
+from infrastructure.framework.appcraft.app.manager import AppManager
+from infrastructure.framework.appcraft.core.package.manager import (
+    PackageManager,
 )
+from infrastructure.framework.appcraft.core.printer import CorePrinter
 from infrastructure.framework.appcraft.utils.logger.base import LoggerBase
 
 
 class ErrorHandler:
-    def __init__(
-        self, package_manager: PackageManagerInterface, logger: LoggerBase
-    ):
+    def __init__(self, package_manager: PackageManager, logger: LoggerBase):
         self.package_manager = package_manager
         self.logger: LoggerBase = logger
         self.debug = AppManager().debug_mode
@@ -28,16 +26,19 @@ class ErrorHandler:
                     tb = tb.tb_next
             error.__traceback__ = tb
 
-            error_str = str(error)
+            # ImportError/ModuleNotFoundError set `.name` to the module
+            # that failed to import — for both "No module named 'x'" and
+            # "cannot import name 'y' from 'x'", it's already exactly the
+            # package we'd want to try installing, so prefer it over
+            # parsing the (locale/version-dependent) message text.
+            missing_package = getattr(error, "name", None)
 
-            if "'" in error_str:
+            if not missing_package:
+                error_str = str(error)
+                if "'" not in error_str:
+                    return False
                 parts = error_str.split("'")
                 missing_package = parts[1]
-                if len(parts) > 3:
-                    self.handle_other_errors(error)
-                    missing_package = parts[3]
-            else:
-                return False
 
             root_dirs = [
                 d
@@ -89,7 +90,7 @@ class ErrorHandler:
         self.logger.exception(error)
 
         if self.debug:
-            message = None
+            message = str(error)
         else:
             message = None
 

@@ -1,8 +1,9 @@
 import logging
 from abc import ABC
-from enum import Enum
+from enum import IntEnum
+from typing import Any, Callable
 
-from infrastructure.framework.appcraft.core.app_manager import AppManager
+from infrastructure.framework.appcraft.app.manager import AppManager
 from infrastructure.framework.appcraft.utils.logger.interface import (
     LoggerInterface,
 )
@@ -10,7 +11,7 @@ from infrastructure.framework.appcraft.utils.printer import Printer
 
 
 class LoggerBase(LoggerInterface, logging.Logger, ABC):
-    class Level(Enum):
+    class Level(IntEnum):
         CRITICAL = logging.CRITICAL
         FATAL = logging.FATAL
         ERROR = logging.ERROR
@@ -20,7 +21,12 @@ class LoggerBase(LoggerInterface, logging.Logger, ABC):
         DEBUG = logging.DEBUG
         NOTSET = logging.NOTSET
 
-    def __init__(self, name="appcraft", level=None, filename="info"):
+    def __init__(
+        self,
+        name: str = "appcraft",
+        level: Level | None = None,
+        filename: str = "info",
+    ):
         super().__init__(name)
 
         if level:
@@ -54,7 +60,7 @@ class LoggerBase(LoggerInterface, logging.Logger, ABC):
         if AppManager().debug_mode:
 
             class ConsoleHandler(logging.Handler):
-                def emit(self, record):
+                def emit(self, record: Any):
                     try:
                         msg = self.format(record)
 
@@ -83,13 +89,12 @@ class LoggerBase(LoggerInterface, logging.Logger, ABC):
             self._disable_logging_methods()
 
     def _disable_logging_methods(self):
-        self.exception = lambda *args, **kargs: None
+        self.exception: Callable[..., None] = lambda *args, **kwargs: None
         self.critical = self.exception
         self.info = self.exception
         self.debug = self.exception
         self.error = self.exception
         self.log = self.exception
-        self.warn = self.exception
         self.warning = self.exception
 
     def reset_current_log(self):
