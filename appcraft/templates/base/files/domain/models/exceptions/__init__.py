@@ -1,10 +1,10 @@
-from typing import Any, Optional
+from typing import Any
 
-from domain.models.interfaces import ModelInterface
+from domain.models import NewModel
 
 
 class ModelNotFoundError(Exception):
-    def __init__(self, model: type[ModelInterface]) -> None:
+    def __init__(self, model: type[NewModel]) -> None:
         self.message = f"The {model.__name__} has not found"
         super().__init__(self.message)
 
@@ -14,11 +14,16 @@ class ModelPropertyValueError(Exception):
         self,
         model_property: property,
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
-        self.model_name = model_property.fget.__qualname__.split(".")[0]
-        self.model_property = model_property.fget.__name__
-        self.model = model_property.fget.__globals__[self.model_name]
+        fget = model_property.fget
+
+        if fget is None:
+            raise AttributeError("Property has no getter")
+
+        self.model_name = fget.__qualname__.split(".")[0]
+        self.model_property = fget.__name__
+        self.model = fget.__globals__[self.model_name]
         self.value = value
 
         if message:

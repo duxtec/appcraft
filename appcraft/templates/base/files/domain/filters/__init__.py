@@ -1,21 +1,23 @@
-from typing import Any, List, Union
+from typing import Any, SupportsInt, TypeVar
 
 from domain.filters.base import FilterBase
 
+T = TypeVar("T", str, SupportsInt)
 
-class MinFilter(FilterBase[int]):
+
+class MinFilter(FilterBase[SupportsInt]):
     pass
 
 
-class MaxFilter(FilterBase[int]):
+class MaxFilter(FilterBase[SupportsInt]):
     pass
 
 
-class EqualFilter(FilterBase[Union[str, int]]):
+class EqualFilter(FilterBase[T]):
     pass
 
 
-class InFilter(FilterBase[List[Any]]):
+class InFilter(FilterBase[list[Any]]):
     pass
 
 

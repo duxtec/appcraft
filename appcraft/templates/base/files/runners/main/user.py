@@ -1,41 +1,42 @@
-from typing import Optional
-
-from application.repositories.user_repository import UserRepository
-from application.services.user_service import UserService
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
+from application.providers.adapters.database import (
+    get_default_database_adapter,
 )
-from infrastructure.memory.adapters.memory_adapter import MemoryAdapter
+from application.repositories.user import UserRepository
+from application.use_cases.user.create import CreateUserUseCase
+from application.use_cases.user.delete import DeleteUserUseCase
+from application.use_cases.user.get import ReadUserUseCase
+from application.use_cases.user.update import UpdateUserUseCase
+from infrastructure.framework.appcraft.core.runner import Runner
 from presentation.cli.user import UserCLIPresentation
 
 
-class UserRunner(AppRunnerInterface):
+class UserRunner(Runner):
     def __init__(self) -> None:
-        memory_adapter = MemoryAdapter()
-        user_repository = UserRepository(memory_adapter)
-        self.user_service = UserService(user_repository)
-        self.presentation = UserCLIPresentation(self.user_service)
+        self.adapter = get_default_database_adapter()
+        self.repository = UserRepository(self.adapter)
+        self.create_uc = CreateUserUseCase(self.repository)
+        self.read_uc = ReadUserUseCase(self.repository)
+        self.update_uc = UpdateUserUseCase(self.repository)
+        self.delete_uc = DeleteUserUseCase(self.repository)
+        self.presentation = UserCLIPresentation(
+            create_uc=self.create_uc,
+            read_uc=self.read_uc,
+            update_uc=self.update_uc,
+            delete_uc=self.delete_uc,
+        )
 
-        # Simulating data population for testing/demonstration purposes
-        self.user_service.create("John Doe")
-        self.user_service.create("Mary Jane")
-        self.user_service.create("Thiago Costa")
-
-    @AppRunnerInterface.runner
+    @Runner.runner
     def list(self):
         self.presentation.list()
 
-    @AppRunnerInterface.runner
-    def create(self, username: Optional[str] = None):
+    @Runner.runner
+    def create(self, username: str | None = None):
         self.presentation.create(username)
-        self.presentation.list()
 
-    @AppRunnerInterface.runner
-    def update(self, id: Optional[int] = None, username: Optional[str] = None):
+    @Runner.runner
+    def update(self, id: int | None = None, username: str | None = None):
         self.presentation.update(id, username)
-        self.presentation.list()
 
-    @AppRunnerInterface.runner
-    def delete(self, id: Optional[int] = None):
+    @Runner.runner
+    def delete(self, id: int | None = None):
         self.presentation.delete(id)
-        self.presentation.list()

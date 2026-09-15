@@ -1,27 +1,23 @@
-from abc import ABC
 from typing import Type
 
-from automapper import mapper  # type: ignore
-
-from application.mappers.interfaces import MapperInterface
-from domain.types.dto import DTOType
-from domain.types.model import ModelType
+from application.mappers import Mapper
+from domain.types.model import TNewModel
+from domain.types.schema import TSchema
 from infrastructure.framework.appcraft.core.property_meta import PropertyMeta
 
 
 class BaseMapper(
-    MapperInterface[ModelType, DTOType],
-    ABC,
+    Mapper[TNewModel, TSchema],
     metaclass=PropertyMeta,
 ):
-    model: Type[ModelType]
-    dto: Type[DTOType]
-    _props = ["model", "dto"]
+    model: Type[TNewModel]
+    schema: Type[TSchema]
+    _props = ["model", "schema"]
 
     @classmethod
-    def to_dto(cls, model: ModelType) -> DTOType:
-        return mapper.to(cls.dto).map(model)
+    def to_schema(cls, model: TNewModel) -> TSchema:
+        return cls.schema.model_validate(model, from_attributes=True)
 
     @classmethod
-    def to_domain(cls, dto: DTOType) -> ModelType:
-        return mapper.to(cls.model).map(dto)
+    def to_domain(cls, schema: TSchema) -> TNewModel:
+        return cls.model.model_validate(schema, from_attributes=True)

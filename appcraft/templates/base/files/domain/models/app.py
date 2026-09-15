@@ -1,56 +1,47 @@
-from domain.models.interfaces import ModelInterface
+from typing import Literal
+
+from pydantic import field_validator
+
+from domain.models import NewModel
 
 
-class App(ModelInterface):
-    def __init__(
-        self, name: str, version: str, environment: str, debug_mode: bool
-    ):
-        self._name = name
-        self._version = version
-        self._environment = environment
-        self._debug_mode = debug_mode
+class App(NewModel):
+    name: str
+    version: str
+    environment: Literal['development', 'production']
+    debug_mode: bool
 
-    @property
-    def name(self):
-        return self._name
-
-    @name.setter
-    def name(self, value: str):
+    @field_validator("name")
+    @classmethod
+    def validate_name(cls, value: str) -> str:
         if not value:
             raise ValueError("Name cannot be empty")
-        self._name = value
 
-    @property
-    def version(self):
-        return self._version
+        return value
 
-    @version.setter
-    def version(self, value: str):
+    @field_validator("version")
+    @classmethod
+    def validate_version(cls, value: str) -> str:
         if not value:
             raise ValueError("Version cannot be empty")
-        self._version = value
 
-    @property
-    def environment(self):
-        return self._environment
+        return value
 
-    @environment.setter
-    def environment(self, value: str):
+    @field_validator("environment")
+    @classmethod
+    def validate_environment(cls, value: str) -> str:
         if value not in ['development', 'production']:
             raise ValueError(
                 "Environment must be 'development' or 'production'"
             )
-        self._environment = value
+        return value
 
-    @property
-    def debug_mode(self):
-        return self._debug_mode
-
-    @debug_mode.setter
-    def debug_mode(self, value: bool):
-        if not isinstance(value, bool):
-            raise ValueError("Debug mode must be a boolean")
-        self._debug_mode = value
+    @field_validator("debug_mode")
+    @classmethod
+    def validate_debug_mode(cls, value: bool) -> bool:
+        if not isinstance(value, bool):  # type: ignore[unnecessary-isinstance]
+            raise TypeError("debug_mode must be a boolean")
+        return value
 
     def __repr__(self):
         return (

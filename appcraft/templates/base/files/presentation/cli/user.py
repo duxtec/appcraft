@@ -1,7 +1,13 @@
-from typing import List, Optional
-
-from application.dtos.user_dto import UserDTO
-from application.services.user_service import UserService
+from application.schemas.input.user import (
+    UserDeleteSchema,
+    UserInSchema,
+    UserUpdateSchema,
+)
+from application.schemas.output.user import UserOutSchema
+from application.use_cases.user.create import CreateUserUseCase
+from application.use_cases.user.delete import DeleteUserUseCase
+from application.use_cases.user.get import ReadUserUseCase
+from application.use_cases.user.update import UpdateUserUseCase
 from domain.models.exceptions.user_model_not_found import (
     UserModelNotFoundError,
 )
@@ -19,7 +25,7 @@ class UserCLIPresentation:
         domain = "app"
 
         @classmethod
-        def list(cls, users: List[UserDTO]):
+        def list(cls, users: list[UserOutSchema]):
             cls.title("List of users")
             for user in users:
                 for prop, value in user.__dict__.items():
@@ -28,7 +34,7 @@ class UserCLIPresentation:
                 print()
 
         @classmethod
-        def list_ids(cls, users: List[UserDTO]):
+        def list_ids(cls, users: list[UserOutSchema]):
             cls.title("List of user IDs")
             for i, user in enumerate(users):
                 if i == len(users) - 1:
@@ -48,12 +54,12 @@ class UserCLIPresentation:
             print()
 
         @classmethod
-        def create_successfully(cls, user: UserDTO):
+        def create_successfully(cls, user: UserOutSchema):
             cls.success(f"User '{user.id}' created successfully!")
             print()
 
         @classmethod
-        def update_successfully(cls, user: UserDTO):
+        def update_successfully(cls, user: UserOutSchema):
             cls.success(f"User '{user.id}' updated successfully!")
             print()
 
@@ -62,54 +68,68 @@ class UserCLIPresentation:
             cls.success(f"User '{id}' deleted successfully!")
             print()
 
-    def __init__(self, user_service: UserService) -> None:
-        self.user_service = user_service
+    def __init__(
+        self,
+        create_uc: CreateUserUseCase,
+        read_uc: ReadUserUseCase,
+        update_uc: UpdateUserUseCase,
+        delete_uc: DeleteUserUseCase,
+    ) -> None:
+        self.create_uc = create_uc
+        self.read_uc = read_uc
+        self.update_uc = update_uc
+        self.delete_uc = delete_uc
 
     def list(self) -> None:
-        users = self.user_service.get()
+        users = self.read_uc.execute([])
         self.Printer.list(users)
 
     def list_ids(self) -> None:
-        users = self.user_service.get()
+        users = self.read_uc.execute([])
         self.Printer.list_ids(users)
 
     def create(self, username: str | None = None):
         username = self._get_username(username)
-        user = self.user_service.create(username)
+        user = self.create_uc.execute(UserInSchema(username=username))
         self.Printer.create_successfully(user)
 
     def update(
-        self, id: int | str | None = None, username: Optional[str] = None
+        self, id: int | str | None = None, username: str | None = None
     ):
-        while True:
-            id = self._get_id(id)
-            username = self._get_username(username)
-            try:
-                user = self.user_service.update(id, username)
-                self.Printer.update_successfully(user)
-                return
+        id = self._get_id(id)
+        username = self._get_username(username)
+        try:
+            user = self.update_uc.execute(
+                UserUpdateSchema(
+                    id=id,
+                    username=username,
+                )
+            )
+            self.Printer.update_successfully(user)
+            return
 
-            except UserModelNotFoundError:
-                self.Printer.user_not_exist(id)
-                id = None
+        except UserModelNotFoundError:
+            self.Printer.user_not_exist(id)
+            id = None
 
     def delete(self, id: int | str | None = None):
-        while True:
-            id = self._get_id(id)
-            try:
-                self.user_service.delete(id)
-                self.Printer.delete_successfully(id)
-                return
-            except UserModelNotFoundError:
-                self.Printer.user_not_exist(id)
-                id = None
+        id = self._get_id(id)
+        try:
+            self.delete_uc.execute(UserDeleteSchema(id=id))
+            self.Printer.delete_successfully(id)
+            return
+        except UserModelNotFoundError:
+            self.Printer.user_not_exist(id)
+            id = None
 
     def _get_id(self, value: str | int | None = None) -> int:
-        return InputCLI[Id].input(prompt="Enter the ID: ", value=value).value
-
-    def _get_username(self, value: Optional[str]) -> str:
         return (
-            InputCLI[Username]
+            InputCLI[Id]().input(prompt="Enter the ID: ", value=value).value
+        )
+
+    def _get_username(self, value: str | None) -> str:
+        return (
+            InputCLI[Username]()
             .input(prompt="Enter the username: ", value=value)
             .value
         )

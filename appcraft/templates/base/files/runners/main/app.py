@@ -1,17 +1,15 @@
-from application.services.app_service import AppService
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
-from infrastructure.memory.adapters.app_adapter import AppAdapter
+from application.use_cases.app.get import GetAppUseCase
+from infrastructure.framework.appcraft.app.provider import AppProvider
+from infrastructure.framework.appcraft.core.runner import Runner
 from presentation.cli.app import AppCLIPresentation
 
 
-class AppRunner(AppRunnerInterface):
-    @AppRunnerInterface.runner
+class AppRunner(Runner):
+    @Runner.runner
     def start(self):
-        app_adapter = AppAdapter()
-        app_service = AppService(app_adapter=app_adapter)
-        presentation = AppCLIPresentation(app_service=app_service)
+        app_adapter = AppProvider()
+        app_service = GetAppUseCase(app_provider=app_adapter)
+        presentation = AppCLIPresentation(app_use_case=app_service)
         presentation.start()
 
     def non_runner1(self):

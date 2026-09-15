@@ -55,14 +55,14 @@ Make sure that your scripts are located in the `scripts` folder and your apps ar
 
 ### App and Scripts Structures
 
-To be recognized by **Appcraft**, apps and scripts must inherit from the `App` class and use the `@App.runner` decorator. Here's an example:
+To be recognized by **Appcraft**, apps and scripts must inherit from the `Runner` class and use the `@Runner.runner` decorator. Here's an example:
 
 ```python
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.runner import Runner
 
-class MyApp(AppRunner):
+class MyApp(Runner):
 
-    @AppRunner.runner
+    @Runner.runner
     def runner1(self):
         # Code for runner1
         pass

@@ -1,14 +1,14 @@
-from typing import Any, Optional
+from typing import Any
 
-from domain.value_objects.interfaces import ValueObjectInterface
+from domain.value_objects import ValueObject
 
 
 class ValueObjectError(Exception):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface[Any]],
+        value_object: type[ValueObject[Any]],
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
         self.value_object_name = value_object.__name__
         self.value = value
@@ -25,9 +25,9 @@ Invalid value '{self.value}' for {self.value_object_name}."
 class ValueObjectNonNumericError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface[Any]],
+        value_object: type[ValueObject[Any]],
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
         if not message:
             message = f"{value_object.__name__} must be a numeric value."
@@ -39,9 +39,9 @@ class ValueObjectNonNumericError(ValueObjectError):
 class ValueObjectNonIntegerError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface[Any]],
+        value_object: type[ValueObject[Any]],
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
         if not message:
             message = f"{value_object.__name__} must be a integer value."
@@ -53,9 +53,9 @@ class ValueObjectNonIntegerError(ValueObjectError):
 class ValueObjectNonPositiveError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface[Any]],
+        value_object: type[ValueObject[Any]],
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
         if not message:
             message = f"{value_object.__name__} must be a positive integer."
@@ -67,9 +67,9 @@ class ValueObjectNonPositiveError(ValueObjectError):
 class ValueObjectNonBooleanError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface[Any]],
+        value_object: type[ValueObject[Any]],
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
         if not message:
             message = f"{value_object.__name__} must be 'true' or 'false'"
@@ -78,12 +78,26 @@ class ValueObjectNonBooleanError(ValueObjectError):
         )
 
 
+class ValueObjectNonUuidError(ValueObjectError):
+    def __init__(
+        self,
+        value_object: type[ValueObject[Any]],
+        value: Any,
+        message: str | None = None,
+    ):
+        if not message:
+            message = f"{value_object.__name__} must be a valid UUID."
+        super().__init__(
+            value_object=value_object, value=value, message=message
+        )
+
+
 class ValueObjectNonDatetimeError(ValueObjectError):
     def __init__(
         self,
-        value_object: type[ValueObjectInterface[Any]],
+        value_object: type[ValueObject[Any]],
         value: Any,
-        message: Optional[str] = None,
+        message: str | None = None,
     ):
         if not message:
             message = f"\

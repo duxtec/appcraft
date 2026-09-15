@@ -7,5 +7,7 @@ log_level = "debug" # debug, info, warning, error or critical
 lang = "en" # see supported langs
 lang_preference = "config" # config or system
 supported_langs = ["en", "pt_BR"]
+theme = "dark" # dark or light
+manager = "poetry" # poetry, pipenv, uv or pip
 
 # Use 'lang_preference' to decide if language should be set from config or system

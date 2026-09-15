@@ -1,5 +1,5 @@
-from typing import TypeVar
+from typing import Any, TypeVar
 
-from domain.interfaces.repositories import RepositoryInterface
+from application.repositories import Repository
 
-RepositoryType = TypeVar('RepositoryType', bound=RepositoryInterface)
+TRepository = TypeVar("TRepository", bound=Repository[Any, Any])

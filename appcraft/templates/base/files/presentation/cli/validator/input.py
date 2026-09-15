@@ -1,15 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import (
-    Any,
-    Callable,
-    Generic,
-    Optional,
-    TypeVar,
-    cast,
-    get_type_hints,
-)
+from typing import Any, Callable, Generic, TypeVar, cast, get_type_hints
 
-from domain.value_objects.interfaces import ValueObjectInterface
+from domain.value_objects import ValueObject
 from infrastructure.framework.appcraft.core.property_meta import (
     PropertySetter,
 )
@@ -17,7 +9,7 @@ from infrastructure.framework.appcraft.utils.printer import Printer
 
 BasicType = TypeVar("BasicType", bound=Any)
 PropertyType = TypeVar("PropertyType", bound=property)
-ValueObjectType = TypeVar("ValueObjectType", bound=ValueObjectInterface[Any])
+ValueObjectType = TypeVar("ValueObjectType", bound=ValueObject[Any])
 
 
 class CLIValidator(
@@ -35,11 +27,9 @@ class CLIValidator(
         value: (
             str | int | dict[Any, Any] | list[Any] | BasicType | None
         ) = None,
-        error_action: Optional[
-            Callable[[Exception, Optional[str]], None]
-        ] = None,
-        error_message: Optional[str] = None,
-        max_attempts: Optional[int] = 3,
+        error_action: Callable[[Exception, str | None], None] | None = None,
+        error_message: str | None = None,
+        max_attempts: int | None = 3,
     ) -> BasicType:
         attempts = 0
 
@@ -63,25 +53,29 @@ class CLIValidator(
                 if max_attempts is not None and attempts >= max_attempts:
                     raise e
 
-        raise ValueError(
-            f"\
-Exceeded maximum attempts ({max_attempts}). Input validation failed."
-        )
+        raise ValueError(f"\
+Exceeded maximum attempts ({max_attempts}). Input validation failed.")
 
     @classmethod
     @abstractmethod
     def _validate(cls, value: Any) -> BasicType: ...
 
 
-class InputCLI(CLIValidator[BasicType], Generic[BasicType]):
+class InputCLI(CLIValidator[BasicType], PropertySetter, Generic[BasicType]):
     @classmethod
     def _validate(cls, value: BasicType) -> BasicType:
-        if isinstance(cls.reference, ValueObjectInterface):
-            return ValueObjectInput[BasicType]._validate(value)  # type: ignore
         if isinstance(cls.reference, property):
-            return PropertyInput[BasicType]._validate(value)  # type: ignore
+            return PropertyInput._validate.__func__(  # type: ignore
+                cls, value
+            )
+        if issubclass(cls.reference, ValueObject):
+            return ValueObjectInput._validate.__func__(  # type: ignore
+                cls, value
+            )
         else:
-            return BasicTypeInput[BasicType]._validate(value)  # type: ignore
+            return BasicTypeInput._validate.__func__(  # type: ignore
+                cls, value
+            )
 
 
 class ValueObjectInput(
@@ -107,10 +101,8 @@ class PropertyInput(CLIValidator[PropertyType], Generic[PropertyType]):
         model = cls.reference.fget.__globals__.get(model_name)
 
         if model is None or not isinstance(model, type):
-            raise ValueError(
-                f"\
-Could not determine the model for property {cls.reference.fget.__name__}"
-            )
+            raise ValueError(f"\
+Could not determine the model for property {cls.reference.fget.__name__}")
 
         type_hints = get_type_hints(model)
         expected_type: type[Any] = type_hints.get(
@@ -120,11 +112,9 @@ Could not determine the model for property {cls.reference.fget.__name__}"
         try:
             converted_value = expected_type(value)
         except (ValueError, TypeError) as e:
-            raise ValueError(
-                f"\
+            raise ValueError(f"\
 Invalid value for {cls.reference.fget.__name__}: \
-expected {expected_type}, got {type(value).__name__}"
-            ) from e
+expected {expected_type}, got {type(value).__name__}") from e
 
         if isinstance(cls.reference, property):
             cls.reference.__set__(model, converted_value)
@@ -132,6 +122,7 @@ expected {expected_type}, got {type(value).__name__}"
 
 
 class BasicTypeInput(CLIValidator[BasicType], Generic[BasicType]):
+    reference: type[BasicType]
 
     @classmethod
     def _validate(cls, value: str | BasicType) -> BasicType:
@@ -145,9 +136,7 @@ class BasicTypeInput(CLIValidator[BasicType], Generic[BasicType]):
                 return True  # type: ignore
             if lower_value in ("false", "f", "0", "no", "n"):
                 return False  # type: ignore
-            raise ValueError(
-                f"\
-Invalid boolean value: {value}. Expected 'true/false', 'y/n', '1/0'."
-            )
+            raise ValueError(f"\
+Invalid boolean value: {value}. Expected 'true/false', 'y/n', '1/0'.")
 
         return cls.reference(value)

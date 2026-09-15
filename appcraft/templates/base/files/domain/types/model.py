@@ -1,5 +1,7 @@
-from typing import TypeVar
+from typing import Any, TypeVar
 
-from domain.models.interfaces import ModelInterface
+from domain.models import Model, NewModel
 
-ModelType = TypeVar("ModelType", bound=ModelInterface)
+TNewModel = TypeVar("TNewModel", bound=NewModel)
+
+TModel = TypeVar("TModel", bound=Model[Any])

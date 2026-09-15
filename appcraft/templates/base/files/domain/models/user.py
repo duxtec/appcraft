@@ -1,22 +1,15 @@
-from typing import Optional
+from domain.models import Model, NewModel
+from domain.models.core.field import Field
+from domain.value_objects.id import Id
 
-from domain.models.interfaces import ModelInterface
-from domain.value_objects.username import Username
+
+class UserId(Id):
+    pass
 
 
-class User(ModelInterface):
+class NewUser(NewModel):
+    username: Field[str]
 
-    def __init__(self, id: Optional[int], username: str):
-        super().__init__(id)
-        self.username = username
 
-    @property
-    def username(self):
-        return self._username
-
-    @username.setter
-    def username(self, username: str):
-        self._username = Username(username).value
-
-    def __repr__(self):
-        return f"User(id={self._id}, username={self._username})"
+class User(NewUser, Model[UserId]):
+    pass

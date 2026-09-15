@@ -1,5 +1,5 @@
-from application.dtos.app_dto import AppDTO
-from application.services.app_service import AppService
+from application.schemas.output.app import AppSchema
+from application.use_cases.app.get import GetAppUseCase
 from infrastructure.framework.appcraft.utils.component_printer import (
     ComponentPrinter,
 )
@@ -16,20 +16,20 @@ class AppCLIPresentation:
             cls.title(message.format(app_name=app_name))
 
         @classmethod
-        def app_info(cls, app: AppDTO):
-            app_dict = app.to_dict()
+        def app_info(cls, app: AppSchema):
+            app_dict = app.model_dump()
             cls.title("App Informations")
             for name, value in app_dict.items():
                 cls.info(name, end=": ")
                 cls.print(value)
 
-    def __init__(self, app_service: AppService) -> None:
-        self.app_service = app_service
+    def __init__(self, app_use_case: GetAppUseCase) -> None:
+        self.app_use_case = app_use_case
 
     def show_informations(self) -> None:
-        app = self.app_service.get_app()
+        app = self.app_use_case.execute()
         self.Printer.app_info(app)
 
     def start(self) -> None:
-        app = self.app_service.get_app()
+        app = self.app_use_case.execute()
         self.Printer.welcome(app.name)
