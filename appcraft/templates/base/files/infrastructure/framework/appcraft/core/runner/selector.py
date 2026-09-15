@@ -4,8 +4,6 @@ import os
 from types import ModuleType
 from typing import Any, Sequence
 
-from prompt_toolkit.shortcuts import radiolist_dialog
-
 from infrastructure.framework.appcraft.core.runner import Runner
 from infrastructure.framework.appcraft.core.runner.discovery import (
     RunnerDiscovery,
@@ -14,9 +12,13 @@ from infrastructure.framework.appcraft.core.runner.themes import RunnerThemes
 
 
 class RunnerSelector:
-    def __init__(self, args: list[str] | None = None):
+    def __init__(
+        self,
+        args: list[str] | None = None,
+        theme: str = RunnerThemes.dark_style,
+    ):
         self.args = args if args is not None else []
-        self.themes = RunnerThemes()
+        self.themes = RunnerThemes(theme)
 
     def select_module(self, folder: str) -> ModuleType | None:
         modules = RunnerDiscovery.get_modules(folder)
@@ -109,9 +111,14 @@ class RunnerSelector:
         values: Sequence[tuple[Any, str]],
         title: str = "Appcraft",
     ):
+        # Only reached when the CLI args don't fully specify module,
+        # class and method — deferred so the rest of the runner system
+        # works without prompt_toolkit installed.
+        from prompt_toolkit.shortcuts import radiolist_dialog
+
         return radiolist_dialog(
             title=title,
             text=text,
             values=values,
-            style=self.themes.style,
+            style=self.themes.build_prompt_style(),
         ).run()

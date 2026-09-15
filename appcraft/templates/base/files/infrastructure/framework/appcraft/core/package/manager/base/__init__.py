@@ -6,6 +6,7 @@ from infrastructure.framework.appcraft.core.package.manager import (
 from ..pip import PipManager
 from ..pipenv import PipenvManager
 from ..poetry import PoetryManager
+from ..uv import UvManager
 
 
 def PackageManagerBase() -> PackageManager:
@@ -16,6 +17,7 @@ def PackageManagerBase() -> PackageManager:
             "poetry": PoetryManager,
             "pipenv": PipenvManager,
             "pip": PipManager,
+            "uv": UvManager,
         }
         return pms.get(manager, default_pm)()
     except Exception:
