@@ -111,11 +111,25 @@ def project_init():
                 os.path.join(project_this_template_folder, "__init__.py"),
             )
 
+        # Runs before installing requirements — for templates that need
+        # to change the project *before* dependencies are installed
+        # (e.g. pipenv/uv changing which package manager owns
+        # config/app.toml's `manager`, so PackageManagerBase() below picks
+        # the right one).
+        for template in templates:
+            if template.pre_install:
+                Printer.info(f"\
+Executing pre install scripts from '{template.name}' template...")
+                template.pre_install(target_dir=project_folder)
+
         Printer.info("Installing requirements...")
 
         package_manager = PackageManagerBase()
         package_manager.install_requirements()
 
+        # Runs last, once the environment is fully installed — for
+        # templates whose post_install needs a working project (e.g. git
+        # running the generated app's own entrypoint to `git init`).
         for template in templates:
             if template.post_install:
                 Printer.info(f"\

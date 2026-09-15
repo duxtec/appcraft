@@ -40,6 +40,8 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
     default: bool = False
     active: bool = False
     standalone: bool = True
+    exclusive_group: str | None = None
+    pre_install: Callable[..., None] | None = None
     post_install: Callable[..., None] | None = None
     dependencies: ClassVar[list[str]] = []
 

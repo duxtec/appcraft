@@ -23,6 +23,24 @@ Pass --install-inactive to install it anyway.""",
         super().__init__(*args)
 
 
+class TemplateConflictError(Exception):
+    def __init__(
+        self,
+        template_names: list[str],
+        exclusive_group: str,
+        *args: object,
+    ) -> None:
+        if not args:
+            args = (
+                f"""\
+Cannot install {', '.join(template_names)} together — they all belong to \
+the '{exclusive_group}' exclusive group, only one of them can be \
+installed at a time.""",
+            )
+
+        super().__init__(*args)
+
+
 class TemplateNotStandaloneError(Exception):
     def __init__(
         self,
@@ -32,7 +50,9 @@ class TemplateNotStandaloneError(Exception):
     ) -> None:
         if not args:
             if dependents:
-                hint = f"Install one of these instead: {', '.join(dependents)}."
+                hint = (
+                    f"Install one of these instead: {', '.join(dependents)}."
+                )
             else:
                 hint = "No other template depends on it yet."
 

@@ -1,13 +1,3 @@
-[tool.appcraft]
-environment = "development"  # "production" ou "development"
-debug_mode = true
-log_level = "info"  # "debug", "info", "warning", "error" ou "critical"
-lang = "en"  # See supported langs
-lang_preference = "config"  # "config" ou "system"
-supported_langs = ["en", "pt_BR"]
-
-# Use 'lang_preference' to decide whether the language should be set from the configuration or from the system
-
 [tool.poetry]
 name = "Appcraft Project"
 version = "0.0.1"
@@ -25,14 +15,13 @@ package-mode = false
 [tool.poetry.dependencies]
 python = "^3.12"
 toml = "0.10.2"
-prompt-toolkit = "*"
-py-automapper = "2.1.0"
+pydantic = "^2.13.4"
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "8.0.2"
 flake8 = "6.1.0"
-black = "*"
-isort = "*"
+black = "^26.5.1"
+isort = "^8.0.1"
 
 [build-system]
 requires = ["poetry-core"]

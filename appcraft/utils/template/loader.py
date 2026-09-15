@@ -6,6 +6,7 @@ from typing import Type
 from appcraft.templates.template_abc import TemplateABC
 from appcraft.utils import ImportManager
 from appcraft.utils.exceptions import (
+    TemplateConflictError,
     TemplateInactiveError,
     TemplateNotFoundError,
     TemplateNotStandaloneError,
@@ -90,6 +91,23 @@ class TemplateLoader:
                     t.name for t in self.templates if name in t.dependencies
                 )
                 raise TemplateNotStandaloneError(name, dependents)
+
+        exclusive_groups: dict[str, list[str]] = {}
+        for name in requested_template_names:
+            group = templates_by_name[name].exclusive_group
+            if group is not None:
+                exclusive_groups.setdefault(group, []).append(name)
+
+        # Only reject requesting two members of the same exclusive group
+        # *together*, in the same command (e.g. `init pipenv uv`).
+        # Requesting just one when a *different* member is already
+        # installed (e.g. `add_template uv` on a pipenv project) is a
+        # deliberate swap, not a conflict — each such template's
+        # post_install is responsible for replacing whatever the project
+        # currently uses.
+        for group, names in exclusive_groups.items():
+            if len(names) > 1:
+                raise TemplateConflictError(names, group)
 
         resolved: list[Type[TemplateABC]] = []
 
