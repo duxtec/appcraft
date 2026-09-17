@@ -1,0 +1,2 @@
+[tool.poetry.dependencies]
+pymongo = "^4.18.1"
