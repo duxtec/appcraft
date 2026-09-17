@@ -1,0 +1,23 @@
+<nav class="navbar">
+    <a href="{{ url_for('pages.index') }}" class="navbar-brand">{{ app_name }}</a>
+    <ul class="navbar-links">
+        <li>
+            <a href="{{ url_for('pages.index') }}"
+               class="{{ 'active' if request.endpoint == 'pages.index' }}">
+                Home
+            </a>
+        </li>
+                <li>
+            <a href="{{ url_for('pages.demo') }}"
+               class="{{ 'active' if request.endpoint == 'pages.demo' }}">
+                Demo
+            </a>
+        </li>
+        <li>
+            <a href="{{ url_for('views.app') }}"
+               class="{{ 'active' if request.endpoint == 'views.app' }}">
+                About
+            </a>
+        </li>
+    </ul>
+</nav>

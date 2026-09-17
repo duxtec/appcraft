@@ -1,0 +1,327 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    height: 100%;
+}
+
+body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background-color: var(--dark-color1-5);
+    color: var(--light-base);
+    line-height: 1.6;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* === Navbar === */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background-color: var(--dark-color1-3);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    font-size: 1.25rem;
+    color: var(--light-color1-1);
+    text-decoration: none;
+}
+
+.navbar-links {
+    display: flex;
+    gap: 1.5rem;
+    list-style: none;
+}
+
+.navbar-links a {
+    color: var(--light-color1-2);
+    text-decoration: none;
+    padding: 0.5rem 0;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.navbar-links a:hover,
+.navbar-links a.active {
+    border-bottom-color: var(--bright-color1-3);
+}
+
+/* === Layout === */
+main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+    flex: 1 0 auto;
+}
+
+.hero {
+    text-align: center;
+    padding: 3rem 1rem;
+    margin-bottom: 2rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, var(--dark-color1-1), var(--dark-color2-1));
+    color: var(--light-color1-1);
+}
+
+.hero h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.hero p {
+    font-size: 1.1rem;
+    color: var(--light-color1-2);
+}
+
+/* === Grid === */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+/* === Cards === */
+.card {
+    background-color: var(--dark-color1-2);
+    border: 1px solid var(--dark-color1-1);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.card h3 {
+    margin-bottom: 0.5rem;
+    color: var(--light-color1-2);
+}
+
+.card p {
+    color: var(--light-color1-4);
+    font-size: 0.95rem;
+}
+
+/* === Buttons === */
+.btn {
+    display: inline-block;
+    padding: 0.6rem 1.4rem;
+    border-radius: 6px;
+    border: none;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-decoration: none;
+    transition: opacity 0.15s ease, transform 0.1s ease;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+.btn:active {
+    transform: scale(0.98);
+}
+
+.btn-primary {
+    background-color: var(--bright-color1-1);
+    color: var(--dark-color1-3);
+}
+
+.btn-secondary {
+    background-color: var(--bright-color2-1);
+    color: var(--dark-color2-3);
+}
+
+.btn-outline {
+    background-color: transparent;
+    border: 2px solid var(--light-color1-2);
+    color: var(--light-color1-2);
+}
+
+/* === Badges === */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.badge-dark {
+    background-color: var(--dark-color1-3);
+    color: var(--light-color1-1);
+}
+
+.badge-light {
+    background-color: var(--light-color1-3);
+    color: var(--dark-color1-3);
+}
+
+.badge-bright {
+    background-color: var(--bright-color1-4);
+    color: var(--light-color1-1);
+}
+
+/* === Alerts === */
+.alert {
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    border-left: 4px solid;
+    margin-bottom: 1rem;
+}
+
+.alert-info {
+    background-color: var(--bright-color1-5);
+    border-color: var(--bright-color1-1);
+    color: var(--light-color1-1);
+}
+
+.alert-warning {
+    background-color: var(--bright-color2-5);
+    border-color: var(--bright-color2-1);
+    color: var(--light-color2-1);
+}
+
+/* === Palette swatches (demo) === */
+.swatch-row {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+}
+
+.swatch {
+    width: 60px;
+    height: 60px;
+    border-radius: 8px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    font-size: 0.65rem;
+    color: var(--light-color1-1);
+    padding-bottom: 4px;
+    box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1);
+}
+
+/* === Footer === */
+.footer {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-top: 3rem;
+    background-color: var(--dark-color1-3);
+    color: var(--light-color1-2);
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+/* === Error Pages === */
+.error-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 4rem 1rem;
+    min-height: 60vh;
+}
+
+.error-code-wrapper {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.error-code {
+    font-size: 6rem;
+    font-weight: 800;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--bright-color1-1), var(--bright-color2-1));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: float 3s ease-in-out infinite;
+}
+
+.error-code:nth-child(1) {
+    animation-delay: 0s;
+}
+
+.error-code:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+.error-code-bounce {
+    animation: spin-bounce 2.5s ease-in-out infinite;
+    animation-delay: 0.2s !important;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-12px);
+    }
+}
+
+@keyframes spin-bounce {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-18px) rotate(-15deg);
+    }
+    50% {
+        transform: translateY(0) rotate(0deg);
+    }
+    75% {
+        transform: translateY(-8px) rotate(10deg);
+    }
+}
+
+.error-page h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.75rem;
+    color: var(--light-color1-3);
+}
+
+.error-page p {
+    color: var(--light-color1-4);
+    margin-bottom: 1rem;
+    max-width: 440px;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin: 1.5rem 0 1rem;
+}
+
+.error-hint {
+    font-size: 0.85rem;
+    color: var(--light-color1-5, var(--light-color1-4));
+    margin-top: 1rem;
+}
+
+.error-hint kbd {
+    background-color: var(--dark-color1-3);
+    border: 1px solid var(--light-color1-1);
+    border-radius: 4px;
+    padding: 0.1rem 0.4rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+}

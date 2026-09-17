@@ -1,0 +1,39 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}{{ app_name }} - Home{% endblock %}
+{% block meta_description %}{{ app_name }} home page{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Welcome to {{ app_name }}</h1>
+    <p>Your application's starting point — explore the pages below.</p>
+</section>
+
+<section>
+    <div class="grid">
+        <div class="card">
+            <h3>App Information</h3>
+            <p>View version, environment, and debug status in real time.</p>
+            <a href="{{ url_for('views.app') }}" class="btn btn-primary" style="margin-top: 1rem;">
+                View details
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>Showcase</h3>
+            <p>Explore the visual components and the system's color palette.</p>
+            <a href="{{ url_for('pages.demo') }}" class="btn btn-secondary" style="margin-top: 1rem;">
+                View showcase
+            </a>
+        </div>
+
+        <div class="card">
+            <h3>Documentation</h3>
+            <p>Check the project structure and how to extend it.</p>
+            <a href="#" class="btn btn-outline" style="margin-top: 1rem;">
+                Coming soon
+            </a>
+        </div>
+    </div>
+</section>
+{% endblock %}

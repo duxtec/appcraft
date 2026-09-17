@@ -11,3 +11,5 @@ with a consistent and responsive design. The template includes elements \
 such as routes for views, integration with static assets, and ready-to-use \
 HTML files for customization, streamlining the process of creating user \
 interfaces in Flask."
+
+    dependencies = ["flask"]

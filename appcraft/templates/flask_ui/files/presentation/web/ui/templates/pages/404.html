@@ -1,0 +1,33 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Page Not Found - {{ app_name }}{% endblock %}
+{% block meta_description %}The page you are looking for could not be found{% endblock %}
+
+{% block content %}
+<section class="error-page">
+    <div class="error-code-wrapper">
+        <span class="error-code">4</span>
+        <span class="error-code error-code-bounce">0</span>
+        <span class="error-code">4</span>
+    </div>
+
+    <h1>Oops! You've wandered off the map.</h1>
+    <p>
+        The page you're looking for packed its bags and left —
+        or maybe it never existed at all. Either way, let's get you back on track.
+    </p>
+
+    <div class="error-actions">
+        <a href="{{ url_for('pages.index') }}" class="btn btn-primary">
+            Take me home
+        </a>
+        <a href="{{ url_for('pages.demo') }}" class="btn btn-outline">
+            Explore the showcase instead
+        </a>
+    </div>
+
+    <p class="error-hint">
+        (Or press <kbd>Ctrl</kbd> + <kbd>W</kbd> to give up entirely — no judgment.)
+    </p>
+</section>
+{% endblock %}

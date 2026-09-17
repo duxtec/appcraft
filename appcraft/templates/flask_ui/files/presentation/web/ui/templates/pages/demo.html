@@ -1,0 +1,86 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Component Showcase{% endblock %}
+{% block meta_description %}Showcase of UI components and the generated color palette{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>Design System</h1>
+    <p>Showcase of the components using the dynamically generated palette</p>
+</section>
+
+<section>
+    <h2 style="margin-bottom: 1rem;">Buttons</h2>
+    <div class="swatch-row">
+        <button class="btn btn-primary">Primary</button>
+        <button class="btn btn-secondary">Secondary</button>
+        <button class="btn btn-outline">Outline</button>
+    </div>
+</section>
+
+<section>
+    <h2 style="margin: 2rem 0 1rem;">Badges</h2>
+    <div class="swatch-row">
+        <span class="badge badge-dark">New</span>
+        <span class="badge badge-light">Draft</span>
+        <span class="badge badge-bright">Featured</span>
+        <span class="badge badge-alert">Alert</span>
+    </div>
+</section>
+
+<section>
+    <h2 style="margin: 2rem 0 1rem;">Alerts</h2>
+    <div class="alert alert-info">This is an informational message.</div>
+    <div class="alert alert-warning">This is a warning message.</div>
+</section>
+
+<section>
+    <h2 style="margin: 2rem 0 1rem;">Cards</h2>
+    <div class="grid">
+        <div class="card">
+            <h3>Feature A</h3>
+            <p>A short description of this system feature.</p>
+        </div>
+        <div class="card">
+            <h3>Feature B</h3>
+            <p>A short description of this other feature.</p>
+        </div>
+        <div class="card">
+            <h3>Feature C</h3>
+            <p>One more example card for the responsive grid.</p>
+        </div>
+    </div>
+</section>
+
+<section>
+    <h2 style="margin: 2rem 0 1rem;">Palette — Dark</h2>
+    <div class="swatch-row">
+        {% for c in palette.darkcolor[1] %}
+        <div class="swatch" style="background-color: {{ c }};">{{ c }}</div>
+        {% endfor %}
+        {% for c in palette.darkcolor[2] %}
+        <div class="swatch" style="background-color: {{ c }};">{{ c }}</div>
+        {% endfor %}
+    </div>
+
+    <h2 style="margin: 2rem 0 1rem;">Palette — Light</h2>
+    <div class="swatch-row">
+        {% for c in palette.lightcolor[1] %}
+        <div class="swatch" style="background-color: {{ c }}; color: var(--dark-base);">{{ c }}</div>
+        {% endfor %}
+        {% for c in palette.lightcolor[2] %}
+        <div class="swatch" style="background-color: {{ c }}; color: var(--dark-base);">{{ c }}</div>
+        {% endfor %}
+    </div>
+
+    <h2 style="margin: 2rem 0 1rem;">Palette — Bright</h2>
+    <div class="swatch-row">
+        {% for c in palette.brightcolor[1] %}
+        <div class="swatch" style="background-color: {{ c }}; color: var(--dark-base);">{{ c }}</div>
+        {% endfor %}
+        {% for c in palette.brightcolor[2] %}
+        <div class="swatch" style="background-color: {{ c }}; color: var(--dark-base);">{{ c }}</div>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% include "partials/head.html" %}
+
+    <style>
+        :root {
+            --dark-base: {{ palette.darkcolor[0][0] }};
+            --light-base: {{ palette.lightcolor[0][0] }};
+
+            {% for c in palette.darkcolor[1] %}
+            --dark-color1-{{ loop.index }}: {{ c }};
+            {% endfor %}
+            {% for c in palette.darkcolor[2] %}
+            --dark-color2-{{ loop.index }}: {{ c }};
+            {% endfor %}
+
+            {% for c in palette.lightcolor[1] %}
+            --light-color1-{{ loop.index }}: {{ c }};
+            {% endfor %}
+            {% for c in palette.lightcolor[2] %}
+            --light-color2-{{ loop.index }}: {{ c }};
+            {% endfor %}
+
+            {% for c in palette.brightcolor[1] %}
+            --bright-color1-{{ loop.index }}: {{ c }};
+            {% endfor %}
+            {% for c in palette.brightcolor[2] %}
+            --bright-color2-{{ loop.index }}: {{ c }};
+            {% endfor %}
+        }
+    </style>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    {% include "partials/nav.html" %}
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    {% include "partials/footer.html" %}
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_scripts %}{% endblock %}
+</body>
+</html>
