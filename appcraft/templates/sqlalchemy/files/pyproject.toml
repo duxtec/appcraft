@@ -1,0 +1,5 @@
+[tool.poetry.dependencies]
+sqlalchemy = "^2.0.51"
+psycopg = "^3.3.4"          # To PostgreSQL
+mysqlclient = "==2.2.4"     # To MySQL
+
