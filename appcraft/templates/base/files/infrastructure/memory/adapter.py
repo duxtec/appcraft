@@ -21,11 +21,13 @@ class MemoryAdapter(DatabasePort):
         MemoryAdapterSeeder(self).seed()
 
     def get(
-        self, model: Type[TModel], filters: Sequence[FilterInterface] = []
+        self,
+        model: Type[TModel],
+        filters: Sequence[FilterInterface] | None = None,
     ) -> list[TModel]:
         model_storage = self._storage.get_model_storage(model)
         result = model_storage.data.copy()
-        for filter in filters:
+        for filter in filters or []:
             result = self._filter.apply_filter(result, filter)
 
         return list(result.values())
@@ -180,12 +182,12 @@ class MemoryAdapter(DatabasePort):
     def delete_where(
         self,
         model: Type[TModel],
-        filters: list[FilterInterface] = [],
+        filters: list[FilterInterface] | None = None,
     ) -> int:
         model_storage = self._storage.get_model_storage(model)
         result = model_storage.data.copy()
 
-        for filter in filters:
+        for filter in filters or []:
             result = self._filter.apply_filter(result, filter)
 
         if not result:

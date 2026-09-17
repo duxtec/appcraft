@@ -9,5 +9,6 @@ lang_preference = "config" # config or system
 supported_langs = ["en", "pt_BR"]
 theme = "dark" # dark or light
 manager = "poetry" # poetry, pipenv, uv or pip
+default_database_adapter = "sqlalchemy" # sqlalchemy or mongodb — used only when more than one is installed
 
 # Use 'lang_preference' to decide if language should be set from config or system

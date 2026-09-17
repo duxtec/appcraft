@@ -13,7 +13,9 @@ from domain.value_objects.id import Id
 class DatabaseReaderPort(Port, ABC):
     @abstractmethod
     def get(
-        self, model: Type[TModel], filters: Sequence[FilterInterface] = []
+        self,
+        model: Type[TModel],
+        filters: Sequence[FilterInterface] | None = None,
     ) -> list[TModel]:
         pass
 
