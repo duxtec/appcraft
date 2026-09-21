@@ -2,8 +2,12 @@ from ..template_abc import TemplateABC
 
 
 class SeleniumTemplate(TemplateABC):
-    active = False
-    description = "\
-Selenium Template provides a setup for automating web browser interactions. \
-It includes pre-configured Selenium scripts and configurations, allowing you \
-to easily automate tests or tasks in a web environment."
+    active = True
+    dependencies = ["web_scraping"]
+    description = (
+        "Selenium Template implements the Web Scraping Template's "
+        "WebScrapingPort on top of Selenium WebDriver, for full browser "
+        "automation (JS execution, clicks, form input). Combinable with "
+        "the other web_scraping adapters (playwright, httpx, curl_cffi) "
+        "— install whichever engines a given project needs, side by side."
+    )

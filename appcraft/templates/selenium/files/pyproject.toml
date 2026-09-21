@@ -1,0 +1,4 @@
+[tool.poetry.dependencies]
+selenium = "^4.49.0"
+browser_manager = "^1.0.5"
+webdriver_manager = "*"

@@ -1,23 +1,23 @@
-from application.services.web_scraping.docs import DocScrapService
-from domain.interfaces.html_element.html_element import (
-    IHTMLInteractiveElement,
-)
+from application.use_cases.web_scraping.docs import SearchDocsUseCase
+from domain.html_elements.interface import HTMLInteractiveElementInterface
 from infrastructure.framework.appcraft.utils.component_printer import (
     ComponentPrinter,
 )
 
 
-class DocScrapPresenter:
+class DocsSearchCLIPresentation:
 
     class Printer(ComponentPrinter):
-        domain = "docscrap"
+        domain = "docs_search"
 
         @classmethod
         def starting(cls):
             cls.title("Starting scrapping")
 
         @classmethod
-        def search_results(cls, results: list[IHTMLInteractiveElement]):
+        def search_results(
+            cls, results: list[HTMLInteractiveElementInterface]
+        ):
             for result in results:
                 title = result.query_selector("a")
                 link = title.get_attribute("href")
@@ -30,13 +30,11 @@ class DocScrapPresenter:
                 print(content.inner_text)
                 print("\n\n")
 
-    def __init__(self, service: DocScrapService) -> None:
-        self.service = service
+    def __init__(self, search_docs_uc: SearchDocsUseCase) -> None:
+        self.search_docs_uc = search_docs_uc
 
-    def show_search_results(
-        self, results: list[IHTMLInteractiveElement]
-    ) -> None:
-        # results = self.service.search()
+    def search(self, query: str) -> None:
+        results = self.search_docs_uc.execute(query)
         self.Printer.search_results(results)
 
     def start(self) -> None:

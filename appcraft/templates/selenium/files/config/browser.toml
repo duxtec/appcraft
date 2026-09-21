@@ -1,4 +1,0 @@
-[browser]
-browser = "Firefox"
-profile = "default-release"
-headless = true

@@ -1,90 +1,87 @@
 from typing import TypeVar
 
-from domain.interfaces.html_element.html_element import (
-    IHTMLElement,
-    IHTMLInteractiveElement,
-    IHTMLNavigationElement,
-    IHTMLReadingElement,
-)
-from infrastructure.web_scraping.interfaces.adapters import (
-    WebScrapingAdapterInterface,
-    WebScrapingAsyncAdapterInterface,
+from application.ports.web_scraping import WebScrapingAsyncPort, WebScrapingPort
+from domain.html_elements.interface import (
+    HTMLElementInterface,
+    HTMLInteractiveElementInterface,
+    HTMLNavigationElementInterface,
+    HTMLReadingElementInterface,
 )
 
 TWebScrapingAdapter = TypeVar(
     "TWebScrapingAdapter",
-    bound=WebScrapingAdapterInterface[IHTMLElement],
+    bound=WebScrapingPort[HTMLElementInterface],
     covariant=True,
 )
 
 TWebScrapingAdapterReading = TypeVar(
     "TWebScrapingAdapterReading",
-    bound=WebScrapingAdapterInterface[IHTMLReadingElement],
+    bound=WebScrapingPort[HTMLReadingElementInterface],
     covariant=True,
 )
 
 TWebScrapingAdapterNavigation = TypeVar(
     "TWebScrapingAdapterNavigation",
-    bound=WebScrapingAdapterInterface[IHTMLNavigationElement],
+    bound=WebScrapingPort[HTMLNavigationElementInterface],
     covariant=True,
 )
 
 TWebScrapingAdapterInteractive = TypeVar(
     "TWebScrapingAdapterInteractive",
-    bound=WebScrapingAdapterInterface[IHTMLInteractiveElement],
+    bound=WebScrapingPort[HTMLInteractiveElementInterface],
     covariant=True,
 )
 
 
 TWebScrapingAsyncAdapter = TypeVar(
     "TWebScrapingAsyncAdapter",
-    bound=WebScrapingAsyncAdapterInterface[IHTMLElement],
+    bound=WebScrapingAsyncPort[HTMLElementInterface],
     covariant=True,
 )
 
 TWebScrapingAsyncAdapterReading = TypeVar(
     "TWebScrapingAsyncAdapterReading",
-    bound=WebScrapingAsyncAdapterInterface[IHTMLReadingElement],
+    bound=WebScrapingAsyncPort[HTMLReadingElementInterface],
     covariant=True,
 )
 
 TWebScrapingAsyncAdapterNavigation = TypeVar(
     "TWebScrapingAsyncAdapterNavigation",
-    bound=WebScrapingAsyncAdapterInterface[IHTMLNavigationElement],
+    bound=WebScrapingAsyncPort[HTMLNavigationElementInterface],
     covariant=True,
 )
 
 TWebScrapingAsyncAdapterInteractive = TypeVar(
     "TWebScrapingAsyncAdapterInteractive",
-    bound=WebScrapingAsyncAdapterInterface[IHTMLInteractiveElement],
+    bound=WebScrapingAsyncPort[HTMLInteractiveElementInterface],
     covariant=True,
 )
 
 
 TWebScrapingSyncOrAsyncAdapter = TypeVar(
     "TWebScrapingSyncOrAsyncAdapter",
-    bound=WebScrapingAdapterInterface[IHTMLElement]
-    | WebScrapingAsyncAdapterInterface[IHTMLElement],
+    bound=WebScrapingPort[HTMLElementInterface]
+    | WebScrapingAsyncPort[HTMLElementInterface],
     covariant=True,
 )
 
 TWebScrapingSyncOrAsyncAdapterReading = TypeVar(
     "TWebScrapingSyncOrAsyncAdapterReading",
-    bound=WebScrapingAdapterInterface[IHTMLReadingElement]
-    | WebScrapingAsyncAdapterInterface[IHTMLReadingElement],
+    bound=WebScrapingPort[HTMLReadingElementInterface]
+    | WebScrapingAsyncPort[HTMLReadingElementInterface],
     covariant=True,
 )
 
 TWebScrapingSyncOrAsyncAdapterNavigation = TypeVar(
     "TWebScrapingSyncOrAsyncAdapterNavigation",
-    bound=WebScrapingAdapterInterface[IHTMLNavigationElement]
-    | WebScrapingAsyncAdapterInterface[IHTMLNavigationElement],
+    bound=WebScrapingPort[HTMLNavigationElementInterface]
+    | WebScrapingAsyncPort[HTMLNavigationElementInterface],
     covariant=True,
 )
 
 TWebScrapingSyncOrAsyncAdapterInteractive = TypeVar(
     "TWebScrapingSyncOrAsyncAdapterInteractive",
-    bound=WebScrapingAdapterInterface[IHTMLInteractiveElement]
-    | WebScrapingAsyncAdapterInterface[IHTMLInteractiveElement],
+    bound=WebScrapingPort[HTMLInteractiveElementInterface]
+    | WebScrapingAsyncPort[HTMLInteractiveElementInterface],
     covariant=True,
 )

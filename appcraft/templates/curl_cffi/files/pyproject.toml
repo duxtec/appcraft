@@ -1,0 +1,4 @@
+[tool.poetry.dependencies]
+curl_cffi = "^0.16.3"
+beautifulsoup4 = "^4.15.0"
+selectolax = "^0.4.12"

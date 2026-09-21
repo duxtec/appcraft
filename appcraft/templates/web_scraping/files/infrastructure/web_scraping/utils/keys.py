@@ -36,7 +36,7 @@ class Keys:
     SEMICOLON = "\ue018"
     EQUALS = "\ue019"
 
-    NUMPAD0 = "\ue01a"  # number pad keys
+    NUMPAD0 = "\ue01a"
     NUMPAD1 = "\ue01b"
     NUMPAD2 = "\ue01c"
     NUMPAD3 = "\ue01d"
@@ -53,7 +53,7 @@ class Keys:
     DECIMAL = "\ue028"
     DIVIDE = "\ue029"
 
-    F1 = "\ue031"  # function  keys
+    F1 = "\ue031"
     F2 = "\ue032"
     F3 = "\ue033"
     F4 = "\ue034"

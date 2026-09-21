@@ -1,0 +1,2 @@
+default_interactive_adapter = "playwright" # playwright or selenium
+default_reading_adapter = "httpx" # httpx or curl_cffi — falls back to the interactive default if neither is installed

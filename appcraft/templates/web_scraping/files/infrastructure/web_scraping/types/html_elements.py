@@ -1,19 +1,25 @@
 from typing import TypeVar
 
-from domain.interfaces.html_element.html_element import (
-    IHTMLElement,
-    IHTMLInteractiveElement,
-    IHTMLNavigationElement,
-    IHTMLReadingElement,
+from domain.html_elements.interface import (
+    HTMLElementInterface,
+    HTMLInteractiveElementInterface,
+    HTMLNavigationElementInterface,
+    HTMLReadingElementInterface,
 )
 
-THTMLElement = TypeVar("THTMLElement", bound=IHTMLElement, covariant=True)
+THTMLElement = TypeVar(
+    "THTMLElement", bound=HTMLElementInterface, covariant=True
+)
 THTMLReadingElement = TypeVar(
-    "THTMLReadingElement", bound=IHTMLReadingElement, covariant=True
+    "THTMLReadingElement", bound=HTMLReadingElementInterface, covariant=True
 )
 THTMLNavigationElement = TypeVar(
-    "THTMLNavigationElement", bound=IHTMLNavigationElement, covariant=True
+    "THTMLNavigationElement",
+    bound=HTMLNavigationElementInterface,
+    covariant=True,
 )
 THTMLInteractiveElement = TypeVar(
-    "THTMLInteractiveElement", bound=IHTMLInteractiveElement, covariant=True
+    "THTMLInteractiveElement",
+    bound=HTMLInteractiveElementInterface,
+    covariant=True,
 )
