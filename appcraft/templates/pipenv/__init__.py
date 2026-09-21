@@ -8,7 +8,6 @@ from ..template_abc import TemplateABC
 class PipenvTemplate(TemplateABC):
     active = True
     exclusive_group = "package_manager"
-    dependencies = ["poetry"]
     description = "\
 Pipenv Template switches the project's dependency management to Pipenv. \
 It reads whatever dependencies the project currently has — from Poetry, \

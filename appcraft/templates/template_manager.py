@@ -47,3 +47,15 @@ class TemplateManager:
 
         templates.update(template_data)
         self.save_templates(templates)
+
+    def remove_template(self, template_name: str) -> list[str]:
+        """Removes `template_name`'s entry from templates.json (if
+        present) and returns the list of file paths (relative to
+        target_dir) it owned, for the caller to delete from disk."""
+        templates = self.load_templates()
+        data = templates.pop(template_name, None)
+        if data is None:
+            return []
+
+        self.save_templates(templates)
+        return list(data.get("files", []))

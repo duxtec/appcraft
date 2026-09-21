@@ -59,6 +59,30 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
     @classmethod
     def install(cls, target_dir: Path | None = None) -> None:
         from appcraft.utils.template.adder import TemplateAdder
+        from appcraft.utils.template.loader import TemplateLoader
+
+        # A template in an exclusive_group (e.g. the package_manager
+        # group shared by poetry/pipenv/uv) replaces whichever other
+        # member of that group is currently installed, rather than
+        # sitting alongside it — TemplateLoader.resolve() already
+        # rejects requesting two members *together*, so reaching this
+        # point with another member installed means a deliberate swap.
+        if cls.exclusive_group is not None:
+            installed = TemplateManager(target_dir=target_dir).load_templates()
+            if installed:
+                templates_by_name = {
+                    t.name: t
+                    for t in TemplateLoader(get_inactives=True).templates
+                }
+                for name in list(installed):
+                    if name == cls.name:
+                        continue
+                    other = templates_by_name.get(name)
+                    if (
+                        other is not None
+                        and other.exclusive_group == cls.exclusive_group
+                    ):
+                        other.uninstall(target_dir=target_dir)
 
         ta = TemplateAdder(
             target_dir=target_dir, package_manager=cls.package_manager
@@ -67,5 +91,23 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
         ta.merge_pm_files(cls.name)
 
     @classmethod
-    def uninstall(cls) -> None:
-        pass
+    def uninstall(cls, target_dir: Path | None = None) -> None:
+        templates = TemplateManager(target_dir=target_dir).load_templates()
+
+        owned_files = templates.get(cls.name, {}).get("files", [])
+        files_owned_elsewhere = {
+            file
+            for name, data in templates.items()
+            if name != cls.name
+            for file in data.get("files", [])
+        }
+
+        base_dir = target_dir or Path.cwd()
+        for relative_path in owned_files:
+            if relative_path in files_owned_elsewhere:
+                continue
+            file_path = base_dir / relative_path
+            if file_path.is_file():
+                file_path.unlink()
+
+        TemplateManager(target_dir=target_dir).remove_template(cls.name)

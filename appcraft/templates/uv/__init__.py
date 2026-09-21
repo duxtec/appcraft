@@ -8,7 +8,6 @@ from ..template_abc import TemplateABC
 class UvTemplate(TemplateABC):
     active = True
     exclusive_group = "package_manager"
-    dependencies = ["poetry"]
     description = "\
 uv Template switches the project's dependency management to uv. It reads \
 whatever dependencies the project currently has — from Poetry, Pipenv, or \
