@@ -36,7 +36,7 @@ Because `appcraft/utils/__init__.py` imports helpers (`Printer`, `ImportManager`
 
 ## Detailed reference
 
-This repo contains two things layered on top of each other: the **appcraft CLI/template engine**, and the **generated-project framework** that the CLI's `base` template installs into user projects — including the naming/layering conventions every active template (except `git`/`github`, flagged as technical debt below) follows. Start with `docs/agents/architecture.md`.
+This repo contains two things layered on top of each other: the **appcraft CLI/template engine**, and the **generated-project framework** that the CLI's `base` template installs into user projects — including the naming/layering conventions every active template follows (`git`/`github` are deliberately `active = False` for not following them yet — see `docs/agents/templates-git.md`). Start with `docs/agents/architecture.md`.
 
 Per-template-family details — file layout, the specific `is_installed()`-based extension points each family uses, and anything non-obvious about how they work — live in their own files so this index stays short:
 
