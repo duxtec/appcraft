@@ -49,7 +49,11 @@ class PoetryManager(PackageManager):
     def get_activate_command(self):
         return ""
 
-    def install_requirements(self, requirements: str | None = None):
+    def install_requirements(
+        self,
+        requirements: str | None = None,
+        include_dev_dependencies: bool = True,
+    ):
         if self.venv_is_active():
             return
         try:
@@ -63,7 +67,14 @@ class PoetryManager(PackageManager):
             if requirements and os.path.exists(requirements):
                 subprocess.check_call(["poetry", "add", "-r", requirements])
             else:
-                subprocess.check_call(["poetry", "install"])
+                command = ["poetry", "install"]
+                if not include_dev_dependencies:
+                    # Every group (dev, or any other) is excluded — only
+                    # [tool.poetry.dependencies] gets installed. A
+                    # production-only dependency (e.g. gunicorn) must be
+                    # declared there, not under a named group.
+                    command += ["--only", "main"]
+                subprocess.check_call(command)
             self.requirements_installed = True
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))

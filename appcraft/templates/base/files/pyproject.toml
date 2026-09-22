@@ -16,6 +16,7 @@ package-mode = false
 python = "^3.12"
 toml = "0.10.2"
 pydantic = "^2.13.4"
+injector = "^0.24.0"
 
 [tool.poetry.group.dev.dependencies]
 sphinx = "8.0.2"

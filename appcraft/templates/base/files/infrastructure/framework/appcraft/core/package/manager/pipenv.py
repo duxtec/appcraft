@@ -49,16 +49,24 @@ class PipenvManager(PackageManager):
     def get_activate_command(self):
         return ""
 
-    def install_requirements(self, requirements: str | None = None):
+    def install_requirements(
+        self,
+        requirements: str | None = None,
+        include_dev_dependencies: bool = True,
+    ):
         if self.venv_is_active():
             return
         try:
             if requirements and os.path.exists(requirements):
-                subprocess.check_call(
-                    ["pipenv", "install", "-r", requirements]
-                )
+                command = ["pipenv", "install", "-r", requirements]
             else:
-                subprocess.check_call(["pipenv", "install"])
+                # `pipenv install` alone only ever installs [packages] —
+                # [dev-packages] needs --dev explicitly.
+                command = ["pipenv", "install"]
+                if include_dev_dependencies:
+                    command.append("--dev")
+
+            subprocess.check_call(command)
             self.requirements_installed = True
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))

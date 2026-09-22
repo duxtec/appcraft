@@ -27,7 +27,11 @@ class PackageManager(ABC):
         pass
 
     @abstractmethod
-    def install_requirements(self, requirements: str | None = None):
+    def install_requirements(
+        self,
+        requirements: str | None = None,
+        include_dev_dependencies: bool = True,
+    ):
         pass
 
     @abstractmethod

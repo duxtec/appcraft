@@ -51,7 +51,11 @@ class UvManager(PackageManager):
     def get_activate_command(self):
         return ""
 
-    def install_requirements(self, requirements: str | None = None):
+    def install_requirements(
+        self,
+        requirements: str | None = None,
+        include_dev_dependencies: bool = True,
+    ):
         if self.venv_is_active():
             return
         try:
@@ -60,7 +64,10 @@ class UvManager(PackageManager):
                     ["uv", "pip", "install", "-r", requirements]
                 )
             else:
-                subprocess.check_call(["uv", "sync"])
+                command = ["uv", "sync"]
+                if not include_dev_dependencies:
+                    command.append("--no-dev")
+                subprocess.check_call(command)
             self.requirements_installed = True
         except subprocess.CalledProcessError as e:
             CorePrinter.installation_error(str(e))

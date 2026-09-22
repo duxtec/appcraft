@@ -40,7 +40,12 @@ class PipManager(PackageManager):
         else:
             return f"source \"{os.path.join(venv_path, 'bin', 'activate')}\""
 
-    def install_requirements(self, requirements: str | None = None):
+    def install_requirements(
+        self,
+        requirements: str | None = None,
+        include_dev_dependencies: bool = True,
+    ):
+        # requirements.txt has no dev/main split — nothing to exclude.
         try:
             if not requirements:
                 requirements = "requirements.txt"
