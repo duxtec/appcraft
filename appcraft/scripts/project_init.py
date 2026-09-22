@@ -21,7 +21,10 @@ def project_init():
         "templates",
         nargs="*",
         default=[],
-        help="Names of the templates to add (default: base).",
+        help=(
+            "Names of the templates to add (default templates, always "
+            f"included: {', '.join(tl.default_template_names)})."
+        ),
     )
     parser.add_argument(
         "--install-inactive",
