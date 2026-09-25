@@ -1,12 +1,14 @@
 [project]
 name = "appcraft"
-version = "0.5.4"
+version = "0.6.0b0"
 description = "Appcraft is a modular framework designed to simplify software development by providing a structured and extensible architecture. It enables developers to create and manage complex applications with ease, ensuring scalability and maintainability."
 authors = [{ name = "Dux Tecnologia", email = "contato@tpereira.com.br" }]
+license = { file = "LICENSE" }
 dependencies = [
     "toml"
 ]
 classifiers= [
+    'Development Status :: 4 - Beta',
     'Programming Language :: Python :: 3',
     'License :: OSI Approved :: MIT License',
     'Operating System :: OS Independent'
