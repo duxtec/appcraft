@@ -1,5 +1,3 @@
-from typing import List
-
 from application.services.interfaces import ServiceAdapterInterface
 from domain.filters import EqualFilter
 from domain.filters.interface import FilterInterface
@@ -12,8 +10,8 @@ class GitHubRepositoryService(ServiceAdapterInterface):
         self.adapter = adapter
 
     def get(
-        self, filters: List[FilterInterface] = []
-    ) -> List[GitHubRepository]:
+        self, filters: list[FilterInterface] = []
+    ) -> list[GitHubRepository]:
         return self.adapter.get_repository(filters)
 
     def create(

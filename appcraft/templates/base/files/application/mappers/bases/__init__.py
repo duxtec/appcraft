@@ -1,9 +1,9 @@
 from typing import Type
 
 from application.mappers import Mapper
+from application.schemas import TSchema
+from domain.core.property_meta import PropertyMeta
 from domain.types.model import TNewModel
-from domain.types.schema import TSchema
-from infrastructure.framework.appcraft.core.property_meta import PropertyMeta
 
 
 class BaseMapper(

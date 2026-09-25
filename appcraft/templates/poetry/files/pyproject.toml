@@ -1,2 +1,2 @@
 [tool.poetry.group.dev.dependencies]
-appcraft = "^0.5.3" # resolves appcraft.utils.dependency_convert, used by pre_install
+appcraft = "^0.6.0b0" # resolves appcraft.utils.dependency_convert, used by pre_install

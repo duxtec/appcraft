@@ -14,7 +14,7 @@ class FlaskSQLAlchemy:
         # generated project when installed, so this can't be a static
         # top-level import without breaking pyright for every flask
         # project that doesn't also install sqlalchemy. Same pattern as
-        # application/providers/adapters/database.py.
+        # infrastructure/database/provider.py.
         #
         # Uses the sqlalchemy-specific singleton (not
         # get_default_database_adapter()) so this keeps working even when

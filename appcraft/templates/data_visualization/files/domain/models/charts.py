@@ -1,8 +1,8 @@
-from typing import List, Dict
+from typing import Dict
 
 
 class Chart:
-    def __init__(self, title: str, data: List[Dict]):
+    def __init__(self, title: str, data: list[Dict]):
         self.title = title
         self.data = data
 
@@ -15,8 +15,7 @@ class Chart:
 
 class BarChart(Chart):
     def __init__(
-        self, title: str, data: List[Dict],
-        x_column: str, y_column: str
+        self, title: str, data: list[Dict], x_column: str, y_column: str
     ):
         super().__init__(title, data)
         self.x_column = x_column
@@ -31,7 +30,7 @@ Plotting Bar Chart: {self.get_title()} using \
 
 class LineChart(Chart):
     def __init__(
-        self, title: str, data: List[Dict], x_column: str, y_column: str
+        self, title: str, data: list[Dict], x_column: str, y_column: str
     ):
         super().__init__(title, data)
         self.x_column = x_column
@@ -45,7 +44,7 @@ and {self.y_column}")
 
 
 class PieChart(Chart):
-    def __init__(self, title: str, data: List[Dict], category_column: str):
+    def __init__(self, title: str, data: list[Dict], category_column: str):
         super().__init__(title, data)
         self.category_column = category_column
 

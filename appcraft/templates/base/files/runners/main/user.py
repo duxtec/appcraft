@@ -1,11 +1,9 @@
-from application.providers.adapters.database import (
-    get_default_database_adapter,
-)
 from application.repositories.user import UserRepository
 from application.use_cases.user.create import CreateUserUseCase
 from application.use_cases.user.delete import DeleteUserUseCase
 from application.use_cases.user.get import ReadUserUseCase
 from application.use_cases.user.update import UpdateUserUseCase
+from infrastructure.database.provider import get_default_database_adapter
 from infrastructure.framework.appcraft.core.runner import Runner
 from presentation.cli.user import UserCLIPresentation
 

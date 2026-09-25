@@ -14,6 +14,9 @@ from typing import (
 )
 
 from pydantic import BaseModel, model_validator
+from pydantic import field_validator as field_validator
+from pydantic import GetCoreSchemaHandler as GetCoreSchemaHandler
+from pydantic_core import CoreSchema as CoreSchema
 
 from domain.models.core.field import Field
 from domain.models.core.pk import PK

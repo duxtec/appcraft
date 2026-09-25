@@ -1,15 +1,14 @@
 import subprocess
-from typing import List, Optional
 
 from application.interfaces.adapters import AdapterInterface
 
 
 class GitAdapter(AdapterInterface):
 
-    def __init__(self, repo_path: Optional[str] = None):
+    def __init__(self, repo_path: str | None = None):
         self.repo_path = repo_path
 
-    def run(self, command: List[str]):
+    def run(self, command: list[str]):
         command = ["git"] + command
 
         subprocess.check_call(
@@ -42,7 +41,7 @@ class GitAdapter(AdapterInterface):
         self.run(["push", "--all", "origin"])
 
     def create_branch(
-        self, branch_name: str, source_branch_name: Optional[str] = None
+        self, branch_name: str, source_branch_name: str | None = None
     ):
         command = ["checkout", "-b", branch_name]
         if source_branch_name:

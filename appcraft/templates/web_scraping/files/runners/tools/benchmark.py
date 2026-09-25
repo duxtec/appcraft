@@ -29,10 +29,11 @@ class WebScrapingBenchmark(Runner):
         self._run_benchmark(kwargs)
 
     def _run_benchmark(self, kwargs: dict[str, str]) -> None:
-        runs = kwargs.pop("runs", None)
-        benchmark_input = BenchmarkInput(kwargs=kwargs)
-        if runs:
-            benchmark_input.runs = int(runs)
+        benchmark_input = BenchmarkInput()
+        if "runs" in kwargs:
+            benchmark_input.runs = int(kwargs["runs"])
+        if "urls" in kwargs:
+            benchmark_input.urls = kwargs["urls"]
 
         use_case = BenchmarkWebScrapingRunnersUseCase()
         results = use_case.execute(benchmark_input)

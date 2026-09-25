@@ -2,8 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Any, Generic, Sequence
 
 from application.ports import Port
+from domain.types.html_elements import THTMLElement
 from domain.web_scraping.cookie import Cookie
-from infrastructure.web_scraping.types.html_elements import THTMLElement
 
 
 class WebScrapingPort(Port, ABC, Generic[THTMLElement]):

@@ -2,7 +2,7 @@ from typing import Optional
 
 from application.services.github import GitHubRepositoryService
 from domain.github.models.repository import GitHubRepository
-from infrastructure.framework.appcraft.core.app_manager import AppManager
+from infrastructure.framework.appcraft.app.manager import AppManager
 from infrastructure.framework.appcraft.utils.component_printer import (
     ComponentPrinter,
 )
@@ -35,8 +35,8 @@ class GitHubCLIPresentation:
 
     def create_repo(
         self,
-        name: Optional[str],
-        description: Optional[str],
+        name: str | None,
+        description: str | None,
         is_private: Optional[str | bool],
     ):
         name = self._get_name(name)
@@ -53,7 +53,7 @@ class GitHubCLIPresentation:
 
     def delete_repo(
         self,
-        name: Optional[str],
+        name: str | None,
     ):
         name = self._get_name(name)
 
@@ -64,7 +64,7 @@ class GitHubCLIPresentation:
             print(e)
             self.Printer.delete_repo_error(name)
 
-    def _get_name(self, name: Optional[str]) -> str:
+    def _get_name(self, name: str | None) -> str:
         if name is None:
             name = AppManager().name
 
@@ -73,7 +73,7 @@ class GitHubCLIPresentation:
             value=name,
         )
 
-    def _get_description(self, description: Optional[str]) -> str:
+    def _get_description(self, description: str | None) -> str:
         if description is None:
             description = AppManager().description
 

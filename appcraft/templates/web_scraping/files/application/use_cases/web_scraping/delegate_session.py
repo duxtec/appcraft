@@ -2,12 +2,12 @@ import asyncio
 from dataclasses import dataclass
 
 from application.ports.web_scraping import WebScrapingAsyncPort
-from application.providers.adapters.web_scraping import (
+from application.use_cases import UseCase
+from domain.web_scraping.cookie import Cookie
+from infrastructure.web_scraping.provider import (
     delegate_to_reading_adapter,
     get_default_interactive_adapter,
 )
-from application.use_cases import UseCase
-from domain.web_scraping.cookie import Cookie
 
 
 @dataclass

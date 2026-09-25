@@ -2,8 +2,8 @@ from abc import ABC
 from typing import Any, Generic
 
 from application.ports.web_scraping import WebScrapingAsyncPort, WebScrapingPort
+from domain.types.html_elements import THTMLElement
 from domain.web_scraping.session import WebScrapingSession
-from infrastructure.web_scraping.types.html_elements import THTMLElement
 
 
 class WebScrapingAdapterBase(

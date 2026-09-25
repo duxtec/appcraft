@@ -1,3 +1,5 @@
+from typing import TypeVar
+
 from domain.models.core.pydantic import PydanticSchema
 
 
@@ -20,3 +22,6 @@ class Schema(PydanticSchema):
         super().__init_subclass__(**kwargs)
         dataclass(frozen=True)(cls)
     """
+
+
+TSchema = TypeVar("TSchema", bound=Schema)

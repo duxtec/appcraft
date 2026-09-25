@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Generic, Type
 
+from application.schemas import TSchema
 from domain.types.model import TNewModel
-from domain.types.schema import TSchema
 
 
 class Mapper(ABC, Generic[TNewModel, TSchema]):

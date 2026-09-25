@@ -4,6 +4,7 @@ from typing import Generic, TypeVar
 from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports.database import DatabasePort
+from domain.core.property_meta import PropertyMeta
 from domain.filters.interface import FilterInterface
 from domain.types.model import TModel, TNewModel
 from domain.value_objects.id import Id
@@ -61,7 +62,9 @@ class Repository(
 
 class RepositoryBase(
     Repository[TModel, TNewModel],
+    metaclass=PropertyMeta,
 ):
+    _props = ["model", "new_model"]
 
     def get(
         self,

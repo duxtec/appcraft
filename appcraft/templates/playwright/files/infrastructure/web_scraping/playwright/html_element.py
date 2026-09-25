@@ -2,7 +2,7 @@ from typing import Self
 
 from domain.exceptions.web_scraping import NoSuchElementException
 from domain.html_elements.interface import HTMLInteractiveElementInterface
-from infrastructure.web_scraping.utils.keys import Keys
+from domain.web_scraping.keys import Keys
 from playwright.sync_api import ElementHandle, Page
 
 

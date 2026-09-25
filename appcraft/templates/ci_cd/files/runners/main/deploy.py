@@ -1,7 +1,7 @@
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.runner import Runner
 
 
-class Deploy(AppRunner):
-    @AppRunner.runner
+class Deploy(Runner):
+    @Runner.runner
     def run(self):
         pass

@@ -1,8 +1,8 @@
-from typing import List, Dict
+from typing import Any
 
 
 class DataSet:
-    def __init__(self, data: List[Dict]):
+    def __init__(self, data: list[dict[Any, Any]]):
         self.data = data
 
     def get_data(self):
@@ -10,19 +10,19 @@ class DataSet:
 
 
 class DataSummary(DataSet):
-    def __init__(self, data: List[Dict]):
+    def __init__(self, data: list[dict[Any, Any]]):
         super().__init__(data)
 
     def summarize(self):
         summary = {
             "total_records": len(self.data),
-            "columns": list(self.data[0].keys()) if self.data else []
+            "columns": list(self.data[0].keys()) if self.data else [],
         }
         return summary
 
 
 class CorrelationAnalysis(DataSet):
-    def __init__(self, data: List[Dict]):
+    def __init__(self, data: list[dict[Any, Any]]):
         super().__init__(data)
 
     def calculate_correlation(self):
@@ -31,7 +31,7 @@ class CorrelationAnalysis(DataSet):
 
 
 class DataCleaning(DataSet):
-    def __init__(self, data: List[Dict]):
+    def __init__(self, data: list[dict[Any, Any]]):
         super().__init__(data)
 
     def clean_missing_values(self, threshold: float = 0.5):
@@ -43,10 +43,12 @@ class DataCleaning(DataSet):
 
 
 class FeatureEngineering(DataSet):
-    def __init__(self, data: List[Dict]):
+    def __init__(self, data: list[dict[Any, Any]]):
         super().__init__(data)
 
-    def create_feature(self, column1: str, column2: str, new_column_name: str):
+    def create_feature(
+        self, column1: str, column2: str, new_column_name: str
+    ):
         for record in self.data:
             record[new_column_name] = record[column1] + record[column2]
         return self.data

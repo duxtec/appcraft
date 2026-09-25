@@ -46,11 +46,16 @@ def generate_module_list(directory):
     modules = []
     for root, dirs, files in os.walk(f"../../{directory}"):
         for file in files:
-            if file.endswith('.py') and file != '__init__.py':  # Ignora __init__.py
+            # Ignora __init__.py
+            if file.endswith('.py') and file != '__init__.py':
                 # Converte o caminho do arquivo em formato de módulo Python
                 module_name = os.path.join(root, file)
-                module_name = module_name.replace('../../', '')  # Remove o prefixo '../../'
-                module_name = module_name.replace('/', '.').replace('\\', '.')[:-3]
+                module_name = module_name.replace(
+                    '../../', ''
+                )  # Remove o prefixo '../../'
+                module_name = module_name.replace('/', '.').replace(
+                    '\\', '.'
+                )[:-3]
                 modules.append(module_name)
     return modules
 
@@ -67,7 +72,9 @@ for directory in directories_to_document:
     modules_to_document = generate_module_list(directory)
 
     # Cria o conteúdo para o arquivo .rst dessa pasta
-    autodoc_docstring = f"{directory.capitalize()} Module\n{'=' * (len(directory) + 7)}\n\n"
+    autodoc_docstring = (
+        f"{directory.capitalize()} Module\n{'=' * (len(directory) + 7)}\n\n"
+    )
     autodoc_docstring += ".. toctree::\n   :maxdepth: 2\n\n"
 
     # Adiciona cada módulo dentro do arquivo .rst da pasta
@@ -85,7 +92,9 @@ for directory in directories_to_document:
    :show-inheritance:
 """
         # Gera o arquivo .rst para cada módulo
-        module_rst_path = os.path.join(output_dir, f"{module_rst_filename}.rst")
+        module_rst_path = os.path.join(
+            output_dir, f"{module_rst_filename}.rst"
+        )
         ensure_directory_exists(os.path.dirname(module_rst_path))
         with open(module_rst_path, "w") as f:
             f.write(module_docstring)
@@ -95,4 +104,6 @@ for directory in directories_to_document:
     with open(directory_rst_path, "w") as f:
         f.write(autodoc_docstring)
 
-print("Arquivos de documentação gerados com sucesso e adicionados ao toctree!")
+print(
+    "Arquivos de documentação gerados com sucesso e adicionados ao toctree!"
+)

@@ -1,14 +1,12 @@
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
+from infrastructure.framework.appcraft.core.runner import Runner
 from infrastructure.git.adapter import GitAdapter
 
 
-class GitRunner(AppRunnerInterface):
+class GitRunner(Runner):
     def __init__(self) -> None:
         self.adapter = GitAdapter()
 
-    @AppRunnerInterface.runner
+    @Runner.runner
     def init(self):
         self.adapter.init_local_repo()
         version = "0.0.1"

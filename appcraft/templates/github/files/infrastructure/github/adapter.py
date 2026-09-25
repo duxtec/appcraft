@@ -1,6 +1,5 @@
 import subprocess
 import sys
-from typing import List
 
 from application.interfaces.adapters import AdapterInterface
 from domain.filters.interface import FilterInterface
@@ -15,12 +14,13 @@ class GitHubAdapter(AdapterInterface):
             sys.exit(1)
         if not self.is_authenticated():
             sys.stderr.write(
-                "Error: Not authenticated with GitHub CLI. Run 'gh auth login'.\n"
+                "Error: Not authenticated with GitHub CLI. "
+                "Run 'gh auth login'.\n"
             )
             sys.exit(1)
 
     @classmethod
-    def run_check_call(cls, command: List[str]):
+    def run_check_call(cls, command: list[str]):
         try:
             command = ["gh"] + command
 
@@ -31,7 +31,7 @@ class GitHubAdapter(AdapterInterface):
             ) from None
 
     @classmethod
-    def run(cls, command: List[str]):
+    def run(cls, command: list[str]):
         try:
             command = ["gh"] + command
 
@@ -96,8 +96,8 @@ class GitHubAdapter(AdapterInterface):
 
     def get_repository(
         self,
-        filters: List[FilterInterface] = [],
-    ) -> List[GitHubRepository]:
+        filters: list[FilterInterface] = [],
+    ) -> list[GitHubRepository]:
         repo_name = filters[0].value.replace(" ", "-")
         try:
             url = self.get_repository_url(repo_name=repo_name)

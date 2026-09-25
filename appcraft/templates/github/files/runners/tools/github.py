@@ -1,18 +1,16 @@
 from application.services.github import GitHubRepositoryService
-from infrastructure.framework.appcraft.core.app_runner import (
-    AppRunnerInterface,
-)
+from infrastructure.framework.appcraft.core.runner import Runner
 from infrastructure.github.adapter import GitHubAdapter
 from presentation.cli.github import GitHubCLIPresentation
 
 
-class GitHubRunner(AppRunnerInterface):
+class GitHubRunner(Runner):
     def __init__(self) -> None:
         adapter = GitHubAdapter()
         self.service = GitHubRepositoryService(adapter=adapter)
         self.presentation = GitHubCLIPresentation(service=self.service)
 
-    @AppRunnerInterface.runner
+    @Runner.runner
     def create_repo(
         self,
         name: str | None = None,
@@ -23,6 +21,6 @@ class GitHubRunner(AppRunnerInterface):
             name=name, description=description, is_private=is_private
         )
 
-    @AppRunnerInterface.runner
+    @Runner.runner
     def delete_repo(self, name: str | None = None):
         self.presentation.delete_repo(name=name)

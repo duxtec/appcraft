@@ -102,7 +102,7 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
             for file in data.get("files", [])
         }
 
-        base_dir = target_dir or Path.cwd()
+        base_dir = Path(target_dir) if target_dir else Path.cwd()
         for relative_path in owned_files:
             if relative_path in files_owned_elsewhere:
                 continue

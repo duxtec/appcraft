@@ -1,10 +1,8 @@
 from abc import ABC, abstractmethod
 from typing import Any, Callable, Generic, TypeVar, cast, get_type_hints
 
+from domain.core.property_meta import PropertySetter
 from domain.value_objects import ValueObject
-from infrastructure.framework.appcraft.core.property_meta import (
-    PropertySetter,
-)
 from infrastructure.framework.appcraft.utils.printer import Printer
 
 BasicType = TypeVar("BasicType", bound=Any)

@@ -10,9 +10,6 @@ from domain.value_objects.id import Id
 
 
 class UserRepository(RepositoryBase[User, NewUser]):
-    model = User
-    new_user = NewUser
-
     def __init__(self, adapter: DatabasePort) -> None:
         self.adapter = adapter
 

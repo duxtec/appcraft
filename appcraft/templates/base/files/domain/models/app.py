@@ -1,8 +1,7 @@
 from typing import Literal
 
-from pydantic import field_validator
-
 from domain.models import NewModel
+from domain.models.core.pydantic import field_validator
 
 
 class App(NewModel):

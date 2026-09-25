@@ -2,11 +2,11 @@ import os
 import subprocess
 import sys
 
-from infrastructure.framework.appcraft.core.app_runner import AppRunner
+from infrastructure.framework.appcraft.core.runner import Runner
 
 
-class GitRunner(AppRunner):
-    @AppRunner.runner
+class GitRunner(Runner):
+    @Runner.runner
     def create(self):
         GITHUB_USER = subprocess.getoutput("gh api user | jq -r .login")
         if "gh: command not found" in GITHUB_USER:

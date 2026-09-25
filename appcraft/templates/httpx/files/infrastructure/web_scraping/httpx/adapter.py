@@ -19,19 +19,43 @@ class HTTPXAdapter(WebScrapingAsyncAdapterBase[HTMLReadingElementInterface]):
     """
 
     def __init__(self, parser: HTMLParserInterface):
-        self.client = httpx.AsyncClient()
+        self.client: httpx.AsyncClient | None = None
         self.parser = parser
         self.tree: Any = None
         super().__init__()
 
+    def _ensure_client(self) -> httpx.AsyncClient:
+        # Created lazily rather than in __init__, matching
+        # CurlCffiAdapter's own pattern, so a fresh adapter built in a
+        # plain sync context (no event loop running yet) doesn't try to
+        # construct it before one exists.
+        if self.client is None:
+            self.client = httpx.AsyncClient()
+        return self.client
+
     async def start(self, *args: Any, **kwargs: Any) -> None:
-        pass
+        self._ensure_client()
 
     async def finish(self):
-        return await self.client.aclose()
+        if self.client is None:
+            return
+        try:
+            await self.client.aclose()
+        except RuntimeError:
+            # start()/open_page()/finish() each run under their own
+            # asyncio.run() call when driven from synchronous code (a
+            # runner, or the benchmark tool) — httpx.AsyncClient's
+            # connection pool binds to whichever loop is running the
+            # first time it's actually used, so closing it from a later,
+            # different loop raises "Event loop is closed" even though
+            # the connection itself is already gone along with that
+            # loop. Nothing left to clean up in that case.
+            pass
+        finally:
+            self.client = None
 
     async def open_page(self, url: str):
-        response = await self.client.get(url)
+        response = await self._ensure_client().get(url)
         response.raise_for_status()
         self.tree = self.parser.parse(response.text)
 
@@ -66,12 +90,13 @@ class HTTPXAdapter(WebScrapingAsyncAdapterBase[HTMLReadingElementInterface]):
                 http_only=bool(raw.get_nonstandard_attr("HttpOnly")),
                 expires=raw.expires,
             )
-            for raw in self.client.cookies.jar
+            for raw in self._ensure_client().cookies.jar
         ]
 
     async def set_cookies(self, cookies: Sequence[Cookie]) -> None:
+        client = self._ensure_client()
         for cookie in cookies:
-            self.client.cookies.set(
+            client.cookies.set(
                 cookie.name,
                 cookie.value,
                 domain=cookie.domain or "",
@@ -79,10 +104,10 @@ class HTTPXAdapter(WebScrapingAsyncAdapterBase[HTMLReadingElementInterface]):
             )
 
     async def get_headers(self) -> dict[str, str]:
-        return dict(self.client.headers)
+        return dict(self._ensure_client().headers)
 
     async def set_headers(self, headers: dict[str, str]) -> None:
-        self.client.headers.update(headers)
+        self._ensure_client().headers.update(headers)
 
 
 class HTTPXBeautifulSoupAdapter(HTTPXAdapter):

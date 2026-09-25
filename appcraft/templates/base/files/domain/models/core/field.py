@@ -9,11 +9,9 @@ from typing import (
     overload,
 )
 
-from pydantic import GetCoreSchemaHandler
-from pydantic_core import CoreSchema
-
 if TYPE_CHECKING:
     from domain.models import Model
+    from domain.models.core.pydantic import CoreSchema, GetCoreSchemaHandler
 
 T = TypeVar("T")
 
@@ -63,8 +61,8 @@ class Field(Generic[T]):
     def __get_pydantic_core_schema__(
         cls,
         source_type: Any,
-        handler: GetCoreSchemaHandler,
-    ) -> CoreSchema:
+        handler: "GetCoreSchemaHandler",
+    ) -> "CoreSchema":
         args = get_args(source_type)
 
         if not args:

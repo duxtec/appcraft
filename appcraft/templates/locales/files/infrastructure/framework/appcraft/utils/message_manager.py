@@ -6,7 +6,7 @@ from abc import ABCMeta
 from typing import TextIO
 
 import polib
-from infrastructure.framework.appcraft.core.app_manager import AppManager
+from infrastructure.framework.appcraft.app.manager import AppManager
 from infrastructure.framework.appcraft.core.config import Config
 from infrastructure.framework.appcraft.utils.logger import Logger
 from infrastructure.framework.appcraft.utils.printer import Printer
@@ -38,20 +38,19 @@ class MessageManager:
         if po_file_path.endswith('.po'):
             mo_file_path = po_file_path[:-3] + '.mo'
 
-            if not os.path.exists(mo_file_path) or \
-                os.path.getmtime(po_file_path) > \
-                    os.path.getmtime(mo_file_path):
+            if not os.path.exists(mo_file_path) or os.path.getmtime(
+                po_file_path
+            ) > os.path.getmtime(mo_file_path):
                 try:
                     po = polib.pofile(po_file_path)
                     po.save_as_mofile(mo_file_path)
                     Printer.success(
                         f"Built {mo_file_path} from {po_file_path}",
-                        if_debug=True
+                        if_debug=True,
                     )
                 except Exception as e:
                     Printer.error(
-                        f"Failed to build {mo_file_path}: {e}",
-                        if_debug=True
+                        f"Failed to build {mo_file_path}: {e}", if_debug=True
                     )
 
     def load_prefer_languages(self):
@@ -97,19 +96,15 @@ class MessageManager:
                         f"[Error] translation file not found for {str(e)}."
                     )
                 except Exception as e:
-                    self._logger.warning(
-                        f"""\
+                    self._logger.warning(f"""\
 When trying to load translation to \
 {lang}: {e}\
-"""
-                    )
+""")
 
-        self._logger.warning(
-            f"""\
+        self._logger.warning(f"""\
 Translation file not found for: \
 {', '.join(filter(None, languages))}\
-"""
-        )
+""")
 
     def get_message(self, message_name):
         try:
@@ -132,19 +127,27 @@ Translation file not found for: \
         end: str | None = "\n",
         file: TextIO | None = None,
         flush: bool = False,
-        **kwargs
+        **kwargs,
     ):
         translated_args = [self.get_message(str(value)) for value in values]
 
         if hasattr(builtins, "original_print"):
             builtins.original_print(
-                *translated_args, sep=sep, end=end, file=file, flush=flush,
-                **kwargs
+                *translated_args,
+                sep=sep,
+                end=end,
+                file=file,
+                flush=flush,
+                **kwargs,
             )
         else:
             builtins.print(
-                *translated_args, sep=sep, end=end, file=file, flush=flush,
-                **kwargs
+                *translated_args,
+                sep=sep,
+                end=end,
+                file=file,
+                flush=flush,
+                **kwargs,
             )
 
     class TranslateMethodsMeta(ABCMeta):
