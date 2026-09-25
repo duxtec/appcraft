@@ -1,0 +1,52 @@
+name: Publish to PyPI
+
+on:
+  # Runs whenever a release is published on GitHub (stable, beta, or alpha),
+  # never on a plain push — publishing to PyPI can't be undone.
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: pypi
+      url: https://pypi.org/project/appcraft/
+    permissions:
+      # Required for PyPI Trusted Publishing (OIDC) — no API token/secret
+      # needed as long as this repo + workflow file + environment name are
+      # registered as a trusted publisher on the PyPI project.
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Verify the release tag matches pyproject.toml's version
+        run: |
+          pip install --quiet toml
+          TAG="${GITHUB_REF_NAME#v}"
+          PYPROJECT_VERSION=$(python -c "import toml; print(toml.load('pyproject.toml')['project']['version'])")
+          if [ "$TAG" != "$PYPROJECT_VERSION" ]; then
+            echo "::error::Release tag '${GITHUB_REF_NAME}' (-> '${TAG}') does not match pyproject.toml's version ('${PYPROJECT_VERSION}'). Refusing to publish — fix the tag or bump pyproject.toml and cut a new release."
+            exit 1
+          fi
+          echo "Tag matches pyproject.toml version (${PYPROJECT_VERSION}) — proceeding."
+
+      - name: Install build tooling
+        run: python -m pip install --upgrade build
+
+      - name: Build sdist and wheel
+        run: python -m build
+
+      - name: Publish to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true

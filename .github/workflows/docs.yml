@@ -1,0 +1,99 @@
+name: Publish docs
+
+on:
+  # Runs whenever a release is published on GitHub (stable, beta, or
+  # alpha — regardless of which branch/tag it was cut from), not on
+  # every push. Each release must have already frozen its own
+  # docs/<version>/source + docs/build/<version> before being
+  # published (see the check below) — this workflow only accumulates
+  # that pre-built output into the docs branch, it doesn't run
+  # sphinx-build itself.
+  release:
+    types: [published]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+# Allow only one concurrent run, skipping runs queued between the run
+# in-progress and latest queued, but never cancelling one already
+# pushing to the docs branch / deploying.
+concurrency:
+  group: "docs"
+  cancel-in-progress: false
+
+jobs:
+  publish-docs:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout release ref
+        uses: actions/checkout@v4
+        with:
+          path: release
+
+      - name: Determine version from the release tag
+        id: version
+        run: |
+          VERSION="${GITHUB_REF_NAME#v}"
+          echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Verify this release's docs were frozen before publishing
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          if [ ! -d "release/docs/$VERSION/source" ] || [ ! -d "release/docs/build/$VERSION" ]; then
+            echo "::error::docs/$VERSION/source and/or docs/build/$VERSION not found in this release. Freeze the docs (copy docs/latest/source to docs/$VERSION/source, build it, commit both) before publishing the release."
+            exit 1
+          fi
+          echo "Found docs/$VERSION/source and docs/build/$VERSION — proceeding."
+
+      - name: Checkout docs branch
+        uses: actions/checkout@v4
+        with:
+          ref: docs
+          path: docs-branch
+
+      - name: Copy this version's source + build into the docs branch
+        run: |
+          VERSION="${{ steps.version.outputs.version }}"
+          rm -rf "docs-branch/$VERSION" "docs-branch/build/$VERSION"
+          mkdir -p "docs-branch/$VERSION" "docs-branch/build"
+          cp -r "release/docs/$VERSION/source" "docs-branch/$VERSION/source"
+          cp -r "release/docs/build/$VERSION" "docs-branch/build/$VERSION"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Regenerate the /latest/ redirect
+        run: |
+          pip install --quiet packaging
+          python release/docs/scripts/generate_latest_redirect.py docs-branch
+
+      - name: Commit and push to the docs branch
+        run: |
+          cd docs-branch
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --cached --quiet && echo "Nothing new to commit" || git commit -m "docs: add ${{ steps.version.outputs.version }}"
+          git push origin docs
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "./docs-branch/build"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
