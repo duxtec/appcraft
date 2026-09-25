@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.3. Application Layer &mdash; Appcraft 0.6.0b0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=09dc0c05" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=df5ea57c"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3.4. Domain Layer" href="../domain/index.html" />
+    <link rel="prev" title="3.2. Presentation Layer" href="../presentation/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Appcraft
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">1. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">1.1. Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#starting-a-new-project">1.2. Starting a New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#adding-templates-to-an-existing-project">1.3. Adding Templates to an Existing Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../templates/index.html">2. Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/concepts/index.html">2.1. Template Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#default-templates">2.1.1. Default Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#shared-base-templates">2.1.2. Shared-Base Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#exclusive-templates">2.1.3. Exclusive Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#interchangeable-templates">2.1.4. Interchangeable Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#composable-extensions">2.1.5. Composable Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#dependencies">2.1.6. Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/concepts/index.html#inactive-templates">2.1.7. Inactive Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/base/index.html">2.2. Base Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/base/index.html#a-working-project-out-of-the-box">2.2.1. A working project out of the box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/base/index.html#resilience-and-developer-experience">2.2.2. Resilience and developer experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/base/index.html#learning-the-architecture-by-example">2.2.3. Learning the architecture by example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/poetry/index.html">2.3. Poetry Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/poetry/index.html#switching-to-poetry">2.3.1. Switching to Poetry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/pipenv/index.html">2.4. Pipenv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/pipenv/index.html#switching-to-pipenv">2.4.1. Switching to Pipenv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/uv/index.html">2.5. uv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/uv/index.html#switching-to-uv">2.5.1. Switching to uv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/docker/index.html">2.6. Docker Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/docker/index.html#dynamic-one-service-per-entry-point">2.6.1. Dynamic, one service per entry point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/docker/index.html#building-and-running">2.6.2. Building and running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/docker/index.html#no-hardcoded-package-manager">2.6.3. No hardcoded package manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/docker/index.html#development-vs-production">2.6.4. Development vs. production</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/docker/index.html#one-thing-to-set-up-yourself">2.6.5. One thing to set up yourself</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/prompt_toolkit/index.html">2.7. Prompt Toolkit Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/sqlalchemy/index.html">2.8. SQLAlchemy Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/sqlalchemy/index.html#what-it-adds">2.8.1. What it adds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/sqlalchemy/index.html#combining-with-flask">2.8.2. Combining with Flask</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/mongodb/index.html">2.9. MongoDB Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/mongodb/index.html#what-it-adds">2.9.1. What it adds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/flask/index.html">2.10. Flask Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/flask/index.html#automatic-routing">2.10.1. Automatic routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/flask/index.html#database-integration">2.10.2. Database integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/flask/index.html#development-vs-production">2.10.3. Development vs. production</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/flask_ui/index.html">2.11. Flask UI Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/flask_api/index.html">2.12. Flask API Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/web_scraping/index.html">2.13. Web Scraping Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/web_scraping/index.html#what-this-template-provides">2.13.1. What this template provides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/web_scraping/index.html#choosing-an-engine">2.13.2. Choosing an engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/web_scraping/index.html#handing-off-between-engines">2.13.3. Handing off between engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/web_scraping/index.html#available-runners">2.13.4. Available runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/web_scraping/index.html#benchmarking-installed-engines">2.13.5. Benchmarking installed engines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/selenium/index.html">2.14. Selenium Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/selenium/index.html#browser-detection">2.14.1. Browser detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/selenium/index.html#cookies-and-headers">2.14.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/selenium/index.html#using-selenium-specifically">2.14.3. Using Selenium specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/playwright/index.html">2.15. Playwright Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/playwright/index.html#async-by-nature">2.15.1. Async by nature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/playwright/index.html#cookies-and-headers">2.15.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/playwright/index.html#using-playwright-specifically">2.15.3. Using Playwright specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/httpx/index.html">2.16. HTTPX Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/httpx/index.html#choosing-a-parser">2.16.1. Choosing a parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/httpx/index.html#cookies-and-headers">2.16.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/httpx/index.html#using-httpx-specifically">2.16.3. Using HTTPX specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/curl_cffi/index.html">2.17. curl_cffi Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/curl_cffi/index.html#why-this-exists-alongside-httpx">2.17.1. Why this exists alongside HTTPX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/curl_cffi/index.html#cookies-and-headers">2.17.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/curl_cffi/index.html#using-curl-cffi-specifically">2.17.3. Using curl_cffi specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/git/index.html">2.18. Git Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/git/index.html#key-features">2.18.1. Key features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/git/index.html#benefits">2.18.2. Benefits:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../templates/github/index.html">2.19. GitHub Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/github/index.html#key-features">2.19.1. Key Features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../templates/github/index.html#benefits">2.19.2. Benefits:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">3. Layered Architecture</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../runner/index.html">3.1. Runner Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#what-to-do-in-runners">3.1.1. What to Do in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#what-to-avoid-in-runners">3.1.2. What to Avoid in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#types-of-runners">3.1.3. Types of runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#example-of-a-runner">3.1.4. Example of a Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#running-applications">3.1.5. Running Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#running-tool-runners">3.1.6. Running Tool Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../runner/index.html#executing-a-specific-runner">3.1.7. Executing a Specific Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../presentation/index.html">3.2. Presentation Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../presentation/index.html#what-belongs-here">3.2.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../presentation/index.html#what-to-avoid-here">3.2.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../presentation/index.html#naming-convention-domain-clipresentation">3.2.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">&lt;Domain&gt;CLIPresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../presentation/index.html#example-a-cli-presentation">3.2.4. Example: a CLI Presentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.3. Application Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-belongs-here">3.3.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#what-to-avoid-here">3.3.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#naming-conventions">3.3.3. Naming conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-a-port">3.3.4. Example: a Port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-a-repository">3.3.5. Example: a Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-a-mapper-and-schema">3.3.6. Example: a Mapper and Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-a-use-case">3.3.7. Example: a Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#introspection-use-cases">3.3.8. Introspection use cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../domain/index.html">3.4. Domain Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../domain/index.html#what-belongs-here">3.4.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain/index.html#what-to-avoid-here">3.4.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain/index.html#naming-convention-interface-not-i-name">3.4.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">Interface</span></code>, not <code class="docutils literal notranslate"><span class="pre">I</span></code> + name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain/index.html#example-a-domain-model">3.4.4. Example: a domain model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../domain/index.html#example-a-filter">3.4.5. Example: a filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../infrastructure/index.html">3.5. Infrastructure Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../infrastructure/index.html#what-belongs-here">3.5.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infrastructure/index.html#what-to-avoid-here">3.5.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infrastructure/index.html#naming-convention-adapter">3.5.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infrastructure/index.html#example-the-default-database-adapter">3.5.4. Example: the default database Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../infrastructure/index.html#providers">3.5.5. Providers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flow/index.html">3.6. Application Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flow/index.html#request-flow">3.6.1. Request Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flow/index.html#response-flow">3.6.2. Response Flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">4. Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#creating-new-templates">4.1. Creating New Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#updating-existing-templates">4.2. Updating Existing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#translating-the-framework">4.3. Translating the Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#working-in-a-temporary-project">4.4. Working in a Temporary Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#ready-to-contribute">4.5. Ready to Contribute?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">5. Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#b0">5.1. 0.6.0b0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">5.1.1. Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">5.1.2. Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">5.1.3. Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">5.1.4. Removed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">6. Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions/index.html">7. Versions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Appcraft</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><span class="section-number">3. </span>Layered Architecture</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.3. </span>Application Layer</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/architecture/application/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="application-layer">
+<h1><span class="section-number">3.3. </span>Application Layer<a class="headerlink" href="#application-layer" title="Link to this heading"></a></h1>
+<p>The <strong>Application Layer</strong> orchestrates business logic: it sits between <strong>Presentation</strong> and <strong>Domain</strong>, coordinating use cases, translating data at the boundary (via mappers and schemas), and depending on abstract contracts (<strong>Ports</strong>) instead of concrete infrastructure. It depends only on the <strong>Domain Layer</strong> — never on a specific framework, database driver, or delivery mechanism.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Older versions of this documentation (and two not-yet-migrated templates, <code class="docutils literal notranslate"><span class="pre">git</span></code>/<code class="docutils literal notranslate"><span class="pre">github</span></code>) described this layer around an <code class="docutils literal notranslate"><span class="pre">application/services/</span></code> folder and an <code class="docutils literal notranslate"><span class="pre">AdapterInterface</span></code> suffix. That convention has been fully replaced by the one below — <code class="docutils literal notranslate"><span class="pre">application/use_cases/</span></code> + <code class="docutils literal notranslate"><span class="pre">Port</span></code> — across every active template except those two. Don’t use <code class="docutils literal notranslate"><span class="pre">application/services/</span></code> as a reference for new code.</p>
+</div>
+<section id="what-belongs-here">
+<h2><span class="section-number">3.3.1. </span>What belongs here<a class="headerlink" href="#what-belongs-here" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Use Cases</strong> (<code class="docutils literal notranslate"><span class="pre">application/use_cases/&lt;concept&gt;/&lt;name&gt;.py</span></code>) — one class per operation, each with a single <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method.</p></li>
+<li><p><strong>Ports</strong> (<code class="docutils literal notranslate"><span class="pre">application/ports/&lt;concept&gt;.py</span></code>) — abstract contracts for something the application depends on but doesn’t implement itself (a database, a browser engine, an external API).</p></li>
+<li><p><strong>Repositories</strong> (<code class="docutils literal notranslate"><span class="pre">application/repositories/</span></code>) — orchestrate a <code class="docutils literal notranslate"><span class="pre">Port</span></code> for one specific domain model.</p></li>
+<li><p><strong>Mappers</strong> (<code class="docutils literal notranslate"><span class="pre">application/mappers/</span></code>) — convert between domain models and schemas.</p></li>
+<li><p><strong>Schemas</strong> (<code class="docutils literal notranslate"><span class="pre">application/schemas/input/</span></code>, <code class="docutils literal notranslate"><span class="pre">application/schemas/output/</span></code>) — the data shapes exchanged with the <strong>Presentation Layer</strong>, kept separate from domain models so each can evolve independently.</p></li>
+</ul>
+</section>
+<section id="what-to-avoid-here">
+<h2><span class="section-number">3.3.2. </span>What to avoid here<a class="headerlink" href="#what-to-avoid-here" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>Business rules that belong on the domain model.</strong> The Application Layer orchestrates; it shouldn’t decide what makes data valid — that’s the <strong>Domain Layer</strong>’s job.</p></li>
+<li><p><strong>Direct interaction with the Presentation Layer.</strong> A use case returns data; it never renders or formats it for a specific output.</p></li>
+<li><p><strong>Persistence logic.</strong> A use case calls a <code class="docutils literal notranslate"><span class="pre">Repository</span></code>, never a database driver directly — that’s what the <code class="docutils literal notranslate"><span class="pre">Port</span></code>/<code class="docutils literal notranslate"><span class="pre">Adapter</span></code> split is for.</p></li>
+<li><p><strong>Depending on a concrete infrastructure class when a ``Port`` would do.</strong> Two accepted exceptions: introspection-style use cases whose whole point is inspecting a specific implementation (e.g. listing a SQLAlchemy database’s own tables) — see <a class="reference internal" href="#introspection-use-cases">Introspection use cases</a> — and use cases that just need “whichever implementation is currently installed,” via a <strong>Provider</strong> — see <a class="reference external" href="../infrastructure/index.html#providers">Providers</a> on the Infrastructure Layer page.</p></li>
+</ul>
+</section>
+<section id="naming-conventions">
+<h2><span class="section-number">3.3.3. </span>Naming conventions<a class="headerlink" href="#naming-conventions" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>``Port`` suffix</strong> — an abstract contract, subclassing the shared <code class="docutils literal notranslate"><span class="pre">Port</span></code> ABC (<code class="docutils literal notranslate"><span class="pre">application/ports/__init__.py</span></code>), one file per concept at <code class="docutils literal notranslate"><span class="pre">application/ports/&lt;concept&gt;.py</span></code>. This is the layer where interchangeable implementations plug in.</p></li>
+<li><p><strong>``Adapter`` suffix</strong> <em>(Infrastructure Layer, covered on its own page)</em> — a concrete implementation of a <code class="docutils literal notranslate"><span class="pre">Port</span></code>.</p></li>
+<li><p><strong>``Repository`` suffix</strong> — orchestrates a <code class="docutils literal notranslate"><span class="pre">Port</span></code> for one domain model.</p></li>
+<li><p><strong>``UseCase`` suffix</strong> — a single <code class="docutils literal notranslate"><span class="pre">execute()</span></code> method, one class per operation.</p></li>
+<li><p><strong>``Mapper`` suffix</strong> — converts between a domain model and a schema.</p></li>
+<li><p><strong>``Schema`` suffix</strong> — a Pydantic-backed data shape for the Presentation boundary.</p></li>
+</ul>
+</section>
+<section id="example-a-port">
+<h2><span class="section-number">3.3.4. </span>Example: a Port<a class="headerlink" href="#example-a-port" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">application/ports/database.py</span></code> defines the contract every database engine (SQLAlchemy, MongoDB, or the in-memory default) implements:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Type</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.ports</span><span class="w"> </span><span class="kn">import</span> <span class="n">Port</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.filters.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.models</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.types.model</span><span class="w"> </span><span class="kn">import</span> <span class="n">TModel</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DatabaseReaderPort</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">model</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TModel</span><span class="p">],</span>
+        <span class="n">filters</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">FilterInterface</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">TModel</span><span class="p">]:</span>
+        <span class="k">pass</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DatabaseWriterPort</span><span class="p">(</span><span class="n">Port</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">TModel</span><span class="p">],</span> <span class="n">entity</span><span class="p">:</span> <span class="n">NewModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TModel</span><span class="p">:</span>
+        <span class="k">pass</span>
+
+    <span class="c1"># ... update, update_by_id, delete, delete_by_id, update_where, delete_where</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">DatabasePort</span><span class="p">(</span><span class="n">DatabaseReaderPort</span><span class="p">,</span> <span class="n">DatabaseWriterPort</span><span class="p">,</span> <span class="n">ABC</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>A concrete engine implements this once (<code class="docutils literal notranslate"><span class="pre">infrastructure/database/sqlalchemy/adapter.py</span></code>’s <code class="docutils literal notranslate"><span class="pre">SQLAlchemyAdapter(DatabasePort)</span></code>, or the zero-dependency <code class="docutils literal notranslate"><span class="pre">infrastructure/memory/adapter.py</span></code>’s <code class="docutils literal notranslate"><span class="pre">MemoryAdapter(DatabasePort)</span></code> a fresh project starts with) — see the <a class="reference external" href="../infrastructure/index.html">Infrastructure Layer</a>.</p>
+</section>
+<section id="example-a-repository">
+<h2><span class="section-number">3.3.5. </span>Example: a Repository<a class="headerlink" href="#example-a-repository" title="Link to this heading"></a></h2>
+<p>A <code class="docutils literal notranslate"><span class="pre">Repository</span></code> wraps a <code class="docutils literal notranslate"><span class="pre">Port</span></code> for one specific model, so use cases don’t need to know which database engine is behind it. <code class="docutils literal notranslate"><span class="pre">application/repositories/user.py</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">application.ports.database</span><span class="w"> </span><span class="kn">import</span> <span class="n">DatabasePort</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.repositories</span><span class="w"> </span><span class="kn">import</span> <span class="n">RepositoryBase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.filters.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.models.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">NewUser</span><span class="p">,</span> <span class="n">User</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">UserRepository</span><span class="p">(</span><span class="n">RepositoryBase</span><span class="p">[</span><span class="n">User</span><span class="p">,</span> <span class="n">NewUser</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">adapter</span><span class="p">:</span> <span class="n">DatabasePort</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span> <span class="o">=</span> <span class="n">adapter</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filters</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FilterInterface</span><span class="p">]):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">filters</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">:</span> <span class="n">NewUser</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">entity</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The base <code class="docutils literal notranslate"><span class="pre">RepositoryBase</span></code>/<code class="docutils literal notranslate"><span class="pre">GenericRepository</span></code> classes (<code class="docutils literal notranslate"><span class="pre">application/repositories/__init__.py</span></code>) already implement the mechanical parts (<code class="docutils literal notranslate"><span class="pre">update</span></code>, <code class="docutils literal notranslate"><span class="pre">delete</span></code>, <code class="docutils literal notranslate"><span class="pre">update_by_id</span></code>, <code class="docutils literal notranslate"><span class="pre">delete_by_id</span></code>) in terms of the injected <code class="docutils literal notranslate"><span class="pre">adapter</span></code> — a concrete repository like <code class="docutils literal notranslate"><span class="pre">UserRepository</span></code> doesn’t need to set <code class="docutils literal notranslate"><span class="pre">model</span></code>/<code class="docutils literal notranslate"><span class="pre">new_model</span></code> itself (<code class="docutils literal notranslate"><span class="pre">RepositoryBase[User,</span> <span class="pre">NewUser]</span></code>’s subscript already derives both automatically), and usually only overrides <code class="docutils literal notranslate"><span class="pre">get</span></code>/<code class="docutils literal notranslate"><span class="pre">create</span></code> if there’s model-specific logic.</p>
+</section>
+<section id="example-a-mapper-and-schema">
+<h2><span class="section-number">3.3.6. </span>Example: a Mapper and Schema<a class="headerlink" href="#example-a-mapper-and-schema" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">application/schemas/output/user.py</span></code> defines the shape returned to the Presentation Layer:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">application.schemas</span><span class="w"> </span><span class="kn">import</span> <span class="n">Schema</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">UserOutSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+    <span class="nb">id</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="n">username</span><span class="p">:</span> <span class="nb">str</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">application/mappers/user.py</span></code> converts a <code class="docutils literal notranslate"><span class="pre">User</span></code> domain model into it — the shared <code class="docutils literal notranslate"><span class="pre">BaseMapper</span></code> (<code class="docutils literal notranslate"><span class="pre">application/mappers/bases/__init__.py</span></code>) already implements <code class="docutils literal notranslate"><span class="pre">to_schema</span></code>/<code class="docutils literal notranslate"><span class="pre">to_domain</span></code> via Pydantic’s own validation, so a concrete mapper is usually a one-liner:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">application.mappers.bases</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseMapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.schemas.output.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserOutSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.models.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">UserMapper</span><span class="p">(</span><span class="n">BaseMapper</span><span class="p">[</span><span class="n">User</span><span class="p">,</span> <span class="n">UserOutSchema</span><span class="p">]):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+</section>
+<section id="example-a-use-case">
+<h2><span class="section-number">3.3.7. </span>Example: a Use Case<a class="headerlink" href="#example-a-use-case" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">application/use_cases/user/get.py</span></code> — two use cases built on the framework’s generic <code class="docutils literal notranslate"><span class="pre">ReadUseCase</span></code>/<code class="docutils literal notranslate"><span class="pre">ReadOneUseCase</span></code> (<code class="docutils literal notranslate"><span class="pre">application/use_cases/__init__.py</span></code>), each taking a <code class="docutils literal notranslate"><span class="pre">UserRepository</span></code> and returning <code class="docutils literal notranslate"><span class="pre">UserOutSchema</span></code>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Sequence</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.mappers.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserMapper</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.repositories.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserRepository</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.schemas.output.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">UserOutSchema</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">application.use_cases</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReadOneUseCase</span><span class="p">,</span> <span class="n">ReadUseCase</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">EqualFilter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.filters.interface</span><span class="w"> </span><span class="kn">import</span> <span class="n">FilterInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">domain.models.user</span><span class="w"> </span><span class="kn">import</span> <span class="n">User</span><span class="p">,</span> <span class="n">UserId</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ReadUserUseCase</span><span class="p">(</span><span class="n">ReadUseCase</span><span class="p">[</span><span class="n">UserOutSchema</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="n">UserRepository</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="n">FilterInterface</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">UserOutSchema</span><span class="p">]:</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">filters</span><span class="o">=</span><span class="n">input_data</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">UserMapper</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">user</span><span class="p">)</span> <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">users</span><span class="p">]</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ReadOneUserUseCase</span><span class="p">(</span><span class="n">ReadOneUseCase</span><span class="p">[</span><span class="n">UserId</span><span class="p">,</span> <span class="n">UserOutSchema</span><span class="p">]):</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">repository</span><span class="p">:</span> <span class="n">UserRepository</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">repository</span> <span class="o">=</span> <span class="n">repository</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_data</span><span class="p">:</span> <span class="n">UserId</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">UserOutSchema</span><span class="p">:</span>
+        <span class="n">users</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">repository</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+            <span class="n">filters</span><span class="o">=</span><span class="p">[</span><span class="n">EqualFilter</span><span class="p">(</span><span class="n">User</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">input_data</span><span class="p">)]</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">UserMapper</span><span class="o">.</span><span class="n">to_schema</span><span class="p">(</span><span class="n">users</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+</div>
+<p>Notice the full chain: a <code class="docutils literal notranslate"><span class="pre">UseCase</span></code> calls a <code class="docutils literal notranslate"><span class="pre">Repository</span></code>, which calls a <code class="docutils literal notranslate"><span class="pre">Port</span></code> (implemented by whichever <code class="docutils literal notranslate"><span class="pre">Adapter</span></code> is actually installed), and converts the result through a <code class="docutils literal notranslate"><span class="pre">Mapper</span></code> into a <code class="docutils literal notranslate"><span class="pre">Schema</span></code> before it ever reaches the <strong>Presentation Layer</strong>.</p>
+</section>
+<section id="introspection-use-cases">
+<h2><span class="section-number">3.3.8. </span>Introspection use cases<a class="headerlink" href="#introspection-use-cases" title="Link to this heading"></a></h2>
+<p>The one accepted exception to “depend on a <code class="docutils literal notranslate"><span class="pre">Port</span></code>, not a concrete <code class="docutils literal notranslate"><span class="pre">Adapter</span></code>”: a use case whose entire purpose is inspecting a <em>specific</em> implementation — for example, listing the tables of whichever SQLAlchemy database is connected. That can’t be expressed against the generic <code class="docutils literal notranslate"><span class="pre">DatabasePort</span></code> (a MongoDB backend has no “tables”), so it’s allowed to import the concrete <code class="docutils literal notranslate"><span class="pre">SQLAlchemyAdapter</span></code> directly instead.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../presentation/index.html" class="btn btn-neutral float-left" title="3.2. Presentation Layer" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../domain/index.html" class="btn btn-neutral float-right" title="3.4. Domain Layer" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dux Tecnologia, Thiago Costa Pereira.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

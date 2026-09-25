@@ -27,9 +27,12 @@ python -m appcraft.cli save_template <template_name>
 # Type checking (strict mode; scope is set in pyrightconfig.json)
 pyright
 
-# Build the Sphinx docs (source lives in appcraft/docs/latest, output is published
-# from appcraft/docs/build/latest for GitHub Pages via .github/workflows/static.yml)
-cd appcraft/docs/latest && make html
+# Build the Sphinx docs (source lives in docs/latest, output is published
+# from docs/build/latest for GitHub Pages via .github/workflows/static.yml —
+# that workflow only uploads whatever's already built and committed under
+# docs/build, it doesn't run sphinx-build itself, so this step has to be run
+# and its output committed manually before a push that should update the site)
+cd docs/latest && make html
 ```
 
 Because `appcraft/utils/__init__.py` imports helpers (`Printer`, `ImportManager`, `PackageManager`, `PoetryManager`, `PipenvManager`) directly from `appcraft/templates/base/files/infrastructure/framework/appcraft/...`, the CLI package cannot run without the `base` template's files present — they are the CLI's own runtime utilities, not just scaffold output.
