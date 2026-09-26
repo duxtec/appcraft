@@ -27,7 +27,7 @@ This version includes all the essential features and modules to help you get sta
 Version Information
 -----------------------
 
-This documentation corresponds to AppCraft version |release|. For other versions, refer to the `version selection page <../latest/versions/index.html>`_.
+This documentation corresponds to AppCraft version |release|. For other versions, refer to the `version selection page <versions/index.html>`_.
 
 Available Templates in Version |release|
 ------------------------------------------
