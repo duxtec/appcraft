@@ -26,7 +26,7 @@ This version includes all the essential features and modules to help you get sta
 Version Information
 -----------------------
 
-This documentation corresponds to AppCraft version |release|. For other versions, refer to the `version selection page <../latest/versions/index.html>`_.
+This documentation corresponds to AppCraft version |release|. For other versions, refer to the `version selection page <versions/index.html>`_.
 
 Features in Version |release|
 --------------------------------
@@ -42,4 +42,4 @@ Features in Version |release|
    - Flask API
    - Web Scrapping
 
-For detailed information, explore the sections listed in the `Overview <#overview>`_.
+For detailed information, explore the sections listed above.
