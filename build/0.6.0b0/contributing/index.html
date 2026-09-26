@@ -1,0 +1,365 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>4. Contributing &mdash; Appcraft 0.6.0b0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/custom.css?v=09dc0c05" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=df5ea57c"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="5. Changelog" href="../changelog.html" />
+    <link rel="prev" title="3.6. Application Flow" href="../architecture/flow/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Appcraft
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">1. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#installation">1.1. Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#starting-a-new-project">1.2. Starting a New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../getting_started.html#adding-templates-to-an-existing-project">1.3. Adding Templates to an Existing Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../templates/index.html">2. Templates</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../templates/concepts/index.html">2.1. Template Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#default-templates">2.1.1. Default Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#shared-base-templates">2.1.2. Shared-Base Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#exclusive-templates">2.1.3. Exclusive Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#interchangeable-templates">2.1.4. Interchangeable Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#composable-extensions">2.1.5. Composable Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#dependencies">2.1.6. Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/concepts/index.html#inactive-templates">2.1.7. Inactive Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/base/index.html">2.2. Base Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/base/index.html#a-working-project-out-of-the-box">2.2.1. A working project out of the box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/base/index.html#resilience-and-developer-experience">2.2.2. Resilience and developer experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/base/index.html#learning-the-architecture-by-example">2.2.3. Learning the architecture by example</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/poetry/index.html">2.3. Poetry Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/poetry/index.html#switching-to-poetry">2.3.1. Switching to Poetry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/pipenv/index.html">2.4. Pipenv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/pipenv/index.html#switching-to-pipenv">2.4.1. Switching to Pipenv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/uv/index.html">2.5. uv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/uv/index.html#switching-to-uv">2.5.1. Switching to uv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/docker/index.html">2.6. Docker Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/docker/index.html#dynamic-one-service-per-entry-point">2.6.1. Dynamic, one service per entry point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/docker/index.html#building-and-running">2.6.2. Building and running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/docker/index.html#no-hardcoded-package-manager">2.6.3. No hardcoded package manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/docker/index.html#development-vs-production">2.6.4. Development vs. production</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/docker/index.html#one-thing-to-set-up-yourself">2.6.5. One thing to set up yourself</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/prompt_toolkit/index.html">2.7. Prompt Toolkit Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/sqlalchemy/index.html">2.8. SQLAlchemy Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/sqlalchemy/index.html#what-it-adds">2.8.1. What it adds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/sqlalchemy/index.html#combining-with-flask">2.8.2. Combining with Flask</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/mongodb/index.html">2.9. MongoDB Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/mongodb/index.html#what-it-adds">2.9.1. What it adds</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/flask/index.html">2.10. Flask Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/flask/index.html#automatic-routing">2.10.1. Automatic routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/flask/index.html#database-integration">2.10.2. Database integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/flask/index.html#development-vs-production">2.10.3. Development vs. production</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/flask_ui/index.html">2.11. Flask UI Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/flask_api/index.html">2.12. Flask API Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/web_scraping/index.html">2.13. Web Scraping Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/web_scraping/index.html#what-this-template-provides">2.13.1. What this template provides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/web_scraping/index.html#choosing-an-engine">2.13.2. Choosing an engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/web_scraping/index.html#handing-off-between-engines">2.13.3. Handing off between engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/web_scraping/index.html#available-runners">2.13.4. Available runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/web_scraping/index.html#benchmarking-installed-engines">2.13.5. Benchmarking installed engines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/selenium/index.html">2.14. Selenium Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/selenium/index.html#browser-detection">2.14.1. Browser detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/selenium/index.html#cookies-and-headers">2.14.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/selenium/index.html#using-selenium-specifically">2.14.3. Using Selenium specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/playwright/index.html">2.15. Playwright Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/playwright/index.html#async-by-nature">2.15.1. Async by nature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/playwright/index.html#cookies-and-headers">2.15.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/playwright/index.html#using-playwright-specifically">2.15.3. Using Playwright specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/httpx/index.html">2.16. HTTPX Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/httpx/index.html#choosing-a-parser">2.16.1. Choosing a parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/httpx/index.html#cookies-and-headers">2.16.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/httpx/index.html#using-httpx-specifically">2.16.3. Using HTTPX specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/curl_cffi/index.html">2.17. curl_cffi Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/curl_cffi/index.html#why-this-exists-alongside-httpx">2.17.1. Why this exists alongside HTTPX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/curl_cffi/index.html#cookies-and-headers">2.17.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/curl_cffi/index.html#using-curl-cffi-specifically">2.17.3. Using curl_cffi specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/git/index.html">2.18. Git Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/git/index.html#key-features">2.18.1. Key features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/git/index.html#benefits">2.18.2. Benefits:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../templates/github/index.html">2.19. GitHub Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../templates/github/index.html#key-features">2.19.1. Key Features:</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../templates/github/index.html#benefits">2.19.2. Benefits:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../architecture/index.html">3. Layered Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/runner/index.html">3.1. Runner Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#what-to-do-in-runners">3.1.1. What to Do in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#what-to-avoid-in-runners">3.1.2. What to Avoid in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#types-of-runners">3.1.3. Types of runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#example-of-a-runner">3.1.4. Example of a Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#running-applications">3.1.5. Running Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#running-tool-runners">3.1.6. Running Tool Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/runner/index.html#executing-a-specific-runner">3.1.7. Executing a Specific Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/presentation/index.html">3.2. Presentation Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#what-belongs-here">3.2.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#what-to-avoid-here">3.2.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#naming-convention-domain-clipresentation">3.2.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">&lt;Domain&gt;CLIPresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/presentation/index.html#example-a-cli-presentation">3.2.4. Example: a CLI Presentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/application/index.html">3.3. Application Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#what-belongs-here">3.3.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#what-to-avoid-here">3.3.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#naming-conventions">3.3.3. Naming conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-a-port">3.3.4. Example: a Port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-a-repository">3.3.5. Example: a Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-a-mapper-and-schema">3.3.6. Example: a Mapper and Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#example-a-use-case">3.3.7. Example: a Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/application/index.html#introspection-use-cases">3.3.8. Introspection use cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/domain/index.html">3.4. Domain Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#what-belongs-here">3.4.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#what-to-avoid-here">3.4.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#naming-convention-interface-not-i-name">3.4.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">Interface</span></code>, not <code class="docutils literal notranslate"><span class="pre">I</span></code> + name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#example-a-domain-model">3.4.4. Example: a domain model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/domain/index.html#example-a-filter">3.4.5. Example: a filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/infrastructure/index.html">3.5. Infrastructure Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/infrastructure/index.html#what-belongs-here">3.5.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/infrastructure/index.html#what-to-avoid-here">3.5.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/infrastructure/index.html#naming-convention-adapter">3.5.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/infrastructure/index.html#example-the-default-database-adapter">3.5.4. Example: the default database Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/infrastructure/index.html#providers">3.5.5. Providers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../architecture/flow/index.html">3.6. Application Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/flow/index.html#request-flow">3.6.1. Request Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../architecture/flow/index.html#response-flow">3.6.2. Response Flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">4. Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#creating-new-templates">4.1. Creating New Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#updating-existing-templates">4.2. Updating Existing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#translating-the-framework">4.3. Translating the Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#working-in-a-temporary-project">4.4. Working in a Temporary Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ready-to-contribute">4.5. Ready to Contribute?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">5. Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../changelog.html#b0">5.1. 0.6.0b0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#added">5.1.1. Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#changed">5.1.2. Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#fixed">5.1.3. Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../changelog.html#removed">5.1.4. Removed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../contact.html">6. Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../versions/index.html">7. Versions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Appcraft</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active"><span class="section-number">4. </span>Contributing</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/contributing/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="contributing">
+<span id="id1"></span><h1><span class="section-number">4. </span>Contributing<a class="headerlink" href="#contributing" title="Link to this heading"></a></h1>
+<p>We appreciate your interest in contributing! The source lives at <a class="reference external" href="https://github.com/duxtec/appcraft">github.com/duxtec/appcraft</a>. You can contribute in three ways:</p>
+<ol class="arabic simple">
+<li><p><a class="reference internal" href="#creating-new-templates">Creating New Templates</a>.</p></li>
+<li><p><a class="reference internal" href="#updating-existing-templates">Updating Existing Templates</a>.</p></li>
+<li><p><a class="reference internal" href="#translating-the-framework">Translating the Framework</a>.</p></li>
+</ol>
+<section id="creating-new-templates">
+<h2><span class="section-number">4.1. </span>Creating New Templates<a class="headerlink" href="#creating-new-templates" title="Link to this heading"></a></h2>
+<p>To create a new template, follow these steps:</p>
+<dl>
+<dt>1️⃣ <strong>Clone the repository and install it in editable mode</strong>:</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/duxtec/appcraft.git
+<span class="nb">cd</span><span class="w"> </span>appcraft
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
+</pre></div>
+</div>
+</dd>
+<dt>2️⃣ <strong>Run the template creator</strong>:</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>appcraft.utils.template.creator<span class="w"> </span>&lt;template_name&gt;
+</pre></div>
+</div>
+<p>This generates <code class="docutils literal notranslate"><span class="pre">appcraft/templates/&lt;template_name&gt;/</span></code> with a starter <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>, a <code class="docutils literal notranslate"><span class="pre">files/pyproject.toml</span></code> stub, and one-file <code class="docutils literal notranslate"><span class="pre">runners/main</span></code> and <code class="docutils literal notranslate"><span class="pre">runners/tools</span></code> runners — ready to build on.</p>
+</dd>
+<dt>3️⃣ <strong>Edit the generated ``__init__.py``</strong>:</dt><dd><ul class="simple">
+<li><p>Write a real <code class="docutils literal notranslate"><span class="pre">description</span></code>.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>, <code class="docutils literal notranslate"><span class="pre">standalone</span></code>, <code class="docutils literal notranslate"><span class="pre">exclusive_group</span></code>, <code class="docutils literal notranslate"><span class="pre">pre_install</span></code>/<code class="docutils literal notranslate"><span class="pre">post_install</span></code> as needed.</p></li>
+<li><p>Set <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">=</span> <span class="pre">True</span></code> once the template is ready — templates default to <code class="docutils literal notranslate"><span class="pre">active</span> <span class="pre">=</span> <span class="pre">False</span></code> (hidden from <code class="docutils literal notranslate"><span class="pre">list_templates</span></code>/<code class="docutils literal notranslate"><span class="pre">init</span></code>/<code class="docutils literal notranslate"><span class="pre">add_template</span></code> unless <code class="docutils literal notranslate"><span class="pre">--install-inactive</span></code> is passed) until you do.</p></li>
+</ul>
+</dd>
+</dl>
+<p>4️⃣ <strong>Develop the template’s files using a temporary project</strong> — see <a class="reference internal" href="#working-in-a-temporary-project">Working in a Temporary Project</a> below. Editing files directly under <code class="docutils literal notranslate"><span class="pre">appcraft/templates/&lt;template_name&gt;/files/</span></code> is not supported: dependencies on other templates, IDE/linter resolution, and the framework’s own runtime utilities are only correctly wired up inside a real generated project.</p>
+<p>5️⃣ <strong>Submit a pull request with the new template</strong>.</p>
+</section>
+<section id="updating-existing-templates">
+<h2><span class="section-number">4.2. </span>Updating Existing Templates<a class="headerlink" href="#updating-existing-templates" title="Link to this heading"></a></h2>
+<p>Updating an existing template follows the same loop as creating one — jump straight to <a class="reference internal" href="#working-in-a-temporary-project">Working in a Temporary Project</a>, skipping template creation.</p>
+</section>
+<section id="translating-the-framework">
+<h2><span class="section-number">4.3. </span>Translating the Framework<a class="headerlink" href="#translating-the-framework" title="Link to this heading"></a></h2>
+<p>Translations aren’t per-template — they’re centralized in the <code class="docutils literal notranslate"><span class="pre">locales</span></code> template, which ships gettext catalogs at <code class="docutils literal notranslate"><span class="pre">appcraft/templates/locales/files/locale/&lt;lang&gt;/LC_MESSAGES/&lt;domain&gt;.po</span></code> (plus a compiled <code class="docutils literal notranslate"><span class="pre">.mo</span></code> next to each), where <code class="docutils literal notranslate"><span class="pre">&lt;domain&gt;</span></code> groups related strings (e.g. <code class="docutils literal notranslate"><span class="pre">app</span></code>, <code class="docutils literal notranslate"><span class="pre">core</span></code>, <code class="docutils literal notranslate"><span class="pre">database</span></code>). Existing languages are <code class="docutils literal notranslate"><span class="pre">en</span></code> and <code class="docutils literal notranslate"><span class="pre">pt_BR</span></code>.</p>
+<p>To add a language:</p>
+<p>1️⃣ <strong>Copy an existing language folder</strong> under <code class="docutils literal notranslate"><span class="pre">locale/</span></code> and rename it to the new locale code (e.g. <code class="docutils literal notranslate"><span class="pre">es</span></code> for Spanish).</p>
+<p>2️⃣ <strong>Translate each ``.po`` file’s msgid/msgstr pairs</strong>, keeping the file structure and domain names unchanged.</p>
+<dl>
+<dt>3️⃣ <strong>Recompile to ``.mo``</strong> (the <code class="docutils literal notranslate"><span class="pre">locales</span></code> template’s own runtime also does this automatically for any <code class="docutils literal notranslate"><span class="pre">.po</span></code> newer than its <code class="docutils literal notranslate"><span class="pre">.mo</span></code>, but compiling ahead of time catches syntax errors early):</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>msgfmt<span class="w"> </span>locale/&lt;lang&gt;/LC_MESSAGES/&lt;domain&gt;.po<span class="w"> </span>-o<span class="w"> </span>locale/&lt;lang&gt;/LC_MESSAGES/&lt;domain&gt;.mo
+</pre></div>
+</div>
+</dd>
+</dl>
+<p>4️⃣ <strong>Test it</strong> in a temporary project with the <code class="docutils literal notranslate"><span class="pre">locales</span></code> template installed — see <a class="reference internal" href="#working-in-a-temporary-project">Working in a Temporary Project</a> — by setting <code class="docutils literal notranslate"><span class="pre">lang</span></code> in <code class="docutils literal notranslate"><span class="pre">config/app.toml</span></code> to the new code.</p>
+<p>5️⃣ <strong>Submit a pull request with the new language</strong>.</p>
+</section>
+<section id="working-in-a-temporary-project">
+<h2><span class="section-number">4.4. </span>Working in a Temporary Project<a class="headerlink" href="#working-in-a-temporary-project" title="Link to this heading"></a></h2>
+<p>Every template — new or existing — is developed inside <code class="docutils literal notranslate"><span class="pre">appcraft/templates/temp/files</span></code>, a disposable sandbox project, never by editing a template’s own <code class="docutils literal notranslate"><span class="pre">files/</span></code> directly.</p>
+<ol class="arabic">
+<li><dl>
+<dt><strong>From the appcraft repo root</strong>, run:</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>appcraft.cli<span class="w"> </span>init<span class="w"> </span>&lt;template_names...&gt;
+</pre></div>
+</div>
+<p>Running <code class="docutils literal notranslate"><span class="pre">init</span></code> from the repo root (or from inside <code class="docutils literal notranslate"><span class="pre">appcraft/templates/temp/files</span></code> itself) is what triggers the sandbox behavior: it wipes <code class="docutils literal notranslate"><span class="pre">appcraft/templates/temp/files</span></code>, recreates it, and installs the requested templates there instead of into the current directory — so it becomes a real, runnable generated project containing exactly those templates.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>Edit, add, or remove files inside ``appcraft/templates/temp/files``</strong> as you would in any generated project — run its runners, add dependencies, and so on — to develop or fix a template’s behavior.</p></li>
+<li><dl>
+<dt><strong>Save your changes back to the real template</strong>:</dt><dd><div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>appcraft<span class="w"> </span>save_template<span class="w"> </span>&lt;template_name&gt;
+</pre></div>
+</div>
+<p>This reads <code class="docutils literal notranslate"><span class="pre">temp/files</span></code>’s own installed-templates registry to tell which files belong to <code class="docutils literal notranslate"><span class="pre">&lt;template_name&gt;</span></code> versus any other templates also installed in <code class="docutils literal notranslate"><span class="pre">temp</span></code>, then copies every new/changed file back into <code class="docutils literal notranslate"><span class="pre">appcraft/templates/&lt;template_name&gt;/files/</span></code> and deletes files there that no longer exist in <code class="docutils literal notranslate"><span class="pre">temp/files</span></code>.</p>
+<p><strong>Modify only one template at a time.</strong> If you need to work on another template next, save the current one first, then repeat from step 1 — <code class="docutils literal notranslate"><span class="pre">temp/files</span></code> is wiped on every <code class="docutils literal notranslate"><span class="pre">init</span></code> run from the repo root, so nothing is preserved there between sessions.</p>
+</dd>
+</dl>
+</li>
+<li><p><strong>Submit a pull request</strong> once the change is saved to the real template directory.</p></li>
+</ol>
+</section>
+<section id="ready-to-contribute">
+<h2><span class="section-number">4.5. </span>Ready to Contribute?<a class="headerlink" href="#ready-to-contribute" title="Link to this heading"></a></h2>
+<p>If you have any questions, feel free to open an issue or reach out to the maintainers.</p>
+<p>🚀 Happy Coding!</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../architecture/flow/index.html" class="btn btn-neutral float-left" title="3.6. Application Flow" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../changelog.html" class="btn btn-neutral float-right" title="5. Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dux Tecnologia, Thiago Costa Pereira.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
