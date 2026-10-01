@@ -4,6 +4,7 @@ from typing import Any, Generic, Sequence
 from application.ports import Port
 from domain.types.html_elements import THTMLElement
 from domain.web_scraping.cookie import Cookie
+from domain.web_scraping.session import WebScrapingSession
 
 
 class WebScrapingPort(Port, ABC, Generic[THTMLElement]):
@@ -42,6 +43,14 @@ class WebScrapingPort(Port, ABC, Generic[THTMLElement]):
     def set_headers(self, headers: dict[str, str]) -> None:
         pass
 
+    @abstractmethod
+    def get_session(self) -> WebScrapingSession:
+        pass
+
+    @abstractmethod
+    def set_session(self, session: WebScrapingSession) -> None:
+        pass
+
 
 class WebScrapingAsyncPort(Port, ABC, Generic[THTMLElement]):
     @abstractmethod
@@ -77,4 +86,12 @@ class WebScrapingAsyncPort(Port, ABC, Generic[THTMLElement]):
 
     @abstractmethod
     async def set_headers(self, headers: dict[str, str]) -> None:
+        pass
+
+    @abstractmethod
+    async def get_session(self) -> WebScrapingSession:
+        pass
+
+    @abstractmethod
+    async def set_session(self, session: WebScrapingSession) -> None:
         pass
