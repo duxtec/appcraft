@@ -1,10 +1,10 @@
-from selectolax.parser import HTMLParser, Node
+from selectolax.lexbor import LexborHTMLParser as LibHTMLParser, LexborNode as Node
 
-from domain.html_elements.interface import HTMLReadingElementInterface
-from infrastructure.web_scraping.parser.interface import HTMLParserInterface
+from domain.html_elements.interface import HTMLReadingElement
+from infrastructure.web_scraping.parser.interface import HTMLParser
 
 
-class SelectolaxHTMLElement(HTMLReadingElementInterface):
+class SelectolaxHTMLElement(HTMLReadingElement):
     def __init__(self, element: Node) -> None:
         self._element = element
 
@@ -23,12 +23,12 @@ class SelectolaxHTMLElement(HTMLReadingElementInterface):
         return self._element.attributes.get(name)
 
 
-class SelectolaxParser(HTMLParserInterface):
-    def parse(self, text: str) -> HTMLParser:
-        return HTMLParser(text)
+class SelectolaxParser(HTMLParser):
+    def parse(self, text: str) -> LibHTMLParser:
+        return LibHTMLParser(text)
 
     def select_one(
-        self, tree: HTMLParser, selector: str
+        self, tree: LibHTMLParser, selector: str
     ) -> SelectolaxHTMLElement | None:
         element = tree.css_first(selector)
         if element is None:
@@ -36,6 +36,6 @@ class SelectolaxParser(HTMLParserInterface):
         return SelectolaxHTMLElement(element)
 
     def select_all(
-        self, tree: HTMLParser, selector: str
+        self, tree: LibHTMLParser, selector: str
     ) -> list[SelectolaxHTMLElement]:
         return [SelectolaxHTMLElement(el) for el in tree.css(selector)]
