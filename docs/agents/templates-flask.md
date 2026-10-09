@@ -6,6 +6,8 @@ A variant of the [interchangeable-sibling-adapters pattern](architecture.md#the-
 
 The shared foundation — install `flask_api` and/or `flask_ui` instead; `flask` itself is rejected by `init`/`add_template` if requested directly (`TemplateNotStandaloneError`), since alone it has no routes to serve.
 
+Dependencies (`flask`, `gunicorn`; `flask_ui` adds `flask-assets`; `sqlalchemy`'s own `flask-sqlalchemy`, when both are installed) live under the `web` [dependency-group](templates-package-managers.md#delivery-surface-dependency-groups-2026-10-08) — installed by default same as any other dependency, just organized so `poetry install --without web` (or `uv sync --no-group web`) can build a CLI-only image that never serves HTTP at all, while still keeping every business-logic dependency (database, web scraping, ...) a plain main dependency regardless.
+
 - `infrastructure/framework/flask/app.py` — `FlaskApp`, the application factory. Wires up Jinja context processors, then:
   - Initializes `FlaskSQLAlchemy` only if `SQLAlchemyTemplate.is_installed()` (warns and continues without a DB otherwise).
   - Calls `self.router.register_api_bp()` only if `FlaskAPITemplate.is_installed()`.
