@@ -1,0 +1,9 @@
+# Branching strategy for this project. See docs/agents/templates-git.md
+# for the 4 supported combinations.
+# `configured` is set by `python tools git init` once the strategy is
+# chosen; leave it as false until then.
+configured = false
+use_major_version = false   # branch names get a "v{N}-" prefix when true
+major_version = 0           # current major line; only read when use_major_version = true
+stages = ["alpha", "beta", "main"]   # ordered, least- to most-stable; empty = no stage concept
+trunk_branch = "main"       # only used when stages = [] (single-branch case)
