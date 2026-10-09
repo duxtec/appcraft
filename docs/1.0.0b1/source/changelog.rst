@@ -48,6 +48,7 @@ Changed
 Fixed
 ~~~~~~~~
 
+- ``docs/scripts/generate_latest_redirect.py`` only ever wrote ``build/latest/index.html``, so a deep link like ``latest/getting_started.html`` or ``latest/templates/index.html`` 404'd even though ``latest/index.html`` itself resolved fine (confirmed against the live deployed site) — the README's own links to anything other than the front page were broken. Now walks the newest version's build output and writes a matching redirect stub for every ``.html`` page found there.
 - ``RepositoryBase.create()`` was an empty stub that returned ``None`` instead of forwarding to the adapter, unlike every other method on the class. A repository that didn't override ``create()`` itself silently created nothing.
 - ``ConfigBase._load()`` was dead code — nothing called it — and was removed.
 - ``JsonConfig.__init__`` was a no-op override of ``ConfigBase.__init__`` with the same signature and default; removed.
