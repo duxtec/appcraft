@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.19. Remote Repository Template &mdash; Appcraft 1.0.0b1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=09dc0c05" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=09d090fc"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3.20. GitHub Template" href="../github/index.html" />
+    <link rel="prev" title="3.18. Git Template" href="../git/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Appcraft
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">1. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#what-is-appcraft">1.1. What Is Appcraft?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#why-use-it">1.2. Why Use It</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">1.3. Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#starting-a-new-project">1.4. Starting a New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#adding-templates-to-an-existing-project">1.5. Adding Templates to an Existing Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../developing/index.html">2. Developing Your Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#your-first-run">2.1. Your First Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#the-mental-model">2.2. The Mental Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#which-folder-does-a-new-piece-go-in">2.3. Which Folder Does a New Piece Go In?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#configuration">2.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#interactive-and-non-interactive-runs">2.5. Interactive and Non-Interactive Runs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#checking-your-work">2.6. Checking Your Work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#glossary">2.7. Glossary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../developing/recipes.html">2.7.1. Recipes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-model">2.7.1.1. Add a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-the-schemas-and-mapper">2.7.1.2. Add the Schemas and Mapper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-repository">2.7.1.3. Add a Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-use-case">2.7.1.4. Add a Use Case</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-presentation-class">2.7.1.5. Add a Presentation Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-runner">2.7.1.6. Add a Runner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#store-products-in-a-database">2.7.1.7. Store Products in a Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#where-to-go-next">2.7.1.8. Where to Go Next</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">3. Templates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html">3.1. Template Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#default-templates">3.1.1. Default Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#shared-base-templates">3.1.2. Shared-Base Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#exclusive-templates">3.1.3. Exclusive Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#interchangeable-templates">3.1.4. Interchangeable Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#composable-extensions">3.1.5. Composable Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#dependencies">3.1.6. Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#inactive-templates">3.1.7. Inactive Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html">3.2. Base Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#a-working-project-out-of-the-box">3.2.1. A working project out of the box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#resilience-and-developer-experience">3.2.2. Resilience and developer experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#learning-the-architecture-by-example">3.2.3. Learning the architecture by example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#runners">3.2.4. Runners</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../poetry/index.html">3.3. Poetry Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../poetry/index.html#switching-to-poetry">3.3.1. Switching to Poetry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pipenv/index.html">3.4. Pipenv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pipenv/index.html#switching-to-pipenv">3.4.1. Switching to Pipenv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../uv/index.html">3.5. uv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../uv/index.html#switching-to-uv">3.5.1. Switching to uv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../docker/index.html">3.6. Docker Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#dynamic-one-service-per-entry-point">3.6.1. Dynamic, one service per entry point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#building-and-running">3.6.2. Building and running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#no-hardcoded-package-manager">3.6.3. No hardcoded package manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#development-vs-production">3.6.4. Development vs. production</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#one-thing-to-set-up-yourself">3.6.5. One thing to set up yourself</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../prompt_toolkit/index.html">3.7. Prompt Toolkit Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sqlalchemy/index.html">3.8. SQLAlchemy Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#what-it-adds">3.8.1. What it adds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#combining-with-flask">3.8.2. Combining with Flask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#runners">3.8.3. Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#adding-a-table-for-a-new-model">3.8.4. Adding a Table for a New Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mongodb/index.html">3.9. MongoDB Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mongodb/index.html#what-it-adds">3.9.1. What it adds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mongodb/index.html#runners">3.9.2. Runners</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask/index.html">3.10. Flask Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#automatic-routing">3.10.1. Automatic routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#database-integration">3.10.2. Database integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#development-vs-production">3.10.3. Development vs. production</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#runner">3.10.4. Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask_ui/index.html">3.11. Flask UI Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flask_ui/index.html#adding-a-page">3.11.1. Adding a Page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask_api/index.html">3.12. Flask API Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flask_api/index.html#adding-an-api-route">3.12.1. Adding an API Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../web_scraping/index.html">3.13. Web Scraping Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#what-this-template-provides">3.13.1. What this template provides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#choosing-an-engine">3.13.2. Choosing an engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#handing-off-between-engines">3.13.3. Handing off between engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#available-runners">3.13.4. Available runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#benchmarking-installed-engines">3.13.5. Benchmarking installed engines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../selenium/index.html">3.14. Selenium Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../selenium/index.html#browser-detection">3.14.1. Browser detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../selenium/index.html#cookies-and-headers">3.14.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../selenium/index.html#using-selenium-specifically">3.14.3. Using Selenium specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../playwright/index.html">3.15. Playwright Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../playwright/index.html#async-by-nature">3.15.1. Async by nature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../playwright/index.html#cookies-and-headers">3.15.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../playwright/index.html#using-playwright-specifically">3.15.3. Using Playwright specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../httpx/index.html">3.16. HTTPX Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../httpx/index.html#choosing-a-parser">3.16.1. Choosing a parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../httpx/index.html#cookies-and-headers">3.16.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../httpx/index.html#using-httpx-specifically">3.16.3. Using HTTPX specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../curl_cffi/index.html">3.17. curl_cffi Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../curl_cffi/index.html#why-this-exists-alongside-httpx">3.17.1. Why this exists alongside HTTPX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../curl_cffi/index.html#cookies-and-headers">3.17.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../curl_cffi/index.html#using-curl-cffi-specifically">3.17.3. Using curl_cffi specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../git/index.html">3.18. Git Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#what-it-sets-up">3.18.1. What it sets up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#setting-up-the-branching-strategy">3.18.2. Setting up the branching strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#branching-strategy-config-git-toml">3.18.3. Branching strategy (<code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#feature-and-fix-branches">3.18.4. Feature and fix branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#conventional-commits">3.18.5. Conventional Commits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#breaking-changes">3.18.6. Breaking changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#pausing-at-the-end-of-a-command">3.18.7. Pausing at the end of a command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#releases">3.18.8. Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#cutting-a-major-version-on-purpose">3.18.9. Cutting a major version on purpose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#changelog">3.18.10. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#cleaning-up-merged-branches">3.18.11. Cleaning up merged branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#remote-repository">3.18.12. Remote repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../git/index.html#limitations">3.18.13. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.19. Remote Repository Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#commands">3.19.1. Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#choosing-the-platform">3.19.2. Choosing the platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#adding-a-platform">3.19.3. Adding a platform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../github/index.html">3.20. GitHub Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#requirements">3.20.1. Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#what-it-does">3.20.2. What it does</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#example">3.20.3. Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">4. Layered Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/runner/index.html">4.1. Runner Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#what-to-do-in-runners">4.1.1. What to Do in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#what-to-avoid-in-runners">4.1.2. What to Avoid in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#types-of-runners">4.1.3. Types of runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#example-of-a-runner">4.1.4. Example of a Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#running-applications">4.1.5. Running Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#running-tool-runners">4.1.6. Running Tool Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#executing-a-specific-runner">4.1.7. Executing a Specific Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/presentation/index.html">4.2. Presentation Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#what-belongs-here">4.2.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#what-to-avoid-here">4.2.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#naming-convention-domain-clipresentation">4.2.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">&lt;Domain&gt;CLIPresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#example-a-cli-presentation">4.2.4. Example: a CLI Presentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/application/index.html">4.3. Application Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#what-belongs-here">4.3.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#what-to-avoid-here">4.3.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#naming-conventions">4.3.3. Naming conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-port">4.3.4. Example: a Port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-repository">4.3.5. Example: a Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-mapper-and-schema">4.3.6. Example: a Mapper and Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-use-case">4.3.7. Example: a Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#introspection-use-cases">4.3.8. Introspection use cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/domain/index.html">4.4. Domain Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#what-belongs-here">4.4.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#what-to-avoid-here">4.4.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#naming-convention-a-pure-contract-not-i-name">4.4.3. Naming convention: a pure contract, not <code class="docutils literal notranslate"><span class="pre">I</span></code> + name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-a-domain-model">4.4.4. Example: a domain model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-a-filter">4.4.5. Example: a filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/infrastructure/index.html">4.5. Infrastructure Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#what-belongs-here">4.5.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#what-to-avoid-here">4.5.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#naming-convention-adapter">4.5.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#example-the-default-database-adapter">4.5.4. Example: the default database Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#providers">4.5.5. Providers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/flow/index.html">4.6. Application Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/flow/index.html#request-flow">4.6.1. Request Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/flow/index.html#response-flow">4.6.2. Response Flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">5. Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#looking-for-something-to-build">5.1. Looking for Something to Build?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#creating-new-templates">5.2. Creating New Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#updating-existing-templates">5.3. Updating Existing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#translating-the-framework">5.4. Translating the Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#working-in-a-temporary-project">5.5. Working in a Temporary Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#ready-to-contribute">5.6. Ready to Contribute?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">6. Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#b1">6.1. 1.0.0b1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">6.1.1. Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">6.1.2. Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">6.1.3. Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#b0">6.2. 0.6.0b0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id1">6.2.1. Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id2">6.2.2. Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">6.2.3. Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">6.2.4. Removed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">7. Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions/index.html">8. Versions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Appcraft</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><span class="section-number">3. </span>Templates</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.19. </span>Remote Repository Template</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/templates/remote_repository/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="remote-repository-template">
+<h1><span class="section-number">3.19. </span>Remote Repository Template<a class="headerlink" href="#remote-repository-template" title="Link to this heading"></a></h1>
+<p>The <strong>Remote Repository Template</strong> is the shared foundation for hosting a project on a remote Git platform. It can’t be installed by itself (<code class="docutils literal notranslate"><span class="pre">standalone</span> <span class="pre">=</span> <span class="pre">False</span></code>): install the <a class="reference external" href="../github/index.html">GitHub Template</a> instead, which depends on this one. It also depends on the <a class="reference external" href="../git/index.html">Git Template</a>.</p>
+<p>It provides three things, none of them tied to one platform:</p>
+<ul class="simple">
+<li><p><strong>A generic runner</strong>, with <code class="docutils literal notranslate"><span class="pre">create_repo</span></code> and <code class="docutils literal notranslate"><span class="pre">delete_repo</span></code>, that works with whichever platform is installed.</p></li>
+<li><p><strong>A platform-agnostic contract</strong> (<code class="docutils literal notranslate"><span class="pre">RemoteRepositoryPort</span></code>) that every platform adapter implements: create, look up and delete repositories, and create releases.</p></li>
+<li><p><strong>A provider</strong> that picks the platform to use when more than one is installed.</p></li>
+</ul>
+<section id="commands">
+<h2><span class="section-number">3.19.1. </span>Commands<a class="headerlink" href="#commands" title="Link to this heading"></a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>remote_repository<span class="w"> </span>create_repo
+python<span class="w"> </span>tools<span class="w"> </span>remote_repository<span class="w"> </span>delete_repo
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">create_repo</span></code> asks for the repository name, description and visibility (or accepts them as arguments), creates it on the platform and points the local <code class="docutils literal notranslate"><span class="pre">origin</span></code> remote at it, pushing every branch.</p>
+<p><code class="docutils literal notranslate"><span class="pre">delete_repo</span></code> is destructive and can’t be undone, so it shows a warning and asks you to type the repository’s exact name. Anything else aborts without touching the platform. Automation passes the name again with <code class="docutils literal notranslate"><span class="pre">confirm_name</span></code>, which must match <code class="docutils literal notranslate"><span class="pre">name</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>remote_repository<span class="w"> </span>delete_repo<span class="w"> </span><span class="nv">name</span><span class="o">=</span>my-project<span class="w"> </span><span class="nv">confirm_name</span><span class="o">=</span>my-project
+</pre></div>
+</div>
+<p>In scripts and CI, add <code class="docutils literal notranslate"><span class="pre">interactive=false</span></code>: a missing argument then stops the run with an error instead of waiting for an answer.</p>
+</section>
+<section id="choosing-the-platform">
+<h2><span class="section-number">3.19.2. </span>Choosing the platform<a class="headerlink" href="#choosing-the-platform" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">config/remote_repository.toml</span></code> sets the platform to use by default:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">default_platform</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;github&quot;</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">github</span></code> is the only platform available right now. The setting only matters when several platforms are installed.</p>
+</section>
+<section id="adding-a-platform">
+<h2><span class="section-number">3.19.3. </span>Adding a platform<a class="headerlink" href="#adding-a-platform" title="Link to this heading"></a></h2>
+<p>A new platform (GitLab, Bitbucket, …) is a template that depends on this one and contributes only its own adapter. Nothing in this template needs to change.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../git/index.html" class="btn btn-neutral float-left" title="3.18. Git Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../github/index.html" class="btn btn-neutral float-right" title="3.20. GitHub Template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dux Tecnologia, Thiago Costa Pereira.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
