@@ -401,6 +401,21 @@ def cmd_detect_version(git: Any, args: argparse.Namespace) -> None:
     print(f"Next version: v{version}")
 
 
+def _release_notes(git: Any, version: Any) -> str:
+    config = _config(_major_of_branch(git.current_branch()))
+    refs = tuple(
+        branch
+        for branch in initial_branches(config)
+        if git.branch_exists(branch)
+    ) or ("HEAD",)
+    unreleased = ListUnreleasedCommitsUseCase(git).execute(refs)
+    notes = render_changelog(unreleased.commits, f"v{version}")
+    changelog_url = (
+        f"https://duxtec.github.io/appcraft/{version}/changelog.html"
+    )
+    return f"{notes}\nFull changelog: {changelog_url}\n"
+
+
 def cmd_release(git: Any, args: argparse.Namespace) -> None:
     try:
         version = _next_version(git)
@@ -432,7 +447,7 @@ def cmd_release(git: Any, args: argparse.Namespace) -> None:
             url = github.create_release(
                 tag=tag,
                 title=tag,
-                notes=f"Release {tag}",
+                notes=_release_notes(git, version),
                 prerelease=version.is_prerelease,
             )
             print(f"GitHub release: {url}")

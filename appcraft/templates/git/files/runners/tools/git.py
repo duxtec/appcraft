@@ -296,7 +296,7 @@ class Git(Runner):
                 remote_adapter.create_release(
                     tag=tag,
                     title=tag,
-                    notes=f"Release {tag}",
+                    notes=self._release_notes(version),
                     prerelease=version.is_prerelease,
                 )
             except Exception as e:
@@ -304,6 +304,16 @@ class Git(Runner):
                 # creating the platform release (e.g. not authenticated)
                 # shouldn't look like the whole release failed.
                 self.presentation.Printer.platform_release_error(str(e))
+
+    def _release_notes(self, version: SemVer) -> str:
+        config = get_branching_config()
+        refs = tuple(
+            branch
+            for branch in initial_branches(config)
+            if self.git.branch_exists(branch)
+        ) or ("HEAD",)
+        unreleased = ListUnreleasedCommitsUseCase(self.git).execute(refs)
+        return render_changelog(unreleased.commits, f"v{version}")
 
     def _top_major(self, config: BranchingConfig) -> int:
         majors = [
