@@ -20,12 +20,6 @@ import toml
 
 _EXPLICIT_OPERATORS = (">=", "<=", "==", "!=", ">", "<", "~=")
 
-_URL_FIELDS = (
-    ("homepage", "Homepage"),
-    ("repository", "Repository"),
-    ("documentation", "Documentation"),
-)
-
 
 @dataclass
 class DependencySnapshot:
@@ -170,9 +164,6 @@ def _read_from_poetry(pyproject: dict[str, Any]) -> DependencySnapshot:
             "readme",
             "keywords",
             "classifiers",
-            "homepage",
-            "repository",
-            "documentation",
         )
         if poetry.get(key)
     }
@@ -180,6 +171,23 @@ def _read_from_poetry(pyproject: dict[str, Any]) -> DependencySnapshot:
         metadata["authors"] = [
             _parse_author(entry) for entry in poetry["authors"]
         ]
+
+    # Poetry's own first-class url fields, plus whatever else lives in
+    # its generic (deprecated but still functional) [tool.poetry.urls]
+    # table — merged into one dict so no label is lost on a later
+    # conversion to another format, regardless of which Poetry table it
+    # came from.
+    urls: dict[str, str] = {}
+    for key, label in (
+        ("homepage", "Homepage"),
+        ("repository", "Repository"),
+        ("documentation", "Documentation"),
+    ):
+        if poetry.get(key):
+            urls[label] = poetry[key]
+    urls.update(poetry.get("urls", {}))
+    if urls:
+        metadata["urls"] = urls
 
     return DependencySnapshot(
         main=main,
@@ -237,10 +245,10 @@ def _read_from_uv(pyproject: dict[str, Any]) -> DependencySnapshot:
             else:
                 authors.append(_parse_author(author))
         metadata["authors"] = authors
-    urls = project.get("urls", {})
-    for key, label in _URL_FIELDS:
-        if urls.get(label):
-            metadata[key] = urls[label]
+    if project.get("urls"):
+        metadata["urls"] = dict(project["urls"])
+    if project.get("license-files"):
+        metadata["license_files"] = list(project["license-files"])
 
     return DependencySnapshot(
         main=main,

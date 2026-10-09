@@ -1,7 +1,4 @@
-import subprocess
-import sys
-
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.core.package.manager import PackageManagerBase
 
 from ..template_abc import TemplateABC
 
@@ -21,10 +18,12 @@ class PlaywrightTemplate(TemplateABC):
     @classmethod
     def post_install(cls, target_dir: str | None = None) -> None:
         # Playwright needs its own browser binaries, downloaded
-        # separately from the pip package — this can only run after
-        # "Installing requirements" put the playwright CLI on PATH.
-        try:
-            subprocess.check_call(["playwright", "install", "chromium"])
-        except subprocess.CalledProcessError as e:
-            Printer.error(str(e))
-            sys.exit(1)
+        # separately from the pip package. Not subprocess.check_call
+        # directly: the "playwright" CLI script lives inside this
+        # generated project's own (Poetry/Pipenv/uv) venv, which isn't
+        # necessarily activated in — or even the same venv as —
+        # whichever Python is running appcraft itself, so a bare
+        # subprocess call can't find it. PackageManagerBase().run_command()
+        # wraps it correctly per active manager (e.g. `poetry run
+        # playwright ...`).
+        PackageManagerBase().run_command(["playwright", "install", "chromium"])

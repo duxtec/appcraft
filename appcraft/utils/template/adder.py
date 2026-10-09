@@ -9,7 +9,6 @@ import toml
 from appcraft.templates.template_manager import TemplateManager
 from appcraft.utils import (
     PackageManager,
-    PipenvManager,
     PoetryManager,
     Printer,
 )
@@ -65,12 +64,13 @@ class TemplateAdder:
                 elif isinstance(dict1[prop], list) and isinstance(
                     value, list
                 ):
+                    # Equality-based membership check, not a set: a PEP
+                    # 621 list field can hold inline tables (e.g.
+                    # authors = [{name = ..., email = ...}]), which
+                    # aren't hashable.
                     value: Any = value
-                    existing: set[Any] = set(dict1[prop])
                     dict1[prop].extend(
-                        v
-                        for v in value
-                        if v not in existing and not existing.add(v)
+                        v for v in value if v not in dict1[prop]
                     )
             else:
                 dict1[prop] = value
@@ -105,16 +105,6 @@ class TemplateAdder:
 Error during the addition of dependencies for template '{template_name}': {e}"
             )
 
-    def merge_pm_files(self, template_name: str):
-        mapper: dict[type[PackageManager], str] = {
-            PoetryManager: "pyproject.toml",
-            PipenvManager: "Pipfile",
-        }
-        toml_name = mapper.get(
-            self.package_manager.__class__, "pyproject.toml"
-        )
-        self.merge_toml(template_name=template_name, toml_name=toml_name)
-
     def _copy_directory_contents(
         self, src_dir: Path, dst_dir: Path
     ) -> list[Path]:
@@ -132,12 +122,6 @@ Error during the addition of dependencies for template '{template_name}': {e}"
                 directory_contents.extend(files)
             else:
                 if os.path.exists(d) and not self.can_overwrite(d):
-                    continue
-
-                if os.path.basename(s) in (
-                    "Pipfile",
-                    "Pipfile.lock",
-                ) and not isinstance(self.package_manager, PipenvManager):
                     continue
 
                 if os.path.dirname(s) in ("config") and isinstance(

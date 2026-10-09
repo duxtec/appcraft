@@ -1,4 +1,5 @@
 import os
+from typing import cast
 
 import toml
 
@@ -28,7 +29,7 @@ previously in use."
         # is_installed() would crash in every generated project. Only
         # resolves for pyright when the appcraft dev dependency (added by
         # this template's own pyproject.toml fragment) is installed.
-        from appcraft.utils.dependency_convert import (  # pyright: ignore[reportMissingImports]
+        from appcraft.utils.dependency_convert import (  # pyright: ignore[reportMissingImports, reportMissingTypeStubs]
             clear_dependency_sources,
             read_dependencies,
             set_package_manager_config,
@@ -55,23 +56,20 @@ previously in use."
         if metadata.get("readme"):
             project["readme"] = metadata["readme"]
         if metadata.get("license"):
-            project["license"] = {"text": metadata["license"]}
+            # Plain PEP 639 SPDX string, not the legacy {text = ...}
+            # table — metadata["license"] is always already just an
+            # SPDX expression string (e.g. "MIT"), never arbitrary
+            # free-text, regardless of which format it was read from.
+            project["license"] = metadata["license"]
+        if metadata.get("license_files"):
+            project["license-files"] = metadata["license_files"]
         if metadata.get("keywords"):
             project["keywords"] = metadata["keywords"]
         if metadata.get("classifiers"):
             project["classifiers"] = metadata["classifiers"]
 
-        urls = {
-            label: metadata[key]
-            for key, label in (
-                ("homepage", "Homepage"),
-                ("repository", "Repository"),
-                ("documentation", "Documentation"),
-            )
-            if metadata.get(key)
-        }
-        if urls:
-            project["urls"] = urls
+        if metadata.get("urls"):
+            project["urls"] = dict(metadata["urls"])
 
         dependency_groups = {
             group_name: cls._pep508_list(group_deps)
@@ -87,12 +85,41 @@ previously in use."
                 pyproject = toml.load(file)
 
         # Poetry's own metadata table is now superseded by [project];
-        # keep any other [tool.*] table / [build-system] as-is.
+        # keep any other [tool.*] table as-is.
         tool = pyproject.get("tool")
-        if isinstance(tool, dict) and "poetry" in tool:
-            del tool["poetry"]
-            if not tool:
-                del pyproject["tool"]
+        tool_table: dict[str, object] = (
+            cast(dict[str, object], tool) if isinstance(tool, dict) else {}
+        )
+        tool_table.pop("poetry", None)
+        # Mirrors Poetry's own package-mode = false: this project's
+        # top-level layout (domain/, application/, infrastructure/, ...)
+        # is a Clean Architecture app, not an installable distribution,
+        # so uv must never try to build/install it as its own package —
+        # that fails outright (setuptools' auto-discovery sees multiple
+        # top-level packages and refuses to build).
+        #
+        # default-groups must be set explicitly (and must list every
+        # group, "dev" included): `uv sync` only auto-installs the "dev"
+        # group by its own built-in convention, and setting
+        # default-groups at all *replaces* that implicit default rather
+        # than adding to it — confirmed empirically (an explicit
+        # default-groups missing "dev" silently stops installing it).
+        # Mirrors Poetry's groups, which install by default unless
+        # marked optional = true (never done here), so `(poetry|uv)
+        # install`'s default behavior matches regardless of which
+        # manager is active; `uv sync --no-group <name>` (or Poetry's
+        # `--without <name>`) excludes one, e.g. for a lean production
+        # image.
+        tool_table["uv"] = {
+            "package": False,
+            "default-groups": list(dependency_groups.keys()),
+        }
+        pyproject["tool"] = tool_table
+
+        # A leftover [build-system] (from base's own default, or a prior
+        # poetry/pipenv swap) is irrelevant once package = false — uv
+        # never invokes it.
+        pyproject.pop("build-system", None)
 
         pyproject["project"] = project
         if dependency_groups:

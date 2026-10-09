@@ -2,10 +2,10 @@ from abc import ABC, ABCMeta
 from pathlib import Path
 from typing import Any, Callable, ClassVar
 
-from infrastructure.framework.appcraft.core.package.manager import (
+from infrastructure.core.package.manager import (
     PackageManager,
 )
-from infrastructure.framework.appcraft.core.package.manager.poetry import (
+from infrastructure.core.package.manager.poetry import (
     PoetryManager,
 )
 
@@ -58,8 +58,12 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
 
     @classmethod
     def install(cls, target_dir: Path | None = None) -> None:
-        from appcraft.utils.template.adder import TemplateAdder
-        from appcraft.utils.template.loader import TemplateLoader
+        from appcraft.utils.template.adder import (  # pyright: ignore[reportMissingTypeStubs]
+            TemplateAdder,
+        )
+        from appcraft.utils.template.loader import (  # pyright: ignore[reportMissingTypeStubs]
+            TemplateLoader,
+        )
 
         # A template in an exclusive_group (e.g. the package_manager
         # group shared by poetry/pipenv/uv) replaces whichever other
@@ -85,10 +89,11 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
                         other.uninstall(target_dir=target_dir)
 
         ta = TemplateAdder(
-            target_dir=target_dir, package_manager=cls.package_manager
+            target_dir=target_dir,
+            package_manager=cls.package_manager,  # pyright: ignore[reportArgumentType]
         )
         ta.add_template(cls.name)
-        ta.merge_pm_files(cls.name)
+        ta.merge_toml(cls.name)
 
     @classmethod
     def uninstall(cls, target_dir: Path | None = None) -> None:

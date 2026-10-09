@@ -27,7 +27,7 @@ whichever format was previously in use."
         # is_installed() would crash in every generated project. Only
         # resolves for pyright when the appcraft dev dependency (added by
         # this template's own pyproject.toml fragment) is installed.
-        from appcraft.utils.dependency_convert import (  # pyright: ignore[reportMissingImports]
+        from appcraft.utils.dependency_convert import (  # pyright: ignore[reportMissingImports, reportMissingTypeStubs]
             clear_dependency_sources,
             read_dependencies,
             set_package_manager_config,
@@ -37,9 +37,22 @@ whichever format was previously in use."
 
         snapshot = read_dependencies(target_dir)
 
-        dev_deps: dict[str, str] = {}
+        # Pipfile has no equivalent of Poetry's/uv's named, installed-by-
+        # default-but-individually-excludable groups: a bare `pipenv
+        # install` only ever installs [packages] — [dev-packages] and
+        # any custom category need an explicit --dev/--categories flag,
+        # confirmed empirically. So every group ("dev" included)
+        # collapses into [packages] here, to keep a bare `pipenv
+        # install`'s default behavior matching poetry/uv's (everything
+        # installed) — at the cost of Pipenv losing the ability to
+        # exclude one group for a lean/production install the way
+        # `poetry install --without <group>`/`uv sync --no-group <group>`
+        # can. [dev-packages] is always left empty rather than
+        # repurposed, since nothing reads it back as meaningfully
+        # distinct from [packages] once this flattening happens.
+        all_packages: dict[str, str] = dict(snapshot.main)
         for group_deps in snapshot.groups.values():
-            dev_deps.update(group_deps)
+            all_packages.update(group_deps)
 
         pipfile = {
             "source": [
@@ -52,12 +65,9 @@ whichever format was previously in use."
             "requires": {"python_version": snapshot.python_version},
             "packages": {
                 name: constraint or "*"
-                for name, constraint in snapshot.main.items()
+                for name, constraint in all_packages.items()
             },
-            "dev-packages": {
-                name: constraint or "*"
-                for name, constraint in dev_deps.items()
-            },
+            "dev-packages": {},
         }
 
         clear_dependency_sources(target_dir)
