@@ -6,7 +6,7 @@ authors = [{ name = "John Doe", email = "contact@example.com" }]
 license = "MIT"
 license-files = ["LICENSE"]
 readme = "README.md"
-requires-python = ">=3.12,<4.0.0"
+requires-python = ">=3.12,<3.16"
 keywords = ["appcraft", "clean-architecture"]
 classifiers = [
     "Development Status :: 3 - Alpha",

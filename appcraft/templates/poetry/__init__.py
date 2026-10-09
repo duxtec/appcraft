@@ -80,9 +80,31 @@ for dependency management."
             poetry_table["classifiers"] = metadata["classifiers"]
 
         poetry_table["dependencies"] = {
-            "python": f"^{snapshot.python_version}",
+            # The real declared range (e.g. ">=3.12,<3.16"), not a
+            # caret synthesized from just the floor — Poetry validates
+            # that every dependency must be installable across the
+            # *entire* declared range, so re-widening this to
+            # "^{floor}" (effectively <4.0.0) would silently break
+            # locking for any dependency with its own, narrower upper
+            # Python bound (e.g. selectolax's <3.16) regardless of
+            # which version of it is pinned. Poetry accepts an
+            # explicit PEP 508-style range here natively, confirmed
+            # empirically — no caret required.
+            "python": snapshot.requires_python,
             **{
-                name: constraint or "*"
+                name: (
+                    # A dependency with its own, narrower Python range
+                    # (e.g. browser_manager needing >=3.13 on a project
+                    # whose own floor is lower) needs Poetry's table
+                    # form — a plain string constraint can't carry a
+                    # second, per-dependency Python restriction.
+                    {
+                        "version": constraint or "*",
+                        "python": snapshot.main_python[name],
+                    }
+                    if name in snapshot.main_python
+                    else constraint or "*"
+                )
                 for name, constraint in snapshot.main.items()
             },
         }

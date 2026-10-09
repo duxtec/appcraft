@@ -26,6 +26,22 @@ class DependencySnapshot:
     main: dict[str, str] = field(default_factory=lambda: {})
     groups: dict[str, dict[str, str]] = field(default_factory=lambda: {})
     python_version: str = "3.12"
+    # The full PEP 508 Python requirement (e.g. ">=3.12,<4.0.0"), not
+    # just the bare floor python_version carries — needed so a writer
+    # can preserve an explicit upper bound (e.g. one narrowed because a
+    # dependency like selectolax caps its own supported Python range)
+    # instead of re-synthesizing a caret-style "^{floor}" range that's
+    # wider than what every declared dependency can actually satisfy.
+    requires_python: str = ">=3.12"
+    # name -> PEP 440 python-version range, only for the rare
+    # dependency that needs a *narrower* Python range than the
+    # project's own (e.g. "browser_manager" only ships a build for
+    # >=3.13) — carried separately from `main`'s version constraint
+    # since every writer expresses "this dependency needs a specific
+    # Python range" differently (a `; python_version ...` marker in a
+    # plain PEP 508 string for uv, a {version=..., python=...} table
+    # for Poetry, a {version=..., markers=...} table for Pipenv).
+    main_python: dict[str, str] = field(default_factory=lambda: {})
     metadata: dict[str, Any] = field(default_factory=lambda: {})
 
 
@@ -106,12 +122,41 @@ def bare_python_version(constraint: str) -> str:
 
 
 def _pep508_name_and_constraint(requirement: str) -> tuple[str, str]:
+    name, constraint, _ = _pep508_parts(requirement)
+    return name, constraint
+
+
+_MARKER_PYTHON_VERSION = re.compile(
+    r"^\s*python_version\s*(>=|<=|==|!=|>|<|~=)\s*['\"]([^'\"]+)['\"]\s*$"
+)
+
+
+def _pep508_parts(requirement: str) -> tuple[str, str, str]:
+    """Splits a PEP 508 requirement into (name, version constraint,
+    python-version marker as a plain PEP 440 range). Only a single
+    bare `python_version <op> 'X'` marker is understood — the one shape
+    actually used anywhere in this codebase (e.g. browser_manager's own
+    floor being newer than the project's) — any other/compound marker
+    is dropped rather than guessed at.
+    """
     match = re.match(
-        r"\s*([A-Za-z0-9_.\-]+)\s*(\[[^\]]*\])?\s*(.*)", requirement
+        r"\s*([A-Za-z0-9_.\-]+)\s*(\[[^\]]*\])?\s*([^;]*)(?:;(.*))?",
+        requirement,
     )
     if not match:
-        return requirement.strip(), ""
-    return match.group(1), match.group(3).strip()
+        return requirement.strip(), "", ""
+
+    name = match.group(1)
+    constraint = match.group(3).strip()
+    marker = (match.group(4) or "").strip()
+
+    python_range = ""
+    if marker:
+        marker_match = _MARKER_PYTHON_VERSION.match(marker)
+        if marker_match:
+            python_range = f"{marker_match.group(1)}{marker_match.group(2)}"
+
+    return name, constraint, python_range
 
 
 def _parse_author(entry: Any) -> dict[str, str]:
@@ -140,16 +185,26 @@ def _read_from_poetry(pyproject: dict[str, Any]) -> DependencySnapshot:
 
     python_constraint = raw_deps.get("python", "3.12")
 
-    main = {
-        name: poetry_constraint_to_pep440(constraint)
-        for name, constraint in raw_deps.items()
-        if name.lower() != "python"
-    }
+    main: dict[str, str] = {}
+    main_python: dict[str, str] = {}
+    for name, constraint in raw_deps.items():
+        if name.lower() == "python":
+            continue
+        if isinstance(constraint, dict):
+            constraint_table = cast(dict[str, Any], constraint)
+            main[name] = poetry_constraint_to_pep440(
+                constraint_table.get("version", "*")
+            )
+            if constraint_table.get("python"):
+                main_python[name] = constraint_table["python"]
+        else:
+            main[name] = poetry_constraint_to_pep440(constraint)
 
     groups = {
         group_name: {
             name: poetry_constraint_to_pep440(constraint)
             for name, constraint in group.get("dependencies", {}).items()
+            if not isinstance(constraint, dict)
         }
         for group_name, group in poetry.get("group", {}).items()
     }
@@ -189,10 +244,17 @@ def _read_from_poetry(pyproject: dict[str, Any]) -> DependencySnapshot:
     if urls:
         metadata["urls"] = urls
 
+    python_version = bare_python_version(python_constraint)
+    requires_python = poetry_constraint_to_pep440(python_constraint) or (
+        f">={python_version}"
+    )
+
     return DependencySnapshot(
         main=main,
         groups=groups,
-        python_version=bare_python_version(python_constraint),
+        python_version=python_version,
+        requires_python=requires_python,
+        main_python=main_python,
         metadata=metadata,
     )
 
@@ -201,9 +263,12 @@ def _read_from_uv(pyproject: dict[str, Any]) -> DependencySnapshot:
     project = pyproject.get("project", {})
 
     main: dict[str, str] = {}
+    main_python: dict[str, str] = {}
     for requirement in project.get("dependencies", []):
-        name, constraint = _pep508_name_and_constraint(requirement)
+        name, constraint, python_range = _pep508_parts(requirement)
         main[name] = constraint
+        if python_range:
+            main_python[name] = python_range
 
     groups: dict[str, dict[str, str]] = {}
     for group_name, requirements in pyproject.get(
@@ -215,9 +280,8 @@ def _read_from_uv(pyproject: dict[str, Any]) -> DependencySnapshot:
             group_deps[name] = constraint
         groups[group_name] = group_deps
 
-    python_version = bare_python_version(
-        project.get("requires-python", "3.12")
-    )
+    requires_python = project.get("requires-python", ">=3.12")
+    python_version = bare_python_version(requires_python)
 
     metadata: dict[str, Any] = {}
     for key in ("name", "version", "description", "readme", "keywords",
@@ -254,6 +318,8 @@ def _read_from_uv(pyproject: dict[str, Any]) -> DependencySnapshot:
         main=main,
         groups=groups,
         python_version=python_version,
+        requires_python=requires_python,
+        main_python=main_python,
         metadata=metadata,
     )
 

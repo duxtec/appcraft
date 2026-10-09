@@ -1,6 +1,6 @@
 [project]
 dependencies = [
     "selenium>=4.49.0,<5.0.0",
-    "browser_manager>=1.0.5,<2.0.0",
+    "browser_manager>=1.0.5,<2.0.0; python_version >= '3.13'",
     "webdriver_manager",
 ]

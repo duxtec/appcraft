@@ -1,4 +1,5 @@
 import os
+import re
 from typing import cast
 
 import toml
@@ -45,8 +46,10 @@ previously in use."
                 metadata.get("name", "appcraft-project")
             ),
             "version": metadata.get("version", "0.0.1"),
-            "requires-python": f">={snapshot.python_version}",
-            "dependencies": cls._pep508_list(snapshot.main),
+            "requires-python": snapshot.requires_python,
+            "dependencies": cls._pep508_list(
+                snapshot.main, snapshot.main_python
+            ),
         }
 
         if metadata.get("description"):
@@ -133,8 +136,26 @@ previously in use."
         set_package_manager_config(target_dir, "uv")
 
     @staticmethod
-    def _pep508_list(deps: dict[str, str]) -> list[str]:
-        return [name + constraint for name, constraint in deps.items()]
+    def _pep508_list(
+        deps: dict[str, str],
+        python_markers: dict[str, str] | None = None,
+    ) -> list[str]:
+        markers = python_markers or {}
+        result: list[str] = []
+        for name, constraint in deps.items():
+            requirement = name + constraint
+            python_range = markers.get(name)
+            if python_range:
+                op_match = re.match(
+                    r"(>=|<=|==|!=|>|<|~=)(.+)", python_range
+                )
+                if op_match:
+                    requirement += (
+                        f"; python_version {op_match.group(1)} "
+                        f"'{op_match.group(2)}'"
+                    )
+            result.append(requirement)
+        return result
 
     @staticmethod
     def _normalize_name(name: str) -> str:
