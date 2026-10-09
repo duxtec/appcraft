@@ -49,4 +49,9 @@ dev = [
     "sphinx>=9.1.0,<10.0.0",
     "sphinx_rtd_theme>=3.1.0,<4.0.0",
     "pyright>=1.1.400,<2.0.0",
+    # Needed transitively by appcraft/scripts/release.py: it imports the
+    # git/remote_repository/github templates' application.use_cases.git.*,
+    # which pulls in domain.models (base's Pydantic-backed model layer)
+    # through application.use_cases.UseCase's own ReadUseCase sibling.
+    "pydantic>=2.13.4,<3.0.0",
 ]
