@@ -1,2 +1,4 @@
-[tool.poetry.dependencies]
-prompt-toolkit = "*"
+[dependency-groups]
+cli = [
+    "prompt-toolkit",
+]

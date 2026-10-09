@@ -1,2 +1,4 @@
-[tool.poetry.dependencies]
-playwright = "^1.63.0"
+[project]
+dependencies = [
+    "playwright>=1.63.0,<2.0.0",
+]

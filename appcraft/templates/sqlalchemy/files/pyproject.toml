@@ -1,5 +1,11 @@
-[tool.poetry.dependencies]
-sqlalchemy = "^2.0.51"
-psycopg = "^3.3.4"          # To PostgreSQL
-mysqlclient = "==2.2.4"     # To MySQL
+[project]
+dependencies = [
+    "sqlalchemy>=2.0.51,<3.0.0",
+    "psycopg>=3.3.4,<4.0.0", # To PostgreSQL
+    "mysqlclient==2.3.0", # To MySQL
+]
 
+[dependency-groups]
+web = [
+    "flask-sqlalchemy==3.1.1", # Flask's own SQLAlchemy glue, only needed when flask is also installed
+]

@@ -1,0 +1,7 @@
+[dependency-groups]
+web = [
+    "websockets",
+    "python-socketio",
+    "aiohttp",
+    "websocket-client",
+]

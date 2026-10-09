@@ -1,29 +1,44 @@
-[tool.poetry]
-name = "Appcraft Project"
+[project]
+name = "appcraft-project"
 version = "0.0.1"
 description = "Description of the Appcraft Project"
-authors = ["John Doe <contact@example.com>"]
+authors = [{ name = "John Doe", email = "contact@example.com" }]
 license = "MIT"
+license-files = ["LICENSE"]
 readme = "README.md"
-homepage = "https://example.com"
-repository = "https://github.com/duxtec/appcraft"
-documentation = "https://duxtec.github.io/appcraft/latest/index.html"
-keywords = ["appcraft"]
-classifiers = ["Development Status :: 4 - Beta"]
-package-mode = false
+requires-python = ">=3.12,<4.0.0"
+keywords = ["appcraft", "clean-architecture"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "toml>=0.10.2,<0.11.0",
+    "pydantic>=2.13.4,<3.0.0",
+    "injector>=0.24.0,<0.25.0",
+]
 
-[tool.poetry.dependencies]
-python = "^3.12"
-toml = "0.10.2"
-pydantic = "^2.13.4"
-injector = "^0.24.0"
+[project.urls]
+Homepage = "https://example.com"
+Repository = "https://example.com/your-org/your-project"
+Documentation = "https://example.com/your-org/your-project/docs"
+Issues = "https://example.com/your-org/your-project/issues"
 
-[tool.poetry.group.dev.dependencies]
-sphinx = "8.0.2"
-flake8 = "6.1.0"
-black = "^26.5.1"
-isort = "^8.0.1"
+[dependency-groups]
+dev = [
+    "sphinx>=9.1.0,<10.0.0",
+    "flake8>=7.4.1,<8.0.0",
+    "black>=26.5.1,<27.0.0",
+    "isort>=9.0.2,<10.0.0",
+    "pyright>=1.1.400,<2.0.0",
+]
 
 [build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"

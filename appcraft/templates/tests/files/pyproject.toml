@@ -1,0 +1,11 @@
+[dependency-groups]
+dev = [
+    "pytest",
+    "mock",
+    "coverage",
+    "tox",
+    "pytest-cov",
+    "pytest-mock",
+    "flaky",
+    "factory-boy",
+]

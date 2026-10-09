@@ -1,4 +1,6 @@
-[tool.poetry.dependencies]
-selenium = "^4.49.0"
-browser_manager = "^1.0.5"
-webdriver_manager = "*"
+[project]
+dependencies = [
+    "selenium>=4.49.0,<5.0.0",
+    "browser_manager>=1.0.5,<2.0.0",
+    "webdriver_manager",
+]
