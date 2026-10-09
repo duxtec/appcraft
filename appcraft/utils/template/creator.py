@@ -99,7 +99,7 @@ class TemplateCreator:
                 continue
 
             template_runner_content = f"""\
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 
 
 class {template_name_pascal_case}Runner(Runner):
@@ -127,9 +127,18 @@ class {template_name_pascal_case}Runner(Runner):
             )
             return
 
-        template_pyproject_content = f"""\
-[tool.appcraft.{template_name}]
-# Configs to the appcraft template '{template_name}'
+        template_pyproject_content = """\
+[project]
+dependencies = [
+    # List this template's real dependencies here, as plain PEP 508
+    # strings, e.g. "requests>=2.31.0,<3.0.0" — this fragment gets
+    # merged into the generated project's own pyproject.toml, so it
+    # must stay in pure PEP 621/735 form (never a package-manager
+    # dialect like Poetry's [tool.poetry.dependencies]). Only move a
+    # dependency into [dependency-groups] if it's specific to a
+    # delivery surface (web/cli/gui), not a business feature — see
+    # docs/agents/templates-package-managers.md.
+]
 """
 
         with open(template_pyproject, "w", encoding="utf-8") as f:

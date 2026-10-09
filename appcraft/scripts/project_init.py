@@ -2,8 +2,9 @@ import argparse
 import os
 import shutil
 import sys
+from pathlib import Path
 
-from infrastructure.framework.appcraft.core.package.manager.base import (
+from infrastructure.core.package.manager import (
     PackageManagerBase,
 )
 
@@ -90,7 +91,7 @@ def project_init():
 
         for template in templates:
             Printer.info(f"Installing the '{template.name}' template...")
-            template.install(target_dir=project_folder)
+            template.install(target_dir=Path(project_folder))
 
         shutil.copy2(
             os.path.join(template_dir, "template_manager.py"),
