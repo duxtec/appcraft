@@ -4,7 +4,7 @@ from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports.database import DatabasePort
 from application.repositories import RepositoryBase
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.models.user import NewUser, User
 from domain.value_objects.id import Id
 
@@ -13,7 +13,7 @@ class UserRepository(RepositoryBase[User, NewUser]):
     def __init__(self, adapter: DatabasePort) -> None:
         self.adapter = adapter
 
-    def get(self, filters: Sequence[FilterInterface]):
+    def get(self, filters: Sequence[Filter]):
         users = self.adapter.get(self.model, filters)
         return users
 

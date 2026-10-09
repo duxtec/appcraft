@@ -1,4 +1,4 @@
-from infrastructure.framework.appcraft.core.package.manager.base import (
+from infrastructure.core.package.manager import (
     PackageManagerBase,
 )
 
@@ -13,7 +13,7 @@ that installs dependencies through whichever package manager the project \
 is currently using (Poetry, Pipenv or uv — no hardcoded assumption), and a \
 docker-compose.yml generated automatically from every runners/main Runner \
 that exposes a `start` action, one service per deployable entry point. \
-Re-run `python run_tools docker generate_compose` after installing a new \
+Re-run `python tools docker generate_compose` after installing a new \
 runners/main template (e.g. a future FastAPI or GUI template) to pick it \
 up — the file isn't regenerated silently on every unrelated template \
 install, so manual edits (ports, volumes, env vars) aren't clobbered."
@@ -30,5 +30,5 @@ install, so manual edits (ports, volumes, env vars) aren't clobbered."
         # would use manually) instead of shelling out directly. It
         # already handles/reports a failing subprocess itself.
         PackageManagerBase().run_command(
-            ["python", "run_tools", "docker", "generate_compose"]
+            ["python", "tools", "docker", "generate_compose"]
         )

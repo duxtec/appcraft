@@ -38,7 +38,7 @@ class DockerAdapter:
     """Thin wrapper around the compose CLI, always pointed at
     infrastructure/docker/docker-compose.yml via `-f` — so callers don't
     need to `cd` there first, regardless of where they run `python
-    run_tools` from.
+    tools` from.
     """
 
     def build(self, service: str | None = None) -> None:

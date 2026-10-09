@@ -5,7 +5,7 @@ from typing import cast
 from flask import Blueprint, Flask, Response, render_template
 from jinja2 import FileSystemLoader
 
-from infrastructure.framework.appcraft.utils.import_manager import (
+from infrastructure.utils.import_manager import (
     ImportManager,
 )
 

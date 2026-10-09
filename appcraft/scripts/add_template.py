@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from infrastructure.framework.appcraft.core.package.manager.base import (
+from infrastructure.core.package.manager import (
     PackageManagerBase,
 )
 

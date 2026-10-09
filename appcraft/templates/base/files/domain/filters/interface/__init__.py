@@ -6,7 +6,7 @@ from domain.models.core.field import Field
 T = TypeVar("T", covariant=True)
 
 
-class FilterInterface(ABC):
+class Filter(ABC):
     @abstractmethod
     def __init__(
         self,

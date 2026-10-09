@@ -3,7 +3,12 @@ from typing import Any, Callable, Generic, TypeVar, cast, get_type_hints
 
 from domain.core.property_meta import PropertySetter
 from domain.value_objects import ValueObject
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.core.runner.mode import (
+    InvalidInputError,
+    is_interactive,
+    read_input,
+)
+from infrastructure.utils.printer import Printer
 
 BasicType = TypeVar("BasicType", bound=Any)
 PropertyType = TypeVar("PropertyType", bound=property)
@@ -28,16 +33,19 @@ class CLIValidator(
         error_action: Callable[[Exception, str | None], None] | None = None,
         error_message: str | None = None,
         max_attempts: int | None = 3,
+        argument: str | None = None,
     ) -> BasicType:
         attempts = 0
 
         while max_attempts is None or attempts < max_attempts:
             if value is None:
-                value = input(prompt)
+                value = read_input(prompt, argument or prompt.strip().rstrip(":").split()[-1])
                 print()
             try:
                 return cls._validate(value)
             except Exception as e:
+                if not is_interactive():
+                    raise InvalidInputError(str(e)) from e
                 value = None
                 attempts += 1
                 if error_action:

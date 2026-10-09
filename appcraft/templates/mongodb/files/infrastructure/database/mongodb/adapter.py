@@ -7,15 +7,15 @@ from pymongo.collection import Collection
 from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports.database import DatabasePort
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.models import Model, NewModel
 from domain.models.exceptions import ModelNotFoundError
 from domain.types.model import TModel
-from domain.value_objects.base import IntValueObject, ValueObjectBase
+from domain.value_objects import IntValueObject, ValueObjectBase
 from domain.value_objects.id import Id
 from domain.value_objects.id.uuid import UuidId
 from infrastructure.database.mongodb.filter import FilterMongoDB
-from infrastructure.framework.appcraft.core.config import Config
+from infrastructure.core.config import Config
 
 
 class MongoDBAdapter(DatabasePort):
@@ -39,7 +39,7 @@ class MongoDBAdapter(DatabasePort):
     def get(
         self,
         model: Type[TModel],
-        filters: Sequence[FilterInterface] | None = None,
+        filters: Sequence[Filter] | None = None,
     ) -> list[TModel]:
         collection = self._collection(model)
         query = self._filter.build_query(filters or [])
@@ -98,7 +98,7 @@ class MongoDBAdapter(DatabasePort):
     def update_where(
         self,
         model: type[TModel],
-        filters: Sequence[FilterInterface],
+        filters: Sequence[Filter],
         changes: Changes,
     ) -> int:
         collection = self._collection(model)
@@ -132,7 +132,7 @@ class MongoDBAdapter(DatabasePort):
     def delete_where(
         self,
         model: Type[TModel],
-        filters: Sequence[FilterInterface] | None = None,
+        filters: Sequence[Filter] | None = None,
     ) -> int:
         collection = self._collection(model)
         query = self._filter.build_query(filters or [])

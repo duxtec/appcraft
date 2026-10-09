@@ -13,7 +13,7 @@ from domain.models.exceptions.user_model_not_found import (
 )
 from domain.value_objects.id import Id
 from domain.value_objects.username import Username
-from infrastructure.framework.appcraft.utils.component_printer import (
+from infrastructure.utils.component_printer import (
     ComponentPrinter,
 )
 from presentation.cli.validator.input import InputCLI
@@ -124,12 +124,12 @@ class UserCLIPresentation:
 
     def _get_id(self, value: str | int | None = None) -> int:
         return (
-            InputCLI[Id]().input(prompt="Enter the ID: ", value=value).value
+            InputCLI[Id]().input(prompt="Enter the ID: ", value=value, argument="id").value
         )
 
     def _get_username(self, value: str | None) -> str:
         return (
             InputCLI[Username]()
-            .input(prompt="Enter the username: ", value=value)
+            .input(prompt="Enter the username: ", value=value, argument="username")
             .value
         )

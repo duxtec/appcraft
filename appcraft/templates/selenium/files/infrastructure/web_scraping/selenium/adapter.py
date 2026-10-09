@@ -2,7 +2,7 @@ from typing import Any, Sequence, cast
 
 from browser_manager.bases.browser_selenium import BrowserSelenium
 from browser_manager.manager.selenium import BrowserManager
-from domain.exceptions.web_scraping import NoBrowsersInstalledException
+from domain.exceptions.web_scraping import NoBrowsersInstalledError
 from domain.web_scraping.cookie import Cookie
 from infrastructure.web_scraping.adapter import WebScrapingAdapterBase
 from infrastructure.web_scraping.selenium.html_element import (
@@ -47,7 +47,7 @@ class SeleniumAdapter(WebScrapingAdapterBase[SeleniumHTMLElement]):
 
         browsers = self.browser_manager.get_installeds()
         if not browsers:
-            raise NoBrowsersInstalledException()
+            raise NoBrowsersInstalledError()
         self._browser = browsers[0]()
         return self._browser
 

@@ -1,6 +1,6 @@
 from application.use_cases.web_scraping.docs import SearchDocsUseCase
-from domain.html_elements.interface import HTMLInteractiveElementInterface
-from infrastructure.framework.appcraft.utils.component_printer import (
+from domain.html_elements.interface import HTMLInteractiveElement
+from infrastructure.utils.component_printer import (
     ComponentPrinter,
 )
 
@@ -16,7 +16,7 @@ class DocsSearchCLIPresentation:
 
         @classmethod
         def search_results(
-            cls, results: list[HTMLInteractiveElementInterface]
+            cls, results: list[HTMLInteractiveElement]
         ):
             for result in results:
                 title = result.query_selector("a")

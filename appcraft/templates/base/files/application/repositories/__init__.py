@@ -5,7 +5,7 @@ from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports.database import DatabasePort
 from domain.core.property_meta import PropertyMeta
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.types.model import TModel, TNewModel
 from domain.value_objects.id import Id
 
@@ -23,7 +23,7 @@ class Repository(
     @abstractmethod
     def get(
         self,
-        filters: list[FilterInterface],
+        filters: list[Filter],
     ) -> list[TModel]:
         pass
 
@@ -68,7 +68,7 @@ class RepositoryBase(
 
     def get(
         self,
-        filters: list[FilterInterface],
+        filters: list[Filter],
     ) -> list[TModel]:
         model = self.model
         result = self.adapter.get(model, filters)
@@ -77,7 +77,8 @@ class RepositoryBase(
     def create(
         self,
         entity: TNewModel,
-    ) -> TModel: ...
+    ) -> TModel:
+        return self.adapter.create(self.model, entity)
 
     def update(
         self,

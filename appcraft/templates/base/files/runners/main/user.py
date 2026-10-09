@@ -4,7 +4,7 @@ from application.use_cases.user.delete import DeleteUserUseCase
 from application.use_cases.user.get import ReadUserUseCase
 from application.use_cases.user.update import UpdateUserUseCase
 from infrastructure.database.provider import get_default_database_adapter
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 from presentation.cli.user import UserCLIPresentation
 
 

@@ -1,6 +1,6 @@
 from typing import Self
 
-from domain.html_elements.interface import HTMLInteractiveElementInterface
+from domain.html_elements.interface import HTMLInteractiveElement
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webdriver import WebDriver
@@ -9,7 +9,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 
-class SeleniumHTMLElement(HTMLInteractiveElementInterface):
+class SeleniumHTMLElement(HTMLInteractiveElement):
     def __init__(self, element: WebElement, timeout: float = 5) -> None:
         self._element = element
         self._driver: WebDriver = element.parent

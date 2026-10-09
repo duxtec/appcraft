@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Generic, Sequence, TypeVar
 
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 
 TInput = TypeVar("TInput", contravariant=True)
 TOutput = TypeVar("TOutput", covariant=True)
@@ -18,14 +18,14 @@ class UseCase(ABC, Generic[TInput, TOutput]):
 
 
 class ReadUseCase(
-    UseCase[Sequence[FilterInterface], Sequence[TEntity]],
+    UseCase[Sequence[Filter], Sequence[TEntity]],
     ABC,
 ):
     """Receives a sequence of filters and returns a list of entities."""
 
     @abstractmethod
     def execute(
-        self, input_data: Sequence[FilterInterface]
+        self, input_data: Sequence[Filter]
     ) -> list[TEntity]: ...
 
 

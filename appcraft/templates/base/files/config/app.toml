@@ -1,6 +1,5 @@
 # Configuration for the Appcraft Project
 name = "Appcraft Project"
-version = "0.0.1"
 environment = "development" # production or development
 debug_mode = true
 log_level = "debug" # debug, info, warning, error or critical

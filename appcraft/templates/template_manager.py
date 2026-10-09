@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 from typing import Any
 
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.utils.printer import Printer
 
 
 class TemplateManager:

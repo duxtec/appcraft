@@ -1,7 +1,7 @@
-from application.mappers.bases import BaseMapper
+from application.mappers import MapperBase
 from application.schemas.output.app import AppSchema
 from domain.models.app import App
 
 
-class AppMapper(BaseMapper[App, AppSchema]):
+class AppMapper(MapperBase[App, AppSchema]):
     pass

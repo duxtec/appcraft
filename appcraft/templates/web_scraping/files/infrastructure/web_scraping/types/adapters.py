@@ -1,11 +1,11 @@
 from typing import TypeVar
 
 from application.ports.web_scraping import WebScrapingAsyncPort, WebScrapingPort
-from domain.html_elements.interface import HTMLElementInterface
+from domain.html_elements.interface import HTMLElement
 
 TWebScrapingSyncOrAsyncAdapter = TypeVar(
     "TWebScrapingSyncOrAsyncAdapter",
-    bound=WebScrapingPort[HTMLElementInterface]
-    | WebScrapingAsyncPort[HTMLElementInterface],
+    bound=WebScrapingPort[HTMLElement]
+    | WebScrapingAsyncPort[HTMLElement],
     covariant=True,
 )

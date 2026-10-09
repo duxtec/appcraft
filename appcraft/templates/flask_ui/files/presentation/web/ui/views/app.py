@@ -1,14 +1,14 @@
 from flask import render_template
 
-from infrastructure.framework.appcraft.app.provider import AppProvider
+from infrastructure.app.adapter import AppAdapter
 
 
 def app():
-    app = AppProvider().get()
+    app = AppAdapter().get()
     return render_template(
         "views/app.html",
         app_name=app.name,
         version=app.version,
         debug_mode=app.debug_mode,
-        environment=app.environment,
+        environment=app.environment.value,
     )

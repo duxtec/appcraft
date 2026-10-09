@@ -48,7 +48,7 @@ python run
 To execute helper scripts in your project, use:
 
 ```bash
-python run_tools
+python tools
 ```
 
 Make sure that your scripts are located in the `scripts` folder and your apps are in the `app` folder.
@@ -58,7 +58,7 @@ Make sure that your scripts are located in the `scripts` folder and your apps ar
 To be recognized by **Appcraft**, apps and scripts must inherit from the `Runner` class and use the `@Runner.runner` decorator. Here's an example:
 
 ```python
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 
 class MyApp(Runner):
 

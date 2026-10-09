@@ -1,4 +1,4 @@
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 
 
 class Deploy(Runner):

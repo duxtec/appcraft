@@ -3,7 +3,7 @@ from application.use_cases.web_scraping.delegate_session import (
     DelegateSessionResult,
     DelegateSessionUseCase,
 )
-from infrastructure.framework.appcraft.utils.component_printer import (
+from infrastructure.utils.component_printer import (
     ComponentPrinter,
 )
 

@@ -2,7 +2,7 @@ from application.use_cases.web_scraping.delegate_session import (
     DelegateSessionInput,
     DelegateSessionUseCase,
 )
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 from presentation.cli.web_scraping.delegate_session import (
     DelegateSessionCLIPresentation,
 )

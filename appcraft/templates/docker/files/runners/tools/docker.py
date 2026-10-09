@@ -1,7 +1,7 @@
 from infrastructure.docker.adapter import DockerAdapter
 from infrastructure.docker.compose_generator import generate_compose_file
-from infrastructure.framework.appcraft.core.runner import Runner
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.core.runner import Runner
+from infrastructure.utils.printer import Printer
 
 
 class Docker(Runner):

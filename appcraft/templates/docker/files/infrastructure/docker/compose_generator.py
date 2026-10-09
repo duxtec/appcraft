@@ -1,7 +1,7 @@
 import importlib
 import os
 
-from infrastructure.framework.appcraft.core.runner.discovery import (
+from infrastructure.core.runner.discovery import (
     RunnerDiscovery,
 )
 
@@ -45,7 +45,7 @@ def generate_compose_file() -> list[tuple[str, str]]:
     Runs once automatically via the docker template's post_install
     (right after dependencies are installed, so RunnerDiscovery can
     actually import each runners/main module). Re-run it explicitly
-    (`python run_tools docker generate_compose`) after installing a new
+    (`python tools docker generate_compose`) after installing a new
     runners/main template later — this is a full overwrite, so back up
     any manual edits to this file first.
     """

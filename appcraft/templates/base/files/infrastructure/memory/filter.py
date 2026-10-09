@@ -7,7 +7,7 @@ from domain.filters import (
     MaxFilter,
     MinFilter,
 )
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.types.model import TModel
 from infrastructure.memory.storage import StorageKey
 
@@ -17,7 +17,7 @@ class FilterMemory:
     def apply_filter(
         cls,
         model_storage: dict[StorageKey, TModel],
-        filter: FilterInterface,
+        filter: Filter,
     ) -> dict[StorageKey, TModel]:
         filter_actions: dict[str, Callable[..., Any]] = {
             MinFilter.__name__: cls.apply_min_filter,

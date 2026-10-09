@@ -1,5 +1,4 @@
-from typing import Literal
-
+from domain.app import Environment
 from domain.models import NewModel
 from domain.models.core.pydantic import field_validator
 
@@ -7,7 +6,7 @@ from domain.models.core.pydantic import field_validator
 class App(NewModel):
     name: str
     version: str
-    environment: Literal['development', 'production']
+    environment: Environment
     debug_mode: bool
 
     @field_validator("name")
@@ -26,15 +25,6 @@ class App(NewModel):
 
         return value
 
-    @field_validator("environment")
-    @classmethod
-    def validate_environment(cls, value: str) -> str:
-        if value not in ['development', 'production']:
-            raise ValueError(
-                "Environment must be 'development' or 'production'"
-            )
-        return value
-
     @field_validator("debug_mode")
     @classmethod
     def validate_debug_mode(cls, value: bool) -> bool:
@@ -45,5 +35,5 @@ class App(NewModel):
     def __repr__(self):
         return (
             f"App(name={self.name}, version={self.version}, "
-            f"environment={self.environment}, debug_mode={self.debug_mode})"
+            f"environment={self.environment.value}, debug_mode={self.debug_mode})"
         )

@@ -1,4 +1,4 @@
-from domain.value_objects.base import IntValueObject
+from domain.value_objects import IntValueObject
 
 # domain/value_objects/ids/exceptions.py
 from domain.value_objects.exceptions import ValueObjectError

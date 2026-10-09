@@ -2,7 +2,7 @@ from application.use_cases.web_scraping.benchmark import (
     BenchmarkInput,
     BenchmarkWebScrapingRunnersUseCase,
 )
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 from presentation.cli.web_scraping.benchmark import BenchmarkCLIPresentation
 
 # A deliberately huge, static, single-page document (several MB, thousands

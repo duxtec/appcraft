@@ -7,7 +7,7 @@ class WebScrapingTemplate(TemplateABC):
     description = (
         "Web Scraping Template is the foundational setup for extracting "
         "data from websites — the WebScrapingPort/WebScrapingAsyncPort "
-        "contract, the HTMLElementInterface hierarchy parsed pages are "
+        "contract, the HTMLElement hierarchy parsed pages are "
         "exposed through, and the generic search/page-links example use "
         "cases and runners built on top of them. It ships no scraping "
         "engine of its own: install one or more of the selenium, "

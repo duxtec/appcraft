@@ -1,8 +1,8 @@
 import os
 from typing import Any
 
-from infrastructure.framework.appcraft.core.config import Config
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.config import Config
+from infrastructure.core.runner import Runner
 from infrastructure.framework.flask.app import FlaskApp
 
 _DEFAULT_PORT = 5000

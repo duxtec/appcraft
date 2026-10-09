@@ -4,7 +4,7 @@ from typing import Sequence, Type
 from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports import Port
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.models import NewModel
 from domain.types.model import TModel
 from domain.value_objects.id import Id
@@ -15,7 +15,7 @@ class DatabaseReaderPort(Port, ABC):
     def get(
         self,
         model: Type[TModel],
-        filters: Sequence[FilterInterface] | None = None,
+        filters: Sequence[Filter] | None = None,
     ) -> list[TModel]:
         pass
 
@@ -37,7 +37,7 @@ class DatabaseWriterPort(Port, ABC):
     def update_where(
         self,
         model: type[TModel],
-        filters: list[FilterInterface],
+        filters: list[Filter],
         changes: Changes,
     ) -> int:
         pass
@@ -66,7 +66,7 @@ class DatabaseWriterPort(Port, ABC):
     def delete_where(
         self,
         model: type[TModel],
-        filters: list[FilterInterface],
+        filters: list[Filter],
     ) -> int:
         pass
 

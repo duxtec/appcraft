@@ -1,4 +1,4 @@
 import os
-from infrastructure.framework.appcraft.core.initializer import Initializer
+from infrastructure.core.initializer import Initializer
 
 runner = Initializer(app_folder=os.path.join("runners", "main")).main()

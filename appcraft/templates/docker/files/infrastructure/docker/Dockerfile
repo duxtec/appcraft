@@ -19,7 +19,7 @@ COPY . /app
 # no business being in a production image.
 RUN pip install --no-cache-dir toml pydantic \
     && python -c "\
-from infrastructure.framework.appcraft.core.package.manager.base import PackageManagerBase; \
+from infrastructure.core.package.manager import PackageManagerBase; \
 PackageManagerBase().install_requirements(include_dev_dependencies=False)"
 
 # Don't run the app as root.

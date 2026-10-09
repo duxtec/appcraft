@@ -2,17 +2,17 @@ import asyncio
 
 from application.ports.web_scraping import WebScrapingAsyncPort, WebScrapingPort
 from application.use_cases import UseCase
-from domain.html_elements.interface import HTMLReadingElementInterface
+from domain.html_elements.interface import HTMLReadingElement
 
-TLink = HTMLReadingElementInterface | dict[str, str | None]
+TLink = HTMLReadingElement | dict[str, str | None]
 
 
 class GetPageLinksUseCase(UseCase[list[str] | None, list[TLink]]):
     def __init__(
         self,
         adapter: (
-            WebScrapingPort[HTMLReadingElementInterface]
-            | WebScrapingAsyncPort[HTMLReadingElementInterface]
+            WebScrapingPort[HTMLReadingElement]
+            | WebScrapingAsyncPort[HTMLReadingElement]
         ),
     ):
         self.adapter = adapter
@@ -43,7 +43,7 @@ class GetPageLinksUseCase(UseCase[list[str] | None, list[TLink]]):
         return links
 
     async def _async_get_links(self, urls: list[str]) -> list[TLink]:
-        async def get_links(url: str) -> list[HTMLReadingElementInterface]:
+        async def get_links(url: str) -> list[HTMLReadingElement]:
             links = []
             if isinstance(self.adapter, WebScrapingAsyncPort):
                 await self.adapter.open_page(url)

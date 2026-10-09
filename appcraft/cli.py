@@ -1,3 +1,5 @@
+import os
+import subprocess
 import sys
 
 from .scripts.add_template import add_template
@@ -14,13 +16,32 @@ COMMANDS = {
 }
 
 
+PROJECT_LAUNCHERS = ("run", "tools")
+
+
+def run_project_launcher(launcher: str, args: list[str]) -> None:
+    """Runs the project's own `run` or `tools` file. The launcher sets up the
+    project's environment itself."""
+    if not os.path.isfile(launcher):
+        Printer.error(
+            f"'{launcher}' not found: run this command inside an appcraft project."
+        )
+        sys.exit(1)
+
+    sys.exit(subprocess.call(["python", launcher, *args]))
+
+
 def main():
     if len(sys.argv) < 2:
-        Printer.warning("Usage: appcraft <command> [options]")
-        Printer.info(f"Available Commands: {', '.join(COMMANDS)}")
+        Printer.warning("Usage: appc <command> [options]")
+        Printer.info(f"Available Commands: {', '.join([*COMMANDS, *PROJECT_LAUNCHERS])}")
         sys.exit(1)
 
     command = sys.argv[1]
+
+    if command in PROJECT_LAUNCHERS:
+        run_project_launcher(command, sys.argv[2:])
+        return
 
     sys.argv = sys.argv[1:]
 

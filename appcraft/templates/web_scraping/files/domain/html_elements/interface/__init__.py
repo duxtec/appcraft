@@ -2,11 +2,11 @@ from abc import ABC, abstractmethod
 from typing import Self, Sequence
 
 
-class HTMLElementInterface(ABC):
+class HTMLElement(ABC):
     pass
 
 
-class HTMLReadingElementInterface(HTMLElementInterface, ABC):
+class HTMLReadingElement(HTMLElement, ABC):
     @property
     @abstractmethod
     def inner_html(self) -> str:
@@ -26,7 +26,7 @@ class HTMLReadingElementInterface(HTMLElementInterface, ABC):
         pass
 
 
-class HTMLNavigationElementInterface(HTMLReadingElementInterface, ABC):
+class HTMLNavigationElement(HTMLReadingElement, ABC):
     @abstractmethod
     def query_selector(self, selector: str) -> Self:
         pass
@@ -41,7 +41,7 @@ class HTMLNavigationElementInterface(HTMLReadingElementInterface, ABC):
         pass
 
 
-class HTMLInteractiveElementInterface(HTMLNavigationElementInterface, ABC):
+class HTMLInteractiveElement(HTMLNavigationElement, ABC):
     @property
     @abstractmethod
     def inner_html(self) -> str:

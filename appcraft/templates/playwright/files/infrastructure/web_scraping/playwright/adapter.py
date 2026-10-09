@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Any, Sequence
 
-from domain.exceptions.web_scraping import NoSuchElementException
+from domain.exceptions.web_scraping import NoSuchElementError
 from domain.web_scraping.cookie import Cookie
 from infrastructure.web_scraping.adapter import WebScrapingAdapterBase
 from infrastructure.web_scraping.playwright.html_element import (
@@ -64,7 +64,7 @@ class PlaywrightAdapter(WebScrapingAdapterBase[PlaywrightHTMLElement], ABC):
             element = self.page.query_selector(selector)
             if element:
                 return PlaywrightHTMLElement(element, self.page)
-        raise NoSuchElementException()
+        raise NoSuchElementError()
 
     def query_selector_all(
         self, selector: str

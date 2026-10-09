@@ -9,8 +9,8 @@ from domain.filters import (
     MaxFilter,
     MinFilter,
 )
-from domain.filters.interface import FilterInterface
-from domain.value_objects.base import ValueObjectBase
+from domain.filters.interface import Filter
+from domain.value_objects import ValueObjectBase
 
 TQuery = TypeVar("TQuery")
 
@@ -30,7 +30,7 @@ class FilterSQLAlchemy:
         cls,
         query: Query[TQuery],
         orm_model: Any,
-        filter: FilterInterface,
+        filter: Filter,
     ) -> Query[TQuery]:
         filter_actions: dict[str, Callable[..., Query[TQuery]]] = {
             MinFilter.__name__: cls.apply_min_filter,

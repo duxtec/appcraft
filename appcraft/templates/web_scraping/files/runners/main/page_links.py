@@ -1,8 +1,8 @@
 import asyncio
 
 from application.use_cases.web_scraping.page_info import GetPageLinksUseCase
-from domain.exceptions.web_scraping import WebScrapingException
-from infrastructure.framework.appcraft.core.runner import Runner
+from domain.exceptions.web_scraping import WebScrapingError
+from infrastructure.core.runner import Runner
 from infrastructure.web_scraping.adapter import WebScrapingAsyncAdapterBase
 from infrastructure.web_scraping.provider import (
     TReadingAdapter,
@@ -30,7 +30,7 @@ class PageLinks(Runner, WebScrapingRunnerBase[TReadingAdapter]):
         if self._adapter is None:
             adapter = get_default_reading_adapter()
             if adapter is None:
-                raise WebScrapingException(
+                raise WebScrapingError(
                     "No web scraping adapter is installed — install "
                     "selenium, playwright, httpx, or curl_cffi first."
                 )

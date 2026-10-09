@@ -1,6 +1,6 @@
 from application.schemas.output.app import AppSchema
 from application.use_cases.app.get import GetAppUseCase
-from infrastructure.framework.appcraft.utils.component_printer import (
+from infrastructure.utils.component_printer import (
     ComponentPrinter,
 )
 
@@ -17,7 +17,7 @@ class AppCLIPresentation:
 
         @classmethod
         def app_info(cls, app: AppSchema):
-            app_dict = app.model_dump()
+            app_dict = app.model_dump(mode="json")
             cls.title("App Informations")
             for name, value in app_dict.items():
                 cls.info(name, end=": ")

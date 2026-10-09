@@ -4,7 +4,7 @@ from injector import Binder, Module, ScopeDecorator, inject, singleton
 
 from application.ports.database import DatabasePort
 from infrastructure.database.provider import get_default_database_adapter
-from infrastructure.framework.appcraft.utils.import_manager import (
+from infrastructure.utils.import_manager import (
     ImportManager,
 )
 

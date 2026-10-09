@@ -1,7 +1,7 @@
 import importlib
 
 from application.ports.database import DatabasePort
-from infrastructure.framework.appcraft.core.config import Config
+from infrastructure.core.config import Config
 from infrastructure.memory.adapter import MemoryAdapter
 
 _default_database_adapter: DatabasePort | None = None

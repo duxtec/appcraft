@@ -1,6 +1,6 @@
 from application.use_cases.web_scraping.docs import SearchDocsUseCase
-from domain.exceptions.web_scraping import WebScrapingException
-from infrastructure.framework.appcraft.core.runner import Runner
+from domain.exceptions.web_scraping import WebScrapingError
+from infrastructure.core.runner import Runner
 from infrastructure.web_scraping.provider import (
     TInteractiveAdapter,
     get_default_interactive_adapter,
@@ -25,7 +25,7 @@ class DocsSearch(Runner, WebScrapingRunnerBase[TInteractiveAdapter]):
         if self._adapter is None:
             adapter = get_default_interactive_adapter()
             if adapter is None:
-                raise WebScrapingException(
+                raise WebScrapingError(
                     "No interactive (browser) adapter is installed — "
                     "install selenium or playwright first."
                 )

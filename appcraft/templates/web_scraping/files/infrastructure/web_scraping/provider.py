@@ -3,23 +3,23 @@ from typing import Any
 
 from application.ports.web_scraping import WebScrapingAsyncPort, WebScrapingPort
 from domain.html_elements.interface import (
-    HTMLInteractiveElementInterface,
-    HTMLReadingElementInterface,
+    HTMLInteractiveElement,
+    HTMLReadingElement,
 )
-from infrastructure.framework.appcraft.core.config import Config
+from infrastructure.core.config import Config
 
 TInteractiveAdapter = (
-    WebScrapingPort[HTMLInteractiveElementInterface]
-    | WebScrapingAsyncPort[HTMLInteractiveElementInterface]
+    WebScrapingPort[HTMLInteractiveElement]
+    | WebScrapingAsyncPort[HTMLInteractiveElement]
 )
 TReadingAdapter = (
-    WebScrapingPort[HTMLReadingElementInterface]
-    | WebScrapingAsyncPort[HTMLReadingElementInterface]
+    WebScrapingPort[HTMLReadingElement]
+    | WebScrapingAsyncPort[HTMLReadingElement]
 )
 
 # Browser-automation engines — each can also stand in as the reading
-# default, since HTMLInteractiveElementInterface is itself a
-# HTMLReadingElementInterface.
+# default, since HTMLInteractiveElement is itself a
+# HTMLReadingElement.
 _INTERACTIVE_BACKENDS: dict[str, tuple[str, str, str, str]] = {
     "playwright": (
         "infrastructure.framework.appcraft.templates.playwright",
@@ -36,7 +36,7 @@ _INTERACTIVE_BACKENDS: dict[str, tuple[str, str, str, str]] = {
 }
 
 # Plain-HTTP engines — fast, but read-only (no browser, so no
-# HTMLInteractiveElementInterface).
+# HTMLInteractiveElement).
 _READING_BACKENDS: dict[str, tuple[str, str, str, str]] = {
     "httpx": (
         "infrastructure.framework.appcraft.templates.httpx",

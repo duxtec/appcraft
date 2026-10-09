@@ -5,8 +5,8 @@ from application.use_cases.web_scraping.page_info import (
     GetPageLinksUseCase,
     TLink,
 )
-from domain.html_elements.interface import HTMLReadingElementInterface
-from infrastructure.framework.appcraft.utils.component_printer import (
+from domain.html_elements.interface import HTMLReadingElement
+from infrastructure.utils.component_printer import (
     ComponentPrinter,
 )
 
@@ -24,7 +24,7 @@ class PageLinksCLIPresentation(ComponentPrinter):
     @classmethod
     def _print_links(cls, links: Sequence[TLink]):
         for link in links:
-            if isinstance(link, HTMLReadingElementInterface):
+            if isinstance(link, HTMLReadingElement):
                 name = link.inner_text
                 href = link.get_attribute("href")
             else:

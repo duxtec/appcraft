@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from domain.value_objects.base import ValueObjectBase
+from domain.value_objects import ValueObjectBase
 
 
 class UuidId(ValueObjectBase[UUID]):

@@ -1,7 +1,7 @@
 from application.use_cases.database.list.columns import ListColumnsUseCase
 from application.use_cases.database.list.tables import ListTablesUseCase
 from infrastructure.database.sqlalchemy.adapter import get_sqlalchemy_adapter
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 from presentation.cli.database import DatabaseCLIPresentation
 
 

@@ -1,4 +1,4 @@
-from domain.value_objects.base import StringValueObject
+from domain.value_objects import StringValueObject
 
 
 class UlidId(StringValueObject):

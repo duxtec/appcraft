@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
 from bs4.element import Tag
 
-from domain.html_elements.interface import HTMLReadingElementInterface
-from infrastructure.web_scraping.parser.interface import HTMLParserInterface
+from domain.html_elements.interface import HTMLReadingElement
+from infrastructure.web_scraping.parser.interface import HTMLParser
 
 
-class BeautifulSoupHTMLElement(HTMLReadingElementInterface):
+class BeautifulSoupHTMLElement(HTMLReadingElement):
     def __init__(self, element: Tag) -> None:
         self._element = element
 
@@ -27,7 +27,7 @@ class BeautifulSoupHTMLElement(HTMLReadingElementInterface):
         return attr
 
 
-class BeautifulSoupParser(HTMLParserInterface):
+class BeautifulSoupParser(HTMLParser):
     def parse(self, text: str) -> BeautifulSoup:
         return BeautifulSoup(text, features="html.parser")
 

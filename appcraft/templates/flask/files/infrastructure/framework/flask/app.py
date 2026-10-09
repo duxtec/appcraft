@@ -5,7 +5,7 @@ from typing import Any
 from flask import Flask, jsonify, render_template, request
 from werkzeug.exceptions import NotFound
 
-from infrastructure.framework.appcraft.core.config import Config
+from infrastructure.core.config import Config
 from infrastructure.framework.appcraft.templates.flask_api import (
     FlaskAPITemplate,
 )
@@ -15,8 +15,8 @@ from infrastructure.framework.appcraft.templates.flask_ui import (
 from infrastructure.framework.appcraft.templates.sqlalchemy import (
     SQLAlchemyTemplate,
 )
-from infrastructure.framework.appcraft.utils.color import Color
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.utils.color import Color
+from infrastructure.utils.printer import Printer
 from infrastructure.framework.flask.router import FlaskRouter
 
 

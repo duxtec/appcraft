@@ -1,12 +1,12 @@
 from typing import Self
 
-from domain.exceptions.web_scraping import NoSuchElementException
-from domain.html_elements.interface import HTMLInteractiveElementInterface
+from domain.exceptions.web_scraping import NoSuchElementError
+from domain.html_elements.interface import HTMLInteractiveElement
 from domain.web_scraping.keys import Keys
 from playwright.sync_api import ElementHandle, Page
 
 
-class PlaywrightHTMLElement(HTMLInteractiveElementInterface):
+class PlaywrightHTMLElement(HTMLInteractiveElement):
     def __init__(
         self, element: ElementHandle, page: Page, timeout: float = 5
     ) -> None:
@@ -198,7 +198,7 @@ class PlaywrightHTMLElement(HTMLInteractiveElementInterface):
         )
         if element:
             return self.__class__(element, self._page)
-        raise NoSuchElementException
+        raise NoSuchElementError
 
     def query_selector_all(self, selector: str) -> list[Self]:
         self._element.wait_for_selector(

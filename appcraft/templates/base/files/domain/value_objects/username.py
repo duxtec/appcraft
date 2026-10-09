@@ -1,6 +1,6 @@
 from typing import Any
 
-from domain.value_objects.base import ValueObjectBase
+from domain.value_objects import ValueObjectBase
 from domain.value_objects.exceptions import ValueObjectError
 
 

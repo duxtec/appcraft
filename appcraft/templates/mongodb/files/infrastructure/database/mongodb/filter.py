@@ -3,14 +3,14 @@ from typing import Any, Callable, Sequence, cast
 
 from domain.filters import (
     EqualFilter,
+    FilterBase,
     InFilter,
     LikeFilter,
     MaxFilter,
     MinFilter,
 )
-from domain.filters.base import FilterBase
-from domain.filters.interface import FilterInterface
-from domain.value_objects.base import ValueObjectBase
+from domain.filters.interface import Filter
+from domain.value_objects import ValueObjectBase
 
 
 class FilterMongoDB:
@@ -30,7 +30,7 @@ class FilterMongoDB:
 
     @classmethod
     def build_query(
-        cls, filters: Sequence[FilterInterface]
+        cls, filters: Sequence[Filter]
     ) -> dict[str, Any]:
         query: dict[str, Any] = {}
         for filter in filters:
@@ -38,7 +38,7 @@ class FilterMongoDB:
         return query
 
     @classmethod
-    def _to_clause(cls, filter: FilterInterface) -> dict[str, Any]:
+    def _to_clause(cls, filter: Filter) -> dict[str, Any]:
         filter_actions: dict[str, Callable[[Any], dict[str, Any]]] = {
             MinFilter.__name__: cls._min_clause,
             MaxFilter.__name__: cls._max_clause,

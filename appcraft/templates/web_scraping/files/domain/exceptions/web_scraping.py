@@ -1,8 +1,8 @@
-class WebScrapingException(RuntimeError):
+class WebScrapingError(RuntimeError):
     pass
 
 
-class NoSuchElementException(WebScrapingException):
+class NoSuchElementError(WebScrapingError):
     def __init__(self, selector: str | None = None):
         if selector:
             message = f"Element `{selector}` not found"
@@ -12,7 +12,7 @@ class NoSuchElementException(WebScrapingException):
         super().__init__(message)
 
 
-class BrowserNotInstalledException(WebScrapingException):
+class BrowserNotInstalledError(WebScrapingError):
     def __init__(self, browser_name: str, *args: object) -> None:
         if not args:
             args = (
@@ -23,7 +23,7 @@ The browser '{browser_name}' does not installed.""",
         super().__init__(*args)
 
 
-class NoBrowsersInstalledException(WebScrapingException):
+class NoBrowsersInstalledError(WebScrapingError):
     def __init__(self, *args: object) -> None:
         if not args:
             args = (

@@ -1,8 +1,8 @@
 from domain.models.programmer import Programmer
 from infrastructure.database.mongodb.adapter import get_mongodb_adapter
 from infrastructure.database.mongodb.seeder import ProgrammerSeeder
-from infrastructure.framework.appcraft.core.runner import Runner
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.core.runner import Runner
+from infrastructure.utils.printer import Printer
 
 
 class Programmers(Runner):

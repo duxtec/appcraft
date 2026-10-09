@@ -5,7 +5,7 @@ from application.repositories.user import UserRepository
 from application.schemas.output.user import UserOutSchema
 from application.use_cases import ReadOneUseCase, ReadUseCase
 from domain.filters import EqualFilter
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.models.user import User, UserId
 
 
@@ -14,7 +14,7 @@ class ReadUserUseCase(ReadUseCase[UserOutSchema]):
         self.repository = repository
 
     def execute(
-        self, input_data: Sequence[FilterInterface]
+        self, input_data: Sequence[Filter]
     ) -> list[UserOutSchema]:
         users = self.repository.get(filters=input_data)
         return [UserMapper.to_schema(user) for user in users]

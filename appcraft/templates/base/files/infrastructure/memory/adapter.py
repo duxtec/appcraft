@@ -3,7 +3,7 @@ from typing import Sequence, Type
 from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports.database import DatabasePort
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.models import NewModel
 from domain.models.exceptions import ModelNotFoundError
 from domain.types.model import TModel
@@ -23,7 +23,7 @@ class MemoryAdapter(DatabasePort):
     def get(
         self,
         model: Type[TModel],
-        filters: Sequence[FilterInterface] | None = None,
+        filters: Sequence[Filter] | None = None,
     ) -> list[TModel]:
         model_storage = self._storage.get_model_storage(model)
         result = model_storage.data.copy()
@@ -110,7 +110,7 @@ class MemoryAdapter(DatabasePort):
     def update_where(
         self,
         model: type[TModel],
-        filters: Sequence[FilterInterface],
+        filters: Sequence[Filter],
         changes: Changes,
     ) -> int:
         model_storage = self._storage.get_model_storage(model)
@@ -182,7 +182,7 @@ class MemoryAdapter(DatabasePort):
     def delete_where(
         self,
         model: Type[TModel],
-        filters: list[FilterInterface] | None = None,
+        filters: list[Filter] | None = None,
     ) -> int:
         model_storage = self._storage.get_model_storage(model)
         result = model_storage.data.copy()

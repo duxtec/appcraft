@@ -5,7 +5,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import text
 
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.utils.printer import Printer
 
 
 class FlaskSQLAlchemy:

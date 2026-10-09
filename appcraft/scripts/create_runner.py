@@ -8,7 +8,7 @@ class RunnerGenerator:
     DEFAULT_NON_RUNNER_COUNT = 1
 
     TEMPLATE = """\
-from infrastructure.framework.appcraft.core.runner import Runner
+from infrastructure.core.runner import Runner
 
 
 class {app_name}(Runner):

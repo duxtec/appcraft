@@ -1,17 +1,17 @@
 from typing import Any, Sequence
 
 from curl_cffi.requests import AsyncSession
-from domain.exceptions.web_scraping import NoSuchElementException
-from domain.html_elements.interface import HTMLReadingElementInterface
+from domain.exceptions.web_scraping import NoSuchElementError
+from domain.html_elements.interface import HTMLReadingElement
 from domain.web_scraping.cookie import Cookie
 from infrastructure.web_scraping.adapter import WebScrapingAsyncAdapterBase
 from infrastructure.web_scraping.parser.bs4 import BeautifulSoupParser
-from infrastructure.web_scraping.parser.interface import HTMLParserInterface
+from infrastructure.web_scraping.parser.interface import HTMLParser
 from infrastructure.web_scraping.parser.selectolax import SelectolaxParser
 
 
 class CurlCffiAdapter(
-    WebScrapingAsyncAdapterBase[HTMLReadingElementInterface]
+    WebScrapingAsyncAdapterBase[HTMLReadingElement]
 ):
     """Same shape as HTTPXAdapter (fetching and parsing are independent,
     parser is injected), but impersonates a real browser's TLS/JA3
@@ -20,7 +20,7 @@ class CurlCffiAdapter(
     the connection itself, not just headers.
     """
 
-    def __init__(self, parser: HTMLParserInterface):
+    def __init__(self, parser: HTMLParser):
         self.impersonate = "chrome"
         self.client: AsyncSession | None = None
         self.parser = parser
@@ -56,19 +56,19 @@ class CurlCffiAdapter(
 
     async def query_selector(
         self, selector: str
-    ) -> HTMLReadingElementInterface:
+    ) -> HTMLReadingElement:
         if self.tree is None:
-            raise NoSuchElementException()
+            raise NoSuchElementError()
 
         element = self.parser.select_one(self.tree, selector)
         if element is None:
-            raise NoSuchElementException()
+            raise NoSuchElementError()
 
         return element
 
     async def query_selector_all(
         self, selector: str
-    ) -> list[HTMLReadingElementInterface]:
+    ) -> list[HTMLReadingElement]:
         if self.tree is None:
             return []
 

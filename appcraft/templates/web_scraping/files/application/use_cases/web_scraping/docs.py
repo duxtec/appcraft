@@ -5,16 +5,16 @@ from application.ports.web_scraping import (
     WebScrapingPort,
 )
 from application.use_cases import UseCase
-from domain.html_elements.interface import HTMLInteractiveElementInterface
+from domain.html_elements.interface import HTMLInteractiveElement
 from domain.web_scraping.keys import Keys
 
 TAdapter = (
-    WebScrapingPort[HTMLInteractiveElementInterface]
-    | WebScrapingAsyncPort[HTMLInteractiveElementInterface]
+    WebScrapingPort[HTMLInteractiveElement]
+    | WebScrapingAsyncPort[HTMLInteractiveElement]
 )
 
 
-class SearchDocsUseCase(UseCase[str, list[HTMLInteractiveElementInterface]]):
+class SearchDocsUseCase(UseCase[str, list[HTMLInteractiveElement]]):
     def __init__(self, adapter: TAdapter):
         self.adapter = adapter
         self._docs_url = "https://duxtec.github.io/appcraft/latest/"
@@ -29,7 +29,7 @@ class SearchDocsUseCase(UseCase[str, list[HTMLInteractiveElementInterface]]):
 
     def execute(
         self, input_data: str
-    ) -> list[HTMLInteractiveElementInterface]:
+    ) -> list[HTMLInteractiveElement]:
         if isinstance(self.adapter, WebScrapingAsyncPort):
             return asyncio.run(self._execute_async(input_data))
 
@@ -43,7 +43,7 @@ class SearchDocsUseCase(UseCase[str, list[HTMLInteractiveElementInterface]]):
 
     async def _execute_async(
         self, input_data: str
-    ) -> list[HTMLInteractiveElementInterface]:
+    ) -> list[HTMLInteractiveElement]:
         assert isinstance(self.adapter, WebScrapingAsyncPort)
 
         await self.adapter.open_page(self.docs_url)

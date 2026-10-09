@@ -1,7 +1,7 @@
-from application.mappers.bases import BaseMapper
+from application.mappers import MapperBase
 from application.schemas.output.user import UserOutSchema
 from domain.models.user import User
 
 
-class UserMapper(BaseMapper[User, UserOutSchema]):
+class UserMapper(MapperBase[User, UserOutSchema]):
     pass

@@ -7,17 +7,17 @@ from sqlalchemy.orm import Session, sessionmaker
 from application.core.changes import Changes
 from application.core.keys import Keys
 from application.ports.database import DatabasePort
-from domain.filters.interface import FilterInterface
+from domain.filters.interface import Filter
 from domain.models import NewModel
 from domain.models.core.field import Field
 from domain.models.exceptions import ModelNotFoundError
 from domain.types.model import TModel
-from domain.value_objects.base import ValueObjectBase
+from domain.value_objects import ValueObjectBase
 from domain.value_objects.id import Id
 from infrastructure.database.sqlalchemy.filter import FilterSQLAlchemy
 from infrastructure.database.sqlalchemy.models.base import Base
-from infrastructure.framework.appcraft.core.config import Config
-from infrastructure.framework.appcraft.utils.import_manager import (
+from infrastructure.core.config import Config
+from infrastructure.utils.import_manager import (
     ImportManager,
 )
 
@@ -60,7 +60,7 @@ class SQLAlchemyAdapter(DatabasePort):
     def get(
         self,
         model: Type[TModel],
-        filters: Sequence[FilterInterface] | None = None,
+        filters: Sequence[Filter] | None = None,
     ) -> list[TModel]:
         orm_model = self._get_orm_model(model)
 
@@ -122,7 +122,7 @@ class SQLAlchemyAdapter(DatabasePort):
     def update_where(
         self,
         model: type[TModel],
-        filters: Sequence[FilterInterface],
+        filters: Sequence[Filter],
         changes: Changes,
     ) -> int:
         orm_model = self._get_orm_model(model)
@@ -180,7 +180,7 @@ class SQLAlchemyAdapter(DatabasePort):
     def delete_where(
         self,
         model: Type[TModel],
-        filters: list[FilterInterface] | None = None,
+        filters: list[Filter] | None = None,
     ) -> int:
         orm_model = self._get_orm_model(model)
 
