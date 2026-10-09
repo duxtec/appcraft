@@ -1,25 +1,40 @@
 [project]
 name = "appcraft"
-version = "0.6.0b0"
+version = "1.0.0b1"
 description = "Appcraft is a modular framework designed to simplify software development by providing a structured and extensible architecture. It enables developers to create and manage complex applications with ease, ensuring scalability and maintainability."
 authors = [{ name = "Dux Tecnologia", email = "contato@tpereira.com.br" }]
-license = { file = "LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
+keywords = ["cli", "scaffolding", "code-generator", "clean-architecture", "template"]
 dependencies = [
     "toml"
 ]
 classifiers= [
     'Development Status :: 4 - Beta',
+    'Environment :: Console',
+    'Intended Audience :: Developers',
     'Programming Language :: Python :: 3',
-    'License :: OSI Approved :: MIT License',
+    'Programming Language :: Python :: 3.12',
+    'Programming Language :: Python :: 3.13',
+    'Programming Language :: Python :: 3.14',
+    'Topic :: Software Development :: Code Generators',
     'Operating System :: OS Independent'
 ]
 
-requires-python = ">=3.9"
+requires-python = ">=3.12"
 
 readme = {file = "README.md", content-type = "text/markdown"}
 
+[project.urls]
+Homepage = "https://github.com/duxtec/appcraft"
+Repository = "https://github.com/duxtec/appcraft"
+Documentation = "https://duxtec.github.io/appcraft/latest/index.html"
+Changelog = "https://duxtec.github.io/appcraft/latest/changelog.html"
+Issues = "https://github.com/duxtec/appcraft/issues"
+
 [project.scripts]
 appcraft = "appcraft.cli:main"
+appc = "appcraft.cli:main"
 
 
 [build-system]
@@ -29,5 +44,9 @@ build-backend = "setuptools.build_meta"
 [tool.pyright]
 typeCheckingMode = "strict"
 
-[tool.poetry.group.dev.dependencies]
-sphinx = "^8.2.3"
+[dependency-groups]
+dev = [
+    "sphinx>=9.1.0,<10.0.0",
+    "sphinx_rtd_theme>=3.1.0,<4.0.0",
+    "pyright>=1.1.400,<2.0.0",
+]
