@@ -6,10 +6,10 @@ from abc import ABCMeta
 from typing import TextIO
 
 import polib
-from infrastructure.framework.appcraft.app.manager import AppManager
-from infrastructure.framework.appcraft.core.config import Config
-from infrastructure.framework.appcraft.utils.logger import Logger
-from infrastructure.framework.appcraft.utils.printer import Printer
+from infrastructure.app.manager import AppManager
+from infrastructure.core.config import Config
+from infrastructure.utils.logger import Logger
+from infrastructure.utils.printer import Printer
 
 
 class MessageManager:

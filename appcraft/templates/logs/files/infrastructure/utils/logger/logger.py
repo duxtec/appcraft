@@ -4,20 +4,20 @@ from logging.handlers import TimedRotatingFileHandler
 from typing import Optional
 
 import structlog
-from infrastructure.framework.appcraft.utils.logger.base import LoggerBase
+from infrastructure.utils.logger import Logger
 
 
-class Logger(LoggerBase):
+class StructlogLogger(Logger):
     def __init__(
         self,
         name="appcraft",
-        level: Optional[LoggerBase.Level] = None,
+        level: Optional[Logger.Level] = None,
         filename="info",
     ):
         self.log_dir = os.path.join("logs")
         os.makedirs(self.log_dir, exist_ok=True)
 
-        super().__init__(name="appcraft", level=level, filename="info")
+        super().__init__(name=name, level=level, filename=filename)
 
         structlog.stdlib.recreate_defaults()
         structlog.configure(
@@ -28,7 +28,6 @@ class Logger(LoggerBase):
             logger_factory=structlog.stdlib.LoggerFactory(),
             wrapper_class=structlog.make_filtering_bound_logger(self.level),
         )
-        self.console_logger = structlog.get_logger(name)
 
     def _setup_handlers(self):
         if self.app_manager.debug_mode:
@@ -37,8 +36,21 @@ class Logger(LoggerBase):
                 def emit(handler_self, record):
                     level = record.levelname.lower()
                     level = "exception" if level == "error" else level
-                    if hasattr(self.console_logger, level):
-                        getattr(self.console_logger, level)(
+                    # A fresh structlog logger per record, named after
+                    # record.source (set by _SourceFilter — "appcraft"
+                    # on a plain call, whatever Logger.named(...) passed
+                    # otherwise), instead of a single one fixed at
+                    # __init__ time — so the console output respects
+                    # the same per-call name the file handler already
+                    # does via %(source)s. Safe from the recursion a
+                    # Manager-registered logger would risk here: this
+                    # Logger is constructed directly (never through
+                    # logging.getLogger()), so it's never the same
+                    # object structlog.get_logger() would hand back.
+                    source = getattr(record, "source", record.name)
+                    console_logger = structlog.get_logger(source)
+                    if hasattr(console_logger, level):
+                        getattr(console_logger, level)(
                             (record.getMessage().strip())
                         )
 
