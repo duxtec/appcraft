@@ -16,21 +16,19 @@ class PoetryManager(PackageManager):
             self.check_and_install_package_manager()
 
     def check_and_install_package_manager(self):
-        try:
-            subprocess.check_call(
-                [sys.executable, "-m", "pip", "show", "poetry"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-        except subprocess.CalledProcessError:
-            CorePrinter.package_manager_not_found("Poetry")
-            try:
-                subprocess.check_call(
-                    [sys.executable, "-m", "pip", "install", "poetry"]
-                )
-            except subprocess.CalledProcessError as e:
-                CorePrinter.installation_error(str(e))
-                sys.exit(1)
+        if self._is_command_available("poetry"):
+            return
+
+        CorePrinter.package_manager_not_found("Poetry")
+        if self._install_via_pip("poetry", "poetry"):
+            return
+
+        CorePrinter.installation_error(
+            "pip isn't available to install Poetry automatically. "
+            "Install it yourself first: "
+            "https://python-poetry.org/docs/#installation"
+        )
+        sys.exit(1)
 
     def venv_create(self):
         if self.venv_is_active():

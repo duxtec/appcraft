@@ -1,4 +1,6 @@
 import os
+import subprocess
+import sys
 from abc import ABC, abstractmethod
 
 
@@ -10,6 +12,49 @@ class PackageManager(ABC):
     @abstractmethod
     def check_and_install_package_manager(self):
         pass
+
+    def _is_command_available(self, command: str) -> bool:
+        """Whether `command --version` actually runs — true regardless
+        of how it got installed (a standalone installer script, pipx,
+        the OS package manager, or pip). Checking `pip show <command>`
+        instead, as every concrete manager used to, only tells you
+        whether it's registered as a package in *this* interpreter,
+        which none of the standalone installers ever do."""
+        try:
+            subprocess.run(
+                [command, "--version"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=True,
+            )
+            return True
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            return False
+
+    def _install_via_pip(self, pip_name: str, command: str) -> bool:
+        """Best-effort fallback: `pip install <pip_name>`, only if pip
+        itself is actually usable in this interpreter — never true for
+        a venv `uv` itself created, which deliberately ships without
+        pip. Returns whether `command` is runnable afterwards; never
+        raises."""
+        try:
+            subprocess.run(
+                [sys.executable, "-m", "pip", "--version"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=True,
+            )
+        except (FileNotFoundError, subprocess.CalledProcessError):
+            return False
+
+        try:
+            subprocess.check_call(
+                [sys.executable, "-m", "pip", "install", pip_name]
+            )
+        except subprocess.CalledProcessError:
+            return False
+
+        return self._is_command_available(command)
 
     @abstractmethod
     def venv_create(self):

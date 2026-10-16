@@ -16,21 +16,19 @@ class UvManager(PackageManager):
             self.check_and_install_package_manager()
 
     def check_and_install_package_manager(self):
-        try:
-            subprocess.check_call(
-                [sys.executable, "-m", "pip", "show", "uv"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-        except subprocess.CalledProcessError:
-            CorePrinter.package_manager_not_found("uv")
-            try:
-                subprocess.check_call(
-                    [sys.executable, "-m", "pip", "install", "uv"]
-                )
-            except subprocess.CalledProcessError as e:
-                CorePrinter.installation_error(str(e))
-                sys.exit(1)
+        if self._is_command_available("uv"):
+            return
+
+        CorePrinter.package_manager_not_found("uv")
+        if self._install_via_pip("uv", "uv"):
+            return
+
+        CorePrinter.installation_error(
+            "pip isn't available to install uv automatically. Install "
+            "it yourself first: "
+            "https://docs.astral.sh/uv/getting-started/installation/"
+        )
+        sys.exit(1)
 
     def venv_create(self):
         if self.venv_is_active():

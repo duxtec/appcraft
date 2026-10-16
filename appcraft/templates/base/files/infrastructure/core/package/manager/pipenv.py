@@ -16,21 +16,18 @@ class PipenvManager(PackageManager):
             self.check_and_install_package_manager()
 
     def check_and_install_package_manager(self):
-        try:
-            subprocess.check_call(
-                [sys.executable, "-m", "pip", "show", "pipenv"],
-                stdout=subprocess.DEVNULL,
-                stderr=subprocess.DEVNULL,
-            )
-        except subprocess.CalledProcessError:
-            CorePrinter.package_manager_not_found("Pipenv")
-            try:
-                subprocess.check_call(
-                    [sys.executable, "-m", "pip", "install", "pipenv"]
-                )
-            except subprocess.CalledProcessError as e:
-                CorePrinter.installation_error(str(e))
-                sys.exit(1)
+        if self._is_command_available("pipenv"):
+            return
+
+        CorePrinter.package_manager_not_found("Pipenv")
+        if self._install_via_pip("pipenv", "pipenv"):
+            return
+
+        CorePrinter.installation_error(
+            "pip isn't available to install Pipenv automatically. "
+            "Install it yourself first: pipx install pipenv"
+        )
+        sys.exit(1)
 
     def venv_create(self):
         if self.venv_is_active():
