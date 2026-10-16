@@ -279,6 +279,12 @@ class Git(Runner):
         if not _confirmed(f"Release v{version}?"):
             return
 
+        # Computed before tagging: ListUnreleasedCommitsUseCase means "no
+        # tag contains it yet", so calling this after CreateReleaseUseCase
+        # creates the tag below would see nothing — the exact commits
+        # this release notes block needs to describe.
+        notes = self._release_notes(version)
+
         write_pyproject_version(str(version))
         self.git.add_all()
         if self.git.has_changes():
@@ -296,7 +302,7 @@ class Git(Runner):
                 remote_adapter.create_release(
                     tag=tag,
                     title=tag,
-                    notes=self._release_notes(version),
+                    notes=notes,
                     prerelease=version.is_prerelease,
                 )
             except Exception as e:

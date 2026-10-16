@@ -430,6 +430,12 @@ def cmd_release(git: Any, args: argparse.Namespace) -> None:
     if not _confirmed(f"Release v{version}?", args.yes):
         return
 
+    # Computed before tagging: ListUnreleasedCommitsUseCase means "no tag
+    # contains it yet", so calling this after CreateReleaseUseCase creates
+    # the tag below would see nothing — the exact commits this release
+    # notes block needs to describe.
+    notes = _release_notes(git, version)
+
     write_pyproject_version(str(version))
     git.add_all()
     if git.has_changes():
@@ -447,7 +453,7 @@ def cmd_release(git: Any, args: argparse.Namespace) -> None:
             url = github.create_release(
                 tag=tag,
                 title=tag,
-                notes=_release_notes(git, version),
+                notes=notes,
                 prerelease=version.is_prerelease,
             )
             print(f"GitHub release: {url}")
