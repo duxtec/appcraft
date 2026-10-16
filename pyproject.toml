@@ -1,6 +1,6 @@
 [project]
 name = "appcraft"
-version = "1.0.0b1"
+version = "1.0.0b2"
 description = "Appcraft is a modular framework designed to simplify software development by providing a structured and extensible architecture. It enables developers to create and manage complex applications with ease, ensuring scalability and maintainability."
 authors = [{ name = "Dux Tecnologia", email = "contato@tpereira.com.br" }]
 license = "MIT"
