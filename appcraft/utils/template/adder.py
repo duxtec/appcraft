@@ -7,23 +7,14 @@ from typing import Any
 import toml
 
 from appcraft.templates.template_manager import TemplateManager
-from appcraft.utils import (
-    PackageManager,
-    PoetryManager,
-    Printer,
-)
+from appcraft.utils import Printer
 from appcraft.utils.exceptions import TemplateNotFoundError
 from appcraft.utils.file.ignore import is_build_artifact
 
 
 class TemplateAdder:
-    def __init__(
-        self,
-        target_dir: Path | None = None,
-        package_manager: PackageManager = PoetryManager(),
-    ):
+    def __init__(self, target_dir: Path | None = None):
         self.target_dir = Path(target_dir) if target_dir else Path(os.getcwd())
-        self.package_manager = package_manager
 
     def add_template(self, template_name: str):
 
@@ -122,11 +113,6 @@ Error during the addition of dependencies for template '{template_name}': {e}"
                 directory_contents.extend(files)
             else:
                 if os.path.exists(d) and not self.can_overwrite(d):
-                    continue
-
-                if os.path.dirname(s) in ("config") and isinstance(
-                    self.package_manager, PoetryManager
-                ):
                     continue
 
                 shutil.copy2(s, d)

@@ -2,13 +2,6 @@ from abc import ABC, ABCMeta
 from pathlib import Path
 from typing import Any, Callable, ClassVar
 
-from infrastructure.core.package.manager import (
-    PackageManager,
-)
-from infrastructure.core.package.manager.poetry import (
-    PoetryManager,
-)
-
 from .template_manager import TemplateManager
 
 # flake8: noqa: E501
@@ -36,7 +29,6 @@ Cannot modify class-level attribute '{name}'")
 class TemplateABC(ABC, metaclass=TemplateABCMeta):
     name: str
     description: str
-    package_manager: PackageManager = PoetryManager()
     default: bool = False
     active: bool = False
     standalone: bool = True
@@ -88,10 +80,7 @@ class TemplateABC(ABC, metaclass=TemplateABCMeta):
                     ):
                         other.uninstall(target_dir=target_dir)
 
-        ta = TemplateAdder(
-            target_dir=target_dir,
-            package_manager=cls.package_manager,  # pyright: ignore[reportArgumentType]
-        )
+        ta = TemplateAdder(target_dir=target_dir)
         ta.add_template(cls.name)
         ta.merge_toml(cls.name)
 
