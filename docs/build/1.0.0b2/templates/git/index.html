@@ -1,0 +1,531 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>3.18. Git Template &mdash; Appcraft 1.0.0b2 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../_static/custom.css?v=09dc0c05" />
+
+  
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=3e281a96"></script>
+      <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3.19. Remote Repository Template" href="../remote_repository/index.html" />
+    <link rel="prev" title="3.17. curl_cffi Template" href="../curl_cffi/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Appcraft
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">1. Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#what-is-appcraft">1.1. What Is Appcraft?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#why-use-it">1.2. Why Use It</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#installation">1.3. Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#starting-a-new-project">1.4. Starting a New Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../getting_started.html#adding-templates-to-an-existing-project">1.5. Adding Templates to an Existing Project</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../developing/index.html">2. Developing Your Project</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#your-first-run">2.1. Your First Run</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#the-mental-model">2.2. The Mental Model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#which-folder-does-a-new-piece-go-in">2.3. Which Folder Does a New Piece Go In?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#configuration">2.4. Configuration</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#interactive-and-non-interactive-runs">2.5. Interactive and Non-Interactive Runs</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#checking-your-work">2.6. Checking Your Work</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../developing/index.html#glossary">2.7. Glossary</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../developing/recipes.html">2.7.1. Recipes</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-model">2.7.1.1. Add a Model</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-the-schemas-and-mapper">2.7.1.2. Add the Schemas and Mapper</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-repository">2.7.1.3. Add a Repository</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-use-case">2.7.1.4. Add a Use Case</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-presentation-class">2.7.1.5. Add a Presentation Class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#add-a-runner">2.7.1.6. Add a Runner</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#store-products-in-a-database">2.7.1.7. Store Products in a Database</a></li>
+<li class="toctree-l4"><a class="reference internal" href="../../developing/recipes.html#where-to-go-next">2.7.1.8. Where to Go Next</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">3. Templates</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../concepts/index.html">3.1. Template Types</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#default-templates">3.1.1. Default Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#shared-base-templates">3.1.2. Shared-Base Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#exclusive-templates">3.1.3. Exclusive Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#interchangeable-templates">3.1.4. Interchangeable Templates</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#composable-extensions">3.1.5. Composable Extensions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#dependencies">3.1.6. Dependencies</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../concepts/index.html#inactive-templates">3.1.7. Inactive Templates</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../base/index.html">3.2. Base Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#a-working-project-out-of-the-box">3.2.1. A working project out of the box</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#resilience-and-developer-experience">3.2.2. Resilience and developer experience</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#learning-the-architecture-by-example">3.2.3. Learning the architecture by example</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../base/index.html#runners">3.2.4. Runners</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../poetry/index.html">3.3. Poetry Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../poetry/index.html#switching-to-poetry">3.3.1. Switching to Poetry</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pipenv/index.html">3.4. Pipenv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../pipenv/index.html#switching-to-pipenv">3.4.1. Switching to Pipenv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../uv/index.html">3.5. uv Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../uv/index.html#switching-to-uv">3.5.1. Switching to uv</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../docker/index.html">3.6. Docker Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#dynamic-one-service-per-entry-point">3.6.1. Dynamic, one service per entry point</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#building-and-running">3.6.2. Building and running</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#no-hardcoded-package-manager">3.6.3. No hardcoded package manager</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#development-vs-production">3.6.4. Development vs. production</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../docker/index.html#one-thing-to-set-up-yourself">3.6.5. One thing to set up yourself</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../prompt_toolkit/index.html">3.7. Prompt Toolkit Template</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../sqlalchemy/index.html">3.8. SQLAlchemy Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#what-it-adds">3.8.1. What it adds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#combining-with-flask">3.8.2. Combining with Flask</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#runners">3.8.3. Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../sqlalchemy/index.html#adding-a-table-for-a-new-model">3.8.4. Adding a Table for a New Model</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../mongodb/index.html">3.9. MongoDB Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../mongodb/index.html#what-it-adds">3.9.1. What it adds</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../mongodb/index.html#runners">3.9.2. Runners</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask/index.html">3.10. Flask Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#automatic-routing">3.10.1. Automatic routing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#database-integration">3.10.2. Database integration</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#development-vs-production">3.10.3. Development vs. production</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../flask/index.html#runner">3.10.4. Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask_ui/index.html">3.11. Flask UI Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flask_ui/index.html#adding-a-page">3.11.1. Adding a Page</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../flask_api/index.html">3.12. Flask API Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../flask_api/index.html#adding-an-api-route">3.12.1. Adding an API Route</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../web_scraping/index.html">3.13. Web Scraping Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#what-this-template-provides">3.13.1. What this template provides</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#choosing-an-engine">3.13.2. Choosing an engine</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#handing-off-between-engines">3.13.3. Handing off between engines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#available-runners">3.13.4. Available runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../web_scraping/index.html#benchmarking-installed-engines">3.13.5. Benchmarking installed engines</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../selenium/index.html">3.14. Selenium Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../selenium/index.html#browser-detection">3.14.1. Browser detection</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../selenium/index.html#cookies-and-headers">3.14.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../selenium/index.html#using-selenium-specifically">3.14.3. Using Selenium specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../playwright/index.html">3.15. Playwright Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../playwright/index.html#async-by-nature">3.15.1. Async by nature</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../playwright/index.html#cookies-and-headers">3.15.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../playwright/index.html#using-playwright-specifically">3.15.3. Using Playwright specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../httpx/index.html">3.16. HTTPX Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../httpx/index.html#choosing-a-parser">3.16.1. Choosing a parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../httpx/index.html#cookies-and-headers">3.16.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../httpx/index.html#using-httpx-specifically">3.16.3. Using HTTPX specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../curl_cffi/index.html">3.17. curl_cffi Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../curl_cffi/index.html#why-this-exists-alongside-httpx">3.17.1. Why this exists alongside HTTPX</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../curl_cffi/index.html#cookies-and-headers">3.17.2. Cookies and headers</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../curl_cffi/index.html#using-curl-cffi-specifically">3.17.3. Using curl_cffi specifically</a></li>
+</ul>
+</li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">3.18. Git Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#what-it-sets-up">3.18.1. What it sets up</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#setting-up-the-branching-strategy">3.18.2. Setting up the branching strategy</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#branching-strategy-config-git-toml">3.18.3. Branching strategy (<code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code>)</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#feature-and-fix-branches">3.18.4. Feature and fix branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conventional-commits">3.18.5. Conventional Commits</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#breaking-changes">3.18.6. Breaking changes</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#pausing-at-the-end-of-a-command">3.18.7. Pausing at the end of a command</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#releases">3.18.8. Releases</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cutting-a-major-version-on-purpose">3.18.9. Cutting a major version on purpose</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#changelog">3.18.10. Changelog</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cleaning-up-merged-branches">3.18.11. Cleaning up merged branches</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#remote-repository">3.18.12. Remote repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#limitations">3.18.13. Limitations</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../remote_repository/index.html">3.19. Remote Repository Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../remote_repository/index.html#commands">3.19.1. Commands</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../remote_repository/index.html#choosing-the-platform">3.19.2. Choosing the platform</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../remote_repository/index.html#adding-a-platform">3.19.3. Adding a platform</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../github/index.html">3.20. GitHub Template</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#requirements">3.20.1. Requirements</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#what-it-does">3.20.2. What it does</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../github/index.html#example">3.20.3. Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../architecture/index.html">4. Layered Architecture</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/runner/index.html">4.1. Runner Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#what-to-do-in-runners">4.1.1. What to Do in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#what-to-avoid-in-runners">4.1.2. What to Avoid in Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#types-of-runners">4.1.3. Types of runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#example-of-a-runner">4.1.4. Example of a Runner</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#running-applications">4.1.5. Running Applications</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#running-tool-runners">4.1.6. Running Tool Runners</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/runner/index.html#executing-a-specific-runner">4.1.7. Executing a Specific Runner</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/presentation/index.html">4.2. Presentation Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#what-belongs-here">4.2.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#what-to-avoid-here">4.2.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#naming-convention-domain-clipresentation">4.2.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">&lt;Domain&gt;CLIPresentation</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/presentation/index.html#example-a-cli-presentation">4.2.4. Example: a CLI Presentation</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/application/index.html">4.3. Application Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#what-belongs-here">4.3.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#what-to-avoid-here">4.3.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#naming-conventions">4.3.3. Naming conventions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-port">4.3.4. Example: a Port</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-repository">4.3.5. Example: a Repository</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-mapper-and-schema">4.3.6. Example: a Mapper and Schema</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#example-a-use-case">4.3.7. Example: a Use Case</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/application/index.html#introspection-use-cases">4.3.8. Introspection use cases</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/domain/index.html">4.4. Domain Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#what-belongs-here">4.4.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#what-to-avoid-here">4.4.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#naming-convention-a-pure-contract-not-i-name">4.4.3. Naming convention: a pure contract, not <code class="docutils literal notranslate"><span class="pre">I</span></code> + name</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-a-domain-model">4.4.4. Example: a domain model</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/domain/index.html#example-a-filter">4.4.5. Example: a filter</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/infrastructure/index.html">4.5. Infrastructure Layer</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#what-belongs-here">4.5.1. What belongs here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#what-to-avoid-here">4.5.2. What to avoid here</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#naming-convention-adapter">4.5.3. Naming convention: <code class="docutils literal notranslate"><span class="pre">Adapter</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#example-the-default-database-adapter">4.5.4. Example: the default database Adapter</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/infrastructure/index.html#providers">4.5.5. Providers</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/flow/index.html">4.6. Application Flow</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/flow/index.html#request-flow">4.6.1. Request Flow</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/flow/index.html#response-flow">4.6.2. Response Flow</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing/index.html">5. Contributing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#looking-for-something-to-build">5.1. Looking for Something to Build?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#creating-new-templates">5.2. Creating New Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#updating-existing-templates">5.3. Updating Existing Templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#translating-the-framework">5.4. Translating the Framework</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#working-in-a-temporary-project">5.5. Working in a Temporary Project</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../contributing/index.html#ready-to-contribute">5.6. Ready to Contribute?</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">6. Changelog</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#b2">6.1. 1.0.0b2</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#fixed">6.1.1. Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#b1">6.2. 1.0.0b1</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#added">6.2.1. Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#changed">6.2.2. Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id1">6.2.3. Fixed</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../../changelog.html#b0">6.3. 0.6.0b0</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id2">6.3.1. Added</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id3">6.3.2. Changed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#id4">6.3.3. Fixed</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../changelog.html#removed">6.3.4. Removed</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../contact.html">7. Contact</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../versions/index.html">8. Versions</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Appcraft</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html"><span class="section-number">3. </span>Templates</a></li>
+      <li class="breadcrumb-item active"><span class="section-number">3.18. </span>Git Template</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/templates/git/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="git-template">
+<h1><span class="section-number">3.18. </span>Git Template<a class="headerlink" href="#git-template" title="Link to this heading"></a></h1>
+<p>The <strong>Git Template</strong> sets up a local Git repository for a generated project and gives it the tooling to work with it: a configurable branching strategy, Conventional Commits, automatic next-version detection, and stage-based releases. It doesn’t need a hosting platform — install the <a class="reference external" href="../github/index.html">GitHub Template</a> (or a future platform template) to publish the repository.</p>
+<p>It’s <strong>standalone</strong>, so <code class="docutils literal notranslate"><span class="pre">appcraft</span> <span class="pre">init</span> <span class="pre">git</span></code> works on its own.</p>
+<section id="what-it-sets-up">
+<h2><span class="section-number">3.18.1. </span>What it sets up<a class="headerlink" href="#what-it-sets-up" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>A local repository with the branches your branching strategy defines (see below), created from the first commit.</p></li>
+<li><p>A <code class="docutils literal notranslate"><span class="pre">commit-msg</span></code> git hook that blocks breaking changes from landing directly on major-version branches (see <a class="reference internal" href="#breaking-changes">Breaking changes</a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">.gitignore</span></code> and <code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code>, which describes the branching strategy.</p></li>
+</ul>
+</section>
+<section id="setting-up-the-branching-strategy">
+<h2><span class="section-number">3.18.2. </span>Setting up the branching strategy<a class="headerlink" href="#setting-up-the-branching-strategy" title="Link to this heading"></a></h2>
+<p>The first <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">init</span></code> creates the branches. If the strategy hasn’t been chosen yet (<code class="docutils literal notranslate"><span class="pre">configured</span> <span class="pre">=</span> <span class="pre">false</span></code> in <code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code>), it asks, in a terminal, whether to use major-version branches, the current major version, and the stages. Press Enter to keep each default.</p>
+<p>The answers can also come as arguments, which skips the questions and is what automation uses:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>init<span class="w"> </span><span class="nv">use_major_version</span><span class="o">=</span><span class="nb">true</span><span class="w"> </span><span class="nv">major_version</span><span class="o">=</span><span class="m">2</span><span class="w"> </span><span class="nv">stages</span><span class="o">=</span>alpha,beta,main
+python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>init<span class="w"> </span><span class="nv">use_major_version</span><span class="o">=</span><span class="nb">false</span><span class="w"> </span><span class="nv">stages</span><span class="o">=</span>none<span class="w"> </span><span class="nv">trunk_branch</span><span class="o">=</span>main
+</pre></div>
+</div>
+<p>With <code class="docutils literal notranslate"><span class="pre">interactive=false</span></code>, <code class="docutils literal notranslate"><span class="pre">init</span></code> never asks: without arguments it uses the values in <code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code>. Once the strategy is set up, <code class="docutils literal notranslate"><span class="pre">init</span></code> refuses arguments: change <code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code> by hand and create the branches you need.</p>
+</section>
+<section id="branching-strategy-config-git-toml">
+<h2><span class="section-number">3.18.3. </span>Branching strategy (<code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code>)<a class="headerlink" href="#branching-strategy-config-git-toml" title="Link to this heading"></a></h2>
+<p>Everything about branches is driven by one file:</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="n">use_major_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="kc">false</span><span class="w">   </span><span class="c1"># branch names get a &quot;v{N}-&quot; prefix when true</span>
+<span class="n">major_version</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="w">           </span><span class="c1"># current major line; only read when use_major_version = true</span>
+<span class="n">stages</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;beta&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="p">]</span><span class="w">   </span><span class="c1"># ordered, least- to most-stable; empty = no stage concept</span>
+<span class="n">trunk_branch</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="w">       </span><span class="c1"># only used when stages = [] (single-branch case)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">use_major_version</span></code> and <code class="docutils literal notranslate"><span class="pre">stages</span></code> are independent, which gives four layouts:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Layout</p></th>
+<th class="head"><p>Config</p></th>
+<th class="head"><p>Branches created</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Major version and stages</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">stages</span> <span class="pre">=</span> <span class="pre">[...]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">v0-alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">v0-beta</span></code>, <code class="docutils literal notranslate"><span class="pre">v0-main</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Major version only</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">true</span></code>, <code class="docutils literal notranslate"><span class="pre">stages</span> <span class="pre">=</span> <span class="pre">[]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">v0</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Stages only</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">stages</span> <span class="pre">=</span> <span class="pre">[...]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code>, <code class="docutils literal notranslate"><span class="pre">beta</span></code>, <code class="docutils literal notranslate"><span class="pre">main</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Single branch</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">false</span></code>, <code class="docutils literal notranslate"><span class="pre">stages</span> <span class="pre">=</span> <span class="pre">[]</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">main</span></code> (from <code class="docutils literal notranslate"><span class="pre">trunk_branch</span></code>)</p></td>
+</tr>
+</tbody>
+</table>
+<p>The most stable branch — the last stage, or the single branch when there are no stages — is the <strong>base branch</strong>. Feature and fix branches are always created from it.</p>
+</section>
+<section id="feature-and-fix-branches">
+<h2><span class="section-number">3.18.4. </span>Feature and fix branches<a class="headerlink" href="#feature-and-fix-branches" title="Link to this heading"></a></h2>
+<p>Work happens on short-lived branches named <code class="docutils literal notranslate"><span class="pre">&lt;type&gt;/&lt;name&gt;</span></code>, created from the base branch. The type is any Conventional Commits type, so the branch name says what kind of change it holds:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>start<span class="w"> </span>feat<span class="w"> </span>login-page
+python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>start<span class="w"> </span>fix<span class="w"> </span>null-pointer
+python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>start<span class="w"> </span>refactor<span class="w"> </span>parser
+</pre></div>
+</div>
+<p>Branch types don’t change the version by themselves; the commit types do.</p>
+<p>Each change is merged into a stage on its own. Once validated, the <strong>same</strong> branch is merged into the next stage — there’s never a direct merge from <code class="docutils literal notranslate"><span class="pre">beta</span></code> into <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span>feat/login-page<span class="w"> </span>beta<span class="w">   </span><span class="c1"># test it on beta</span>
+python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>merge<span class="w"> </span>feat/login-page<span class="w"> </span>main<span class="w">   </span><span class="c1"># promote it once validated</span>
+</pre></div>
+</div>
+<p>A stage branch that doesn’t exist yet is created the first time something is merged into it, from the stage just before it. For example, the first merge into <code class="docutils literal notranslate"><span class="pre">v1-beta</span></code> creates it from <code class="docutils literal notranslate"><span class="pre">v1-alpha</span></code>. The command says so when it happens.</p>
+</section>
+<section id="conventional-commits">
+<h2><span class="section-number">3.18.5. </span>Conventional Commits<a class="headerlink" href="#conventional-commits" title="Link to this heading"></a></h2>
+<p>Commit messages follow <a class="reference external" href="https://www.conventionalcommits.org/">Conventional Commits</a>. The type decides how the next version is computed:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">feat:</span></code> — a new feature (minor bump).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fix:</span></code> and <code class="docutils literal notranslate"><span class="pre">perf:</span></code> — a fix or performance change (patch bump).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">feat!:</span></code>, <code class="docutils literal notranslate"><span class="pre">fix!:</span></code>, or a <code class="docutils literal notranslate"><span class="pre">BREAKING</span> <span class="pre">CHANGE:</span></code> footer — a breaking change. It bumps the major version, except while the version is <code class="docutils literal notranslate"><span class="pre">0.x</span></code>: then it bumps the minor, following semver. <code class="docutils literal notranslate"><span class="pre">1.0.0</span></code> comes from cutting a new major line once the current one has a stable release.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">docs:</span></code>, <code class="docutils literal notranslate"><span class="pre">chore:</span></code>, <code class="docutils literal notranslate"><span class="pre">refactor:</span></code>, <code class="docutils literal notranslate"><span class="pre">test:</span></code>, <code class="docutils literal notranslate"><span class="pre">style:</span></code>, <code class="docutils literal notranslate"><span class="pre">build:</span></code>, <code class="docutils literal notranslate"><span class="pre">ci:</span></code>, <code class="docutils literal notranslate"><span class="pre">revert:</span></code> — don’t change the version on their own.</p></li>
+</ul>
+</section>
+<section id="breaking-changes">
+<h2><span class="section-number">3.18.6. </span>Breaking changes<a class="headerlink" href="#breaking-changes" title="Link to this heading"></a></h2>
+<p>When <code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">true</span></code>, a breaking change is treated according to the state of the current major line:</p>
+<ul class="simple">
+<li><p>If the line has <strong>no stable release yet</strong>, or has only pre-releases, a breaking change is merged like any other change. Nothing is redirected.</p></li>
+<li><p>If the line <strong>has a stable release</strong> (for example <code class="docutils literal notranslate"><span class="pre">0.1.0</span></code> on <code class="docutils literal notranslate"><span class="pre">v0</span></code>), a breaking change can’t land on it. It has to go into the next major line.</p></li>
+</ul>
+<p>This is enforced in two places:</p>
+<ul class="simple">
+<li><p><strong>Merging</strong> with <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">merge</span> <span class="pre">&lt;source&gt;</span> <span class="pre">&lt;target&gt;</span></code> checks the incoming commits. If one is breaking and the line has a stable release, the merge is redirected to a new <code class="docutils literal notranslate"><span class="pre">v{N+1}-alpha</span></code> branch, created from the current base branch, and the target isn’t touched. Only the entry stage (<code class="docutils literal notranslate"><span class="pre">alpha</span></code>) is created: the new major line starts unproven and is promoted like anything else.</p></li>
+<li><p><strong>Committing or merging directly</strong> with <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span></code>/<code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">merge</span></code> is blocked by the <code class="docutils literal notranslate"><span class="pre">commit-msg</span></code> hook when the current branch is a major-version branch, the commit is breaking, and the line has a stable release. The hook doesn’t redirect anything; it tells you to make the change on a feature branch and merge it with the command above.</p></li>
+</ul>
+<p>With <code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">false</span></code> there’s no major line to protect, and breaking changes are allowed everywhere.</p>
+</section>
+<section id="pausing-at-the-end-of-a-command">
+<h2><span class="section-number">3.18.7. </span>Pausing at the end of a command<a class="headerlink" href="#pausing-at-the-end-of-a-command" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">detect_version</span></code> and <code class="docutils literal notranslate"><span class="pre">changelog</span></code> wait for a keypress at the end when they run in a terminal, so their output stays on screen. Pass <code class="docutils literal notranslate"><span class="pre">pause=false</span></code> to skip the pause, for example in scripts:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>detect_version<span class="w"> </span><span class="nv">pause</span><span class="o">=</span><span class="nb">false</span>
+</pre></div>
+</div>
+</section>
+<section id="releases">
+<h2><span class="section-number">3.18.8. </span>Releases<a class="headerlink" href="#releases" title="Link to this heading"></a></h2>
+<p>Releases are cut with one command, run from a stage branch:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>release
+</pre></div>
+</div>
+<p>It reads the commits that no tag contains yet, computes the next version for the current stage, shows it and asks for confirmation. Pass <code class="docutils literal notranslate"><span class="pre">interactive=false</span></code> to publish without the question, as in a script. On confirmation it writes the version to <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, commits <code class="docutils literal notranslate"><span class="pre">chore(release):</span> <span class="pre">vX.Y.Z</span></code>, creates the tag and — if the GitHub template is installed and the repository has a remote — publishes a GitHub release too. <code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">detect_version</span></code> shows what the release would be without changing anything.</p>
+<p>The stage of the branch decides what kind of release it is:</p>
+<table class="docutils align-default">
+<thead>
+<tr class="row-odd"><th class="head"><p>Branch</p></th>
+<th class="head"><p>Release</p></th>
+<th class="head"><p>Example</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">alpha</span></code></p></td>
+<td><p>Pre-release <code class="docutils literal notranslate"><span class="pre">a</span></code>, counted per version</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.7.0a1</span></code>, <code class="docutils literal notranslate"><span class="pre">0.7.0a2</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">beta</span></code></p></td>
+<td><p>Pre-release <code class="docutils literal notranslate"><span class="pre">b</span></code>, counted per version</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.7.0b1</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Base branch (<code class="docutils literal notranslate"><span class="pre">main</span></code>, or <code class="docutils literal notranslate"><span class="pre">v{N}</span></code> with major versions only)</p></td>
+<td><p>Stable</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">0.7.0</span></code></p></td>
+</tr>
+</tbody>
+</table>
+<p>The base is the highest release of the line across <strong>every</strong> stage, so a release from <code class="docutils literal notranslate"><span class="pre">main</span></code> sees the releases made on <code class="docutils literal notranslate"><span class="pre">alpha</span></code> and <code class="docutils literal notranslate"><span class="pre">beta</span></code>, whatever branch they were cut from. The next version then follows these rules:</p>
+<ul class="simple">
+<li><p><strong>A major line without stages</strong> is a single branch (<code class="docutils literal notranslate"><span class="pre">v0</span></code>), and all of its releases are stable: the first is <code class="docutils literal notranslate"><span class="pre">0.0.0</span></code>, then the usual SemVer bumps.</p></li>
+<li><p><strong>After a pre-release</strong> <code class="docutils literal notranslate"><span class="pre">X</span></code>, a <code class="docutils literal notranslate"><span class="pre">fix:</span></code> stays in the same version: <code class="docutils literal notranslate"><span class="pre">0.6.0a1</span></code> → <code class="docutils literal notranslate"><span class="pre">0.6.0a2</span></code>. A <code class="docutils literal notranslate"><span class="pre">feat:</span></code> or a breaking change opens the next one: <code class="docutils literal notranslate"><span class="pre">0.6.0a2</span></code> → <code class="docutils literal notranslate"><span class="pre">0.7.0a1</span></code>. Promoting the same commits to a later stage keeps the version: <code class="docutils literal notranslate"><span class="pre">0.8.0a1</span></code> → <code class="docutils literal notranslate"><span class="pre">0.8.0b1</span></code> → <code class="docutils literal notranslate"><span class="pre">0.8.0</span></code>.</p></li>
+<li><p><strong>After a stable release</strong>, the usual SemVer bump applies: <code class="docutils literal notranslate"><span class="pre">0.8.0</span></code> → <code class="docutils literal notranslate"><span class="pre">0.8.1a1</span></code> (fix), <code class="docutils literal notranslate"><span class="pre">0.9.0a1</span></code> (feat), <code class="docutils literal notranslate"><span class="pre">1.0.0a1</span></code> (breaking).</p></li>
+<li><p><strong>A breaking change is a minor bump only while there are no releases at all</strong>. Once any release exists, it’s a major bump.</p></li>
+<li><p>Each pre-release label counts on its own: a second alpha of <code class="docutils literal notranslate"><span class="pre">0.6.0</span></code> is <code class="docutils literal notranslate"><span class="pre">0.6.0a2</span></code>.</p></li>
+<li><p>A version can stop at any stage: <code class="docutils literal notranslate"><span class="pre">0.6.0a1</span></code> with no beta and no stable is perfectly valid.</p></li>
+</ul>
+<p>The version is written in PEP 440 format, which pip and poetry understand; <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span></code> skips pre-releases unless you pass <code class="docutils literal notranslate"><span class="pre">--pre</span></code>.</p>
+<p>Releases can only be cut from a stage branch of the current major line. Running <code class="docutils literal notranslate"><span class="pre">release</span></code> from a feature branch is refused.</p>
+<p>When a <strong>stable</strong> release of a higher major version is cut, the repository’s default branch on the platform moves to that major’s base branch. After <code class="docutils literal notranslate"><span class="pre">1.0.0</span></code> is released from <code class="docutils literal notranslate"><span class="pre">v1-main</span></code>, GitHub’s default branch becomes <code class="docutils literal notranslate"><span class="pre">v1-main</span></code>. Pre-releases never change it.</p>
+<p>The project’s version lives in one place, <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> (<code class="docutils literal notranslate"><span class="pre">[project]</span></code> or <code class="docutils literal notranslate"><span class="pre">[tool.poetry]</span></code>). The application reads it at runtime, so there’s no second copy to keep in sync. Edits to <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> and <code class="docutils literal notranslate"><span class="pre">config/git.toml</span></code> only touch the value that changes, so comments in those files are kept.</p>
+</section>
+<section id="cutting-a-major-version-on-purpose">
+<h2><span class="section-number">3.18.9. </span>Cutting a major version on purpose<a class="headerlink" href="#cutting-a-major-version-on-purpose" title="Link to this heading"></a></h2>
+<p>A new major line is normally cut automatically when a breaking change is merged into a major-version branch. To cut it explicitly, without a breaking commit, run this (requires <code class="docutils literal notranslate"><span class="pre">use_major_version</span> <span class="pre">=</span> <span class="pre">true</span></code>). The new major is always the one right above the <strong>highest</strong> existing major, whichever branch you’re on:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>tools<span class="w"> </span>git<span class="w"> </span>new_major
+</pre></div>
+</div>
+<p>It creates the entry stage of the next line (<code class="docutils literal notranslate"><span class="pre">v1-alpha</span></code>) from the base branch, bumps <code class="docutils literal notranslate"><span class="pre">major_version</span></code> on that branch, and switches to it. Running it again is safe: it doesn’t create or bump anything twice.</p>
+<p>A new major line only starts once the highest major has shipped a stable release (for example <code class="docutils literal notranslate"><span class="pre">1.0.0</span></code> on <code class="docutils literal notranslate"><span class="pre">v1</span></code>). Before that, <code class="docutils literal notranslate"><span class="pre">new_major</span></code> is refused, and no major is created above it. Breaking changes merged into the highest major are accepted until then.</p>
+<p>A breaking change only goes to a new major when the highest major is the one it’s merged into. If a major above the target already exists, the merge is refused with an alert, whether the target is the highest major or not.</p>
+</section>
+<section id="changelog">
+<h2><span class="section-number">3.18.10. </span>Changelog<a class="headerlink" href="#changelog" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">changelog</span></code> prints the commits that the next release would contain (the ones no tag contains yet), grouped into breaking changes, features, fixes, performance and other changes. Release commits and merge commits are left out.</p>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">changelog</span> <span class="pre">output=CHANGELOG.md</span></code> also writes that section to the top of the file, above anything already there.</p>
+</section>
+<section id="cleaning-up-merged-branches">
+<h2><span class="section-number">3.18.11. </span>Cleaning up merged branches<a class="headerlink" href="#cleaning-up-merged-branches" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">cleanup</span></code> lists the feature and fix branches already merged into the base branch, both locally and on <code class="docutils literal notranslate"><span class="pre">origin</span></code>, asks for confirmation, and deletes them from both places. Branches that aren’t merged are never touched. The remote is refreshed with a fetch first, so the list reflects what’s on the server.</p>
+</section>
+<section id="remote-repository">
+<h2><span class="section-number">3.18.12. </span>Remote repository<a class="headerlink" href="#remote-repository" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">set_remote</span> <span class="pre">&lt;url&gt;</span></code> points <code class="docutils literal notranslate"><span class="pre">origin</span></code> at an existing repository and pushes every branch. To create the repository on a hosting platform instead, install a platform template such as the <a class="reference external" href="../github/index.html">GitHub Template</a> and use the <a class="reference external" href="../remote_repository/index.html">Remote Repository Template</a> commands.</p>
+</section>
+<section id="limitations">
+<h2><span class="section-number">3.18.13. </span>Limitations<a class="headerlink" href="#limitations" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>A squash merge leaves only the squashed message in history, so the individual commit types are lost for version detection. Prefer regular merges.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">python</span> <span class="pre">tools</span> <span class="pre">git</span> <span class="pre">init</span></code> also works on a repository that already exists: it keeps the existing history and only creates the configured branches that are missing. Existing branches are never renamed. Run it once to get the <code class="docutils literal notranslate"><span class="pre">commit-msg</span></code> hook installed.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">commit</span> <span class="pre">--no-verify</span></code> skips the hook, as in any git repository.</p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../curl_cffi/index.html" class="btn btn-neutral float-left" title="3.17. curl_cffi Template" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../remote_repository/index.html" class="btn btn-neutral float-right" title="3.19. Remote Repository Template" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2025, Dux Tecnologia, Thiago Costa Pereira.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
